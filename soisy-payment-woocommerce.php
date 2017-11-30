@@ -284,7 +284,7 @@ function woo_payment_gateway()
                 'lastname' => $order->get_billing_last_name(),
                 'firstname' => $order->get_billing_first_name(),
                 'fiscalCode' => $_POST['soisy-fiscal-code'],
-                'mobilePhone' => $_POST['soisy-fiscal-code'],
+                'mobilePhone' => $_POST['soisy-phone'],
                 'city' => $_POST['soisy-city'],
                 'address' => $_POST['soisy-address'],
                 'province' => $_POST['soisy-province'],
