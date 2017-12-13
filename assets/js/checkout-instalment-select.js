@@ -4,6 +4,9 @@
 
         init: function (data) {
             this.data = data;
+            if (!this.data.preselected_value) {
+                this.data.preselected_value = $(this.data.select).first().val();
+            }
             $(this.data.select).val(this.data.preselected_value);
             this.makeRequest();
 

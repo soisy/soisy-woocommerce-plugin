@@ -139,7 +139,7 @@ class Settings
                 'title' => __('Instalments', 'woocommerce'),
                 'type' => 'multiselect',
                 'description' => __('Choose from 3 to 60', 'woocommerce'),
-                'default' => 'html',
+                'default' => '3',
                 'class' => 'wc-enhanced-select',
                 'options' => self::getInstalmentPeriod(),
                 'desc_tip' => true,
@@ -148,7 +148,7 @@ class Settings
             'max_order_total' => array(
                 'title' => __('Maximum Order Total', 'soisy'),
                 'type' => 'text',
-                'default' => ''
+                'default' => '1500'
             ),
 
             'min_order_total' => array(
@@ -274,7 +274,6 @@ class Settings
                 'type' => 'text',
                 'class' => array('form-row form-row-wide validate-required'),
                 'label' => __('City'),
-                //'placeholder' => __('Enter something'),
             ),
             esc_attr($id) . '-province' => array(
                 'type' => 'state',

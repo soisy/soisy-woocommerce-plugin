@@ -62,8 +62,11 @@ function woo_payment_gateway()
             $this->init_settings();
 
             $this->available_country = $this->settings['enable_for_countries'];
-
-            $this->title = sprintf($this->settings['title'],implode("/",Includes\Helper::get_min_max_instalment_period($this->settings['instalments_period'])));
+            if (Includes\Helper::get_min_max_instalment_period($this->settings['instalments_period'])) {
+                $this->title = sprintf($this->settings['title'],implode("/",Includes\Helper::get_min_max_instalment_period($this->settings['instalments_period'])));                
+            } else {
+                $this->title = $this->settings['title'];
+            }
             $this->method_title = __('Soisy', 'soisy');
             $this->method_description = __('WooCommerce Payment Gateway for Soisy.it', 'soisy');
             $this->success_message = "Thanks for choosing Soisy";
@@ -182,15 +185,17 @@ function woo_payment_gateway()
          */
         public function save_instalment_rates_to_admin_options()
         {
-            $saveData = [];
-            foreach ($_POST['instalment_period'] as $key => $value) {
-                $saveData[] = [
-                    'period' => $value,
-                    'amount' => (isset($_POST['instalment_amount'][$key])) ? $_POST['instalment_amount'][$key] : null
-                ];
+            if (isset($_POST['instalment_period'])) {
+                $saveData = [];
+                foreach ($_POST['instalment_period'] as $key => $value) {
+                    $saveData[] = [
+                        'period' => $value,
+                        'amount' => (isset($_POST['instalment_amount'][$key])) ? $_POST['instalment_amount'][$key] : null
+                    ];
+                }
+    
+                update_option($this->get_option_key() . '_instalment_table', $saveData);
             }
-
-            update_option($this->get_option_key() . '_instalment_table', $saveData);
         }
 
         public function get_form_data()

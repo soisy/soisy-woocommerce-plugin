@@ -41,7 +41,8 @@ class View {
             $amount = $_POST['price']* 100;
             $loanAmount = Helper::calculate_amount_based_on_percentage($amount,$this->settings['percentage']);
             $loanAmount = ($loanAmount) ? $loanAmount : $amount;
-            $instalmentPeriod = Helper::get_default_instalment_period_by_amount_from_table($loanAmount);
+            $instalmentPeriodFromTable = Helper::get_default_instalment_period_by_amount_from_table($loanAmount);
+            $instalmentPeriod = ($instalmentPeriodFromTable) ? $instalmentPeriodFromTable : Helper::get_instalment_period($this->settings['instalments_period'])  ;
             $amountResponse = $this->_client->getAmount(
                 [
                     'amount' => $loanAmount,

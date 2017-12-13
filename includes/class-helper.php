@@ -15,10 +15,12 @@ class Helper
      */
     public static function get_min_max_instalment_period($instalmentPeriodArray)
     {
-        if (min($instalmentPeriodArray) != max($instalmentPeriodArray)) {
-            return [min($instalmentPeriodArray), max($instalmentPeriodArray)];
-        } else {
-            return [min($instalmentPeriodArray)];
+        if(is_array($instalmentPeriodArray)){
+            if (min($instalmentPeriodArray) != max($instalmentPeriodArray)) {
+                return [min($instalmentPeriodArray), max($instalmentPeriodArray)];
+            } else {
+                return [min($instalmentPeriodArray)];
+            }
         }
     }
 
@@ -29,7 +31,7 @@ class Helper
     public static function get_default_instalment_period_by_amount_from_table($amount)
     {
         $instalmentTable = self::init_instalment_table_settings();
-        if (is_array($instalmentTable)) {
+        if (count($instalmentTable)) {
             $lastItem = null;
 
             usort($instalmentTable, function ($a, $b) {
@@ -45,6 +47,19 @@ class Helper
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * @param $instalmentPeriod
+     * @return mixed
+     */
+    public static function get_instalment_period($instalmentPeriod)
+    {
+        if(is_array($instalmentPeriod)) {
+            return min($instalmentPeriod);
+        } else {
+            return $instalmentPeriod;
         }
     }
 
