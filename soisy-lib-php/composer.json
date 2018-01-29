@@ -1,0 +1,16 @@
+{
+    "name": "bitbull/soisy-lib-php",
+    "license": "MIT",
+    "type": "library",
+    "description": "Soisy payment PHP library",
+    "authors": [
+        {
+            "name": "Mārtiņš Saukums",
+            "email": "martins@saukums.lv"
+        }
+    ],
+    "require": {},
+    "autoload": {
+	    "psr-0": { "Bitbull_Soisy": "src/lib" }
+	}
+}
