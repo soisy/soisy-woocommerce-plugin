@@ -4,11 +4,11 @@ Date: August 2017
 Plugin Name: Soisy Payment Gateway
 Plugin URI:
 Description: Soisy Payment Gateway
-Version: 0.6
+Version: 0.7
 Author: Martins Saukums (Bitbull)
 Text Domain: soisy
 Domain Path: /languages
- */
+*/
 
 /**
  * Check if WooCommerce is active
@@ -32,9 +32,9 @@ function woo_payment_gateway()
 
     class Bitbull_Soisy_Gateway extends WC_Payment_Gateway
     {
-        const SETTINGS_OPTION_NAME = 'woocommerce_soisy_settings_instalment_table';
+        const SETTINGS_OPTION_NAME = 'woocommerce_soisy_settings';
 
-        const INSTALMENT_TABLE_OPTION_NAME = self::SETTINGS_OPTION_NAME;
+        const INSTALMENT_TABLE_OPTION_NAME = self::SETTINGS_OPTION_NAME . '_instalment_table';
 
         /**
          * @var array $available_country ;
@@ -361,6 +361,7 @@ function woo_add_gateway_class($methods)
 add_filter('woocommerce_payment_gateways', 'woo_add_gateway_class');
 
 add_action('plugins_loaded', 'woo_payment_gateway', 0);
+
 
 function my_plugin_load_plugin_textdomain() {
     load_plugin_textdomain( 'soisy', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
