@@ -4,7 +4,7 @@ Date: August 2017
 Plugin Name: Soisy Payment Gateway
 Plugin URI:
 Description: Soisy Payment Gateway
-Version: 0.1
+Version: 0.5
 Author: Martins Saukums (Bitbull)
  */
 

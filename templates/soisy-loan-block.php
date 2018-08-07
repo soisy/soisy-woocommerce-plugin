@@ -5,7 +5,7 @@
  * @category Bitbull
  * @package  Bitbull_Soisy
  * @author   Martins Saukums <martins.saukums@bitbull.it>
- * @version     0.0.1
+ * @version     0.0.5
  */
 if (!defined('ABSPATH')) exit; // Don't allow direct access
 $action = (is_product()) ?  'soisy_product_loan_info_block' : 'soisy_cart_loan_info_block';
