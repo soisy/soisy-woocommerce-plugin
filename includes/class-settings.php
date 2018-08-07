@@ -175,8 +175,8 @@ class Settings
             'cart_loan_quote_placement' => array(
                 'title' => __('Cart page Loan Quote block placement class', 'soisy'),
                 'type' => 'text',
-                'description' => __('Choose a HTML class to append Loan Quote block in product page', 'soisy'),
-                'default' => 'shop_table_responsive'
+                'description' => __('Choose a HTML class to append Loan Quote block in cart page', 'soisy'),
+                'default' => 'wc-proceed-to-checkout'
             ),
 
             'cart_loan_quote_text' => array(
@@ -250,7 +250,7 @@ class Settings
             esc_attr($id) . '-instalment' => array(
                 'type' => 'select',
                 'class' => array('form-row form-row-wide validate-required'),
-                'label' => __('Instalment'),
+                'label' => __('Instalment','soisy'),
                 'options' => ($settings['instalments_period']) ? array_combine($settings['instalments_period'],
                     $settings['instalments_period']) : self::getInstalmentPeriod(),
                 'description' => ' '
@@ -258,42 +258,42 @@ class Settings
             esc_attr($id) . '-address' => array(
                 'type' => 'text',
                 'class' => array('form-row form-row-wide validate-required'),
-                'label' => __('Address'),
+                'label' => __('Address','soisy'),
             ),
             esc_attr($id) . '-civic-number' => array(
                 'type' => 'text',
                 'class' => array('form-row form-row-wide validate-required'),
-                'label' => __('Civic Number'),
+                'label' => __('Civic Number','soisy'),
             ),
             esc_attr($id) . '-postcode' => array(
                 'type' => 'text',
                 'class' => array('form-row form-row-wide validate-required'),
-                'label' => __('Postcode / ZIP'),
+                'label' => __('Postcode / ZIP','soisy'),
             ),
             esc_attr($id) . '-city' => array(
                 'type' => 'text',
                 'class' => array('form-row form-row-wide validate-required'),
-                'label' => __('City'),
+                'label' => __('City','soisy'),
             ),
             esc_attr($id) . '-province' => array(
                 'type' => 'state',
                 'class' => array('form-row form-row-wide validate-required'),
-                'label' => __('Province'),
+                'label' => __('Province','soisy'),
             ),
             esc_attr($id) . '-phone' => array(
                 'type' => 'text',
                 'class' => array('form-row form-row-wide validate-required'),
-                'label' => __('Phone'),
+                'label' => __('Phone','soisy'),
             ),
             esc_attr($id) . '-fiscal-code' => array(
                 'type' => 'text',
                 'class' => array('form-row form-row-wide validate-required'),
-                'label' => __('Fiscal Code'),
+                'label' => __('Fiscal Code','soisy'),
             ),
             esc_attr($id) . '-checkbox' => array(
                 'type' => 'checkbox',
                 'class' => array('form-row form-row-wide validate-required'),
-                'label' => __(' I Agree submitting the info to Soisy page') . '  '  . "<a target='_blank' href='{$settings['terms_and_conditions_link']}'>". __('Reed more') . "</a>",
+                'label' => __(' I Agree submitting the info to Soisy page','soisy') . '  '  . "<a target='_blank' href='{$settings['terms_and_conditions_link']}'>". __('Reed more','soisy') . "</a>",
             ),
         ];
     }

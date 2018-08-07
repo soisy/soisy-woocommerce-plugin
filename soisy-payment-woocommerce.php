@@ -4,8 +4,10 @@ Date: August 2017
 Plugin Name: Soisy Payment Gateway
 Plugin URI:
 Description: Soisy Payment Gateway
-Version: 0.5
+Version: 0.6
 Author: Martins Saukums (Bitbull)
+Text Domain: soisy
+Domain Path: /languages
  */
 
 /**
@@ -30,9 +32,9 @@ function woo_payment_gateway()
 
     class Bitbull_Soisy_Gateway extends WC_Payment_Gateway
     {
-        const SETTINGS_OPTION_NAME = 'woocommerce_soisy_settings';
+        const SETTINGS_OPTION_NAME = 'woocommerce_soisy_settings_instalment_table';
 
-        const INSTALMENT_TABLE_OPTION_NAME = self::SETTINGS_OPTION_NAME . '_instalment_table';
+        const INSTALMENT_TABLE_OPTION_NAME = self::SETTINGS_OPTION_NAME;
 
         /**
          * @var array $available_country ;
@@ -52,7 +54,7 @@ function woo_payment_gateway()
             $plugin_dir = plugin_dir_url(__FILE__);
             $this->id = 'soisy';
             $this->method_title = __('Soisy', 'soisy');
-            $this->icon = apply_filters('woocommerce_Soisy_icon', '' . $plugin_dir .'/assets/images/'  . 'logo-soisy.png');
+            $this->icon = apply_filters('woocommerce_Soisy_icon', '' . $plugin_dir .'/assets/images/'  . 'logo-soisy-min.png');
 
             $this->supports = array('soisy_payment_form');
             $this->has_fields = true;
@@ -63,7 +65,7 @@ function woo_payment_gateway()
 
             $this->available_country = $this->settings['enable_for_countries'];
             if (Includes\Helper::get_min_max_instalment_period($this->settings['instalments_period'])) {
-                $this->title = sprintf($this->settings['title'],implode("/",Includes\Helper::get_min_max_instalment_period($this->settings['instalments_period'])));                
+                $this->title = sprintf($this->settings['title'],implode("/",Includes\Helper::get_min_max_instalment_period($this->settings['instalments_period'])));
             } else {
                 $this->title = $this->settings['title'];
             }
@@ -193,7 +195,7 @@ function woo_payment_gateway()
                         'amount' => (isset($_POST['instalment_amount'][$key])) ? $_POST['instalment_amount'][$key] : null
                     ];
                 }
-    
+
                 update_option($this->get_option_key() . '_instalment_table', $saveData);
             }
         }
@@ -360,6 +362,13 @@ add_filter('woocommerce_payment_gateways', 'woo_add_gateway_class');
 
 add_action('plugins_loaded', 'woo_payment_gateway', 0);
 
+function my_plugin_load_plugin_textdomain() {
+    load_plugin_textdomain( 'soisy', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
+}
+add_action( 'plugins_loaded', 'my_plugin_load_plugin_textdomain' );
+
+
+
 /**
  * Adds soisy loan info on product page
  */
@@ -371,4 +380,3 @@ function init_product_page()
 }
 
 add_action('plugins_loaded', 'init_product_page');
-
