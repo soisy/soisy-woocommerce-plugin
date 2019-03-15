@@ -1,14 +1,15 @@
 <?php
-/*
-Date: August 2017
-Plugin Name: Soisy Payment Gateway
-Plugin URI:
-Description: Soisy Payment Gateway
-Version: 0.7
-Author: Martins Saukums (Bitbull)
-Text Domain: soisy
-Domain Path: /languages
-*/
+/**
+ * Plugin Name: Soisy Payment Gateway
+ * Plugin URI: https://doc.soisy.it/it/Plugin/WooCommerce.html
+ * Description: Soisy, Instalments payment gateway
+ * Version: 2.0.0
+ * Author: Soisy
+ * Author URI: https://www.soisy.it
+ * Text Domain: soisy
+ * Domain Path: /languages
+ * License: MIT
+ */
 
 /**
  * Check if WooCommerce is active
