@@ -24,25 +24,6 @@ class Settings
         return $result;
     }
 
-    /**
-     * Upfront payment options.
-     * @return array
-     */
-    static function getUpfrontPercentage()
-    {
-        return [
-            100 => 'Off',
-            10 => '10%',
-            20 => '20%',
-            30 => '30%',
-            40 => '40%',
-            50 => '50%',
-            60 => '60%',
-            70 => '70%',
-            80 => '80%',
-            90 => '90%',
-        ];
-    }
 
     /**
      * Return admin settings form for Soisy
@@ -64,24 +45,6 @@ class Settings
                 'type' => 'checkbox',
                 'label' => __('Enable Soisy payment', 'soisy'),
                 'default' => 'yes'
-            ),
-
-            'percentage' => array(
-                'title' => __('Upfront payment percentage', 'soisy'),
-                'type' => 'select',
-                'description' => __('Select upfront payment percentage', 'soisy'),
-                'default' => 'html',
-                'class' => 'wc-enhanced-select',
-                'options' => self::getUpfrontPercentage(),
-                'desc_tip' => true,
-            ),
-
-            'title' => array(
-                'title' => __('Title', 'soisy'),
-                'type' => 'text',
-                'description' => __('This controls the title which the user sees during checkout.', 'soisy'),
-                'default' => __('Soisy', 'soisy'),
-                'desc_tip' => true,
             ),
 
             'sandbox_mode' => array(
@@ -106,19 +69,6 @@ class Settings
                 'title' => __('API key', 'soisy'),
                 'type' => 'text',
                 'default' => ''
-            ),
-
-            'terms_and_conditions_link' => array(
-                'title' => __('Terms and Conditions link', 'soisy'),
-                'type' => 'text',
-                'default' => 'https://www.soisy.it/privacy-policy/'
-            ),
-
-            'description' => array(
-                'title' 		=> 'Description',
-                'type' 			=> 'textarea',
-                'description' 	=> 'This controls the description which the user sees during checkout.',
-                'default' 		=> ''
             ),
 
             'enable_for_countries' => array(
@@ -197,18 +147,6 @@ class Settings
                     'min' => __('Minimum', 'woocommerce'),
                     'median' => __('Average', 'woocommerce'),
                     'max' => __('Maximum', 'woocommerce'),
-                ),
-            ),
-
-            'zero_interest' => array(
-                'title' => __('Zero Interest rate', 'soisy'),
-                'type' => 'select',
-                'default' => 'median',
-                'class' => 'wc-enhanced-select',
-                'desc_tip' => true,
-                'options' => array(
-                    "false" => __('No', 'woocommerce'),
-                    "true" => __('Yes', 'woocommerce')
                 ),
             )
         );
@@ -293,7 +231,7 @@ class Settings
             esc_attr($id) . '-checkbox' => array(
                 'type' => 'checkbox',
                 'class' => array('form-row form-row-wide validate-required'),
-                'label' => __(' I Agree submitting the info to Soisy page','soisy') . '  '  . "<a target='_blank' href='{$settings['terms_and_conditions_link']}'>". __('Reed more','soisy') . "</a>",
+                'label' => __('I Agree submitting the info to Soisy page','soisy') . '  '  . "<a target='_blank' href='https://www.soisy.it/privacy-policy/'>". __('Read more','soisy') . "</a>",
             ),
         ];
     }

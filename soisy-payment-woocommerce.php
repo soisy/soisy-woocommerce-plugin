@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Soisy Payment Gateway
  * Plugin URI: https://doc.soisy.it/it/Plugin/WooCommerce.html
- * Description: Soisy, Instalments payment gateway
+ * Description: Soisy, the a P2P lending platform that allows your customers to pay in instalments.
  * Version: 2.0.0
  * Author: Soisy
  * Author URI: https://www.soisy.it
@@ -65,11 +65,7 @@ function woo_payment_gateway()
             $this->init_settings();
 
             $this->available_country = $this->settings['enable_for_countries'];
-            if (Includes\Helper::get_min_max_instalment_period($this->settings['instalments_period'])) {
-                $this->title = sprintf($this->settings['title'],implode("/",Includes\Helper::get_min_max_instalment_period($this->settings['instalments_period'])));
-            } else {
-                $this->title = $this->settings['title'];
-            }
+            $this->title = __('Soisy', 'soisy');
             $this->method_title = __('Soisy', 'soisy');
             $this->method_description = __('WooCommerce Payment Gateway for Soisy.it', 'soisy');
             $this->success_message = "Thanks for choosing Soisy";
@@ -108,39 +104,6 @@ function woo_payment_gateway()
         }
 
         /**
-         * Admin styles + scripts
-         */
-        public function admin_enqueue_scripts() {
-            $suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
-
-            wp_enqueue_style( 'woocommerce_instalment_table_rate_styles', plugins_url( '/assets/css/admin.css', __FILE__ ) );
-            wp_register_script( 'woocommerce_instalment_table_rate_rows', plugins_url( '/assets/js/table-rate-rows' . $suffix . '.js', __FILE__ ), array( 'jquery', 'wp-util' ) );
-            wp_localize_script( 'woocommerce_instalment_table_rate_rows', 'woocommerce_instalment_table_rate_rows', array(
-                'i18n' => array(
-                    'delete_rates' => __( 'Delete the selected instalments?', 'soisy' ),
-                ),
-                'delete_rates_nonce' => wp_create_nonce( "delete-rate" ),
-            ) );
-
-        }
-
-        public function checkout_enqueue_scripts()
-        {
-            $suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
-
-            wp_register_script( 'woocommerce_checkout_instalment_select', plugins_url( '/assets/js/checkout-instalment-select'. $suffix .'.js', __FILE__ ), array( 'jquery' ) );
-            $dataToBePassed = array(
-                'select'            => '#soisy-instalment',
-                'preselected_value' => Includes\Helper::get_default_instalment_period_by_amount_from_table(WC_Payment_Gateway::get_order_total() * 100),
-                'action'            => 'soisy_instalment_total_info_block',
-                'ajax_url'          => admin_url('admin-ajax.php'),
-                'text'              => __('per month', 'soisy')
-            );
-            wp_localize_script( 'woocommerce_checkout_instalment_select', 'php_vars', $dataToBePassed );
-            wp_enqueue_script('woocommerce_checkout_instalment_select');
-        }
-
-        /**
          * Check if Soisy available min/max available amount
          * @param $available_gateways
          * @return mixed
@@ -173,34 +136,6 @@ function woo_payment_gateway()
             $this->instance_options();
         }
 
-        /**
-         * Process admin options.
-         */
-        public function process_admin_options()
-        {
-            parent::process_admin_options();
-
-            $this->save_instalment_rates_to_admin_options();
-        }
-
-        /**
-         * Save Instalment rate to admin options
-         */
-        public function save_instalment_rates_to_admin_options()
-        {
-            if (isset($_POST['instalment_period'])) {
-                $saveData = [];
-                foreach ($_POST['instalment_period'] as $key => $value) {
-                    $saveData[] = [
-                        'period' => $value,
-                        'amount' => (isset($_POST['instalment_amount'][$key])) ? $_POST['instalment_amount'][$key] : null
-                    ];
-                }
-
-                update_option($this->get_option_key() . '_instalment_table', $saveData);
-            }
-        }
-
         public function get_form_data()
         {
             return get_option($this->get_option_key() . '_instalment_table', null);
@@ -226,12 +161,6 @@ function woo_payment_gateway()
                 <?php
                 $this->generate_settings_html();
                 ?>
-                <tr>
-                    <th><?php _e('Table Rates', 'Soisy'); ?></th>
-                    <td>
-                        <?php Includes\Table::adminSettingsTableForm($this); ?>
-                    </td>
-                </tr>
             </table>
             <?php
         }
@@ -245,7 +174,7 @@ function woo_payment_gateway()
         {
             wp_enqueue_script('woocommerce_checkout_instalment_select');
             ?>
-            <?php if ($this->settings['description']) : ?> <p><?php echo $this->settings['description'] ?></p> <?php endif; ?>
+            <p><?php echo __('Soisy checkout description', 'soisy'); ?></p>
             <fieldset id="<?php echo esc_attr($this->id); ?>-soisy-form" class='wc-check-form wc-payment-form'>
                 <?php do_action('woocommerce_echeck_form_start', $this->id); ?>
                 <?php
@@ -284,11 +213,10 @@ function woo_payment_gateway()
             $order = new WC_Order($order_id);
 
             $amount = WC()->cart->total * 100;
-            $loanAmount = Includes\Helper::calculate_amount_based_on_percentage($amount,$this->settings['percentage']);
 
             $params = [
                 'email' => $order->get_billing_email(),
-                'amount' => ($loanAmount) ? $loanAmount : $amount,
+                'amount' => $amount,
                 'lastname' => $order->get_billing_last_name(),
                 'firstname' => $order->get_billing_first_name(),
                 'fiscalCode' => $_POST['soisy-fiscal-code'],
@@ -299,7 +227,6 @@ function woo_payment_gateway()
                 'postalCode' => $_POST['soisy-postcode'],
                 'civicNumber' => $_POST['soisy-civic-number'],
                 'instalments' => $_POST['soisy-instalment'],
-                'zeroInterestRate' => $this->settings['zero_interest']
             ];
 
             $tokenResponse = $this->client->getToken($params);

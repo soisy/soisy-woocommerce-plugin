@@ -41,16 +41,13 @@ class View
         if (isset($_POST['price'])) {
             $this->init_payment_settings();
             $this->_client = new \Bitbull_Soisy_Client($this->settings['shop_id'], $this->settings['api_key'], new Log(),(int)$this->settings['sandbox_mode']);
-            $amount = $_POST['price']* 100;
-            $loanAmount = Helper::calculate_amount_based_on_percentage($amount,$this->settings['percentage']);
-            $loanAmount = ($loanAmount) ? $loanAmount : $amount;
+            $loanAmount = $_POST['price']* 100;
             $instalmentPeriodFromTable = Helper::get_default_instalment_period_by_amount_from_table($loanAmount);
             $instalmentPeriod = ($instalmentPeriodFromTable) ? $instalmentPeriodFromTable : Helper::get_instalment_period($this->settings['instalments_period'])  ;
             $amountResponse = $this->_client->getAmount(
                 [
                     'amount' => $loanAmount,
                     'instalments' => $instalmentPeriod,
-                    'zeroInterestRate' => $this->settings['zero_interest']
                 ]);
             if ($amountResponse && isset($amountResponse->{$this->settings['information_about_loan']})) {
                 $variables = array(

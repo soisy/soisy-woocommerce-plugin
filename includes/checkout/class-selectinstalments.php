@@ -37,11 +37,9 @@ class SelectInstalments {
     public function soisy_instalment_total_info_block()
     {
         if (isset($_POST['instalments'])) {
-            $amount = WC()->cart->total * 100;
+            $loanAmount = WC()->cart->total * 100;
             $instalments = $_POST['instalments'];
             $this->init_payment_settings();
-            $loanAmount = Helper::calculate_amount_based_on_percentage($amount ,$this->settings['percentage']);
-            $loanAmount = ($loanAmount) ? $loanAmount : $amount;
 
             if (Helper::check_if_method_available_by_amount($this->settings['min_order_total'],$this->settings['max_order_total'],$loanAmount)) {
                 $this->_client = new \Bitbull_Soisy_Client($this->settings['shop_id'], $this->settings['api_key'], new Log(),(int)$this->settings['sandbox_mode']);
@@ -49,7 +47,6 @@ class SelectInstalments {
                     [
                         'amount' => $loanAmount,
                         'instalments' => $instalments,
-                        'zeroInterestRate' => $this->settings['zero_interest']
                     ]);
 
                 if ($amountResponse && isset($amountResponse->{$this->settings['information_about_loan']})) {
