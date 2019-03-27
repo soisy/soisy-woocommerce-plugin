@@ -54,14 +54,6 @@ msgstr ""
 msgid "API key"
 msgstr ""
 
-#: includes/class-settings.php:125
-msgid "Enable for countries"
-msgstr "Abilita soisy solo per alcuni paesi"
-
-#: includes/class-settings.php:129
-msgid "Payment from Specific Countries"
-msgstr "Pagamento da parte di paesi Specifici"
-
 #: includes/class-settings.php:134
 msgid "Select county"
 msgstr "Seleziona paese"
@@ -118,22 +110,6 @@ msgid ""
 "Provide text for cart page loan quote block with placeholders for variables "
 "{INSTALMENT_AMOUNT},{INSTALMENT_PERIOD},{TOTAL_REPAID},{TAEG}"
 msgstr ""
-
-#: includes/class-settings.php:191
-msgid "Information about loan"
-msgstr ""
-
-#: includes/class-settings.php:197
-msgid "Minimum"
-msgstr "Minimo"
-
-#: includes/class-settings.php:198
-msgid "Average"
-msgstr "Medio"
-
-#: includes/class-settings.php:199
-msgid "Maximum"
-msgstr "Massimo"
 
 #: includes/class-settings.php:253
 msgid "Instalment"

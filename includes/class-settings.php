@@ -31,14 +31,6 @@ class Settings
      */
     static function adminSettingsForm()
     {
-
-        $countryList = array();
-        $countries_obj = new \WC_Countries();
-
-        foreach ($countries_obj->__get('countries') as $key => $value) {
-            $countryList[$key] = $value;
-        }
-
         return array(
             'enabled' => array(
                 'title' => __('Enable', 'soisy'),
@@ -69,20 +61,6 @@ class Settings
                 'title' => __('API key', 'soisy'),
                 'type' => 'text',
                 'default' => ''
-            ),
-
-            'enable_for_countries' => array(
-                'title' => __('Enable for countries', 'soisy'),
-                'type' => 'multiselect',
-                'class' => 'wc-enhanced-select',
-                'css' => 'width: 400px;',
-                'description' => __('Payment from Specific Countries', 'soisy'),
-                'options' => $countryList,
-                'desc_tip' => true,
-                'default' => 'IT',
-                'custom_attributes' => array(
-                    'data-placeholder' => __('Select county', 'woocommerce'),
-                ),
             ),
 
             'instalments_period' => array(
@@ -135,19 +113,6 @@ class Settings
                 'description' => __('Provide text for cart page loan quote block with placeholders for variables {INSTALMENT_AMOUNT},{INSTALMENT_PERIOD},{TOTAL_REPAID},{TAEG}',
                     'soisy'),
                 'default' => 'You can also pay installments, eg € {INSTALMENT_AMOUNT}, in {INSTALMENT_PERIOD} months, with a total cost of € {TOTAL_REPAID} and TAEG {TAEG}. Just choose "Pay with Soisy" when choosing the payment method'
-            ),
-
-            'information_about_loan' => array(
-                'title' => __('Information about loan', 'soisy'),
-                'type' => 'select',
-                'default' => 'median',
-                'class' => 'wc-enhanced-select',
-                'desc_tip' => true,
-                'options' => array(
-                    'min' => __('Minimum', 'woocommerce'),
-                    'median' => __('Average', 'woocommerce'),
-                    'max' => __('Maximum', 'woocommerce'),
-                ),
             )
         );
     }

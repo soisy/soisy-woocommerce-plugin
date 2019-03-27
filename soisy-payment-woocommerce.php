@@ -40,7 +40,7 @@ function woo_payment_gateway()
         /**
          * @var array $available_country ;
          */
-        protected $available_country = [];
+        protected $available_country = [ 'IT' ];
 
         /**
          * @var $client ;
@@ -64,7 +64,6 @@ function woo_payment_gateway()
             $this->init_form_fields();
             $this->init_settings();
 
-            $this->available_country = $this->settings['enable_for_countries'];
             $this->title = __('Soisy', 'soisy');
             $this->method_title = __('Soisy', 'soisy');
             $this->method_description = __('WooCommerce Payment Gateway for Soisy.it', 'soisy');

@@ -49,13 +49,13 @@ class SelectInstalments {
                         'instalments' => $instalments,
                     ]);
 
-                if ($amountResponse && isset($amountResponse->{$this->settings['information_about_loan']})) {
+                if ($amountResponse && isset($amountResponse->{'average'})) {
 
                     $variables = array(
-                        'instalment_amount' => wc_price($amountResponse->{$this->settings['information_about_loan']}->instalmentAmount / 100),
+                        'instalment_amount' => wc_price($amountResponse->{'average'}->instalmentAmount / 100),
                         'instalments_period' => wc_price($instalments),
-                        'total_repaid' => wc_price($amountResponse->{$this->settings['information_about_loan']}->totalRepaid / 100),
-                        'taeg' => wc_price($amountResponse->{$this->settings['information_about_loan']}->apr),
+                        'total_repaid' => wc_price($amountResponse->{'average'}->totalRepaid / 100),
+                        'taeg' => wc_price($amountResponse->{'average'}->apr),
                     );
 
                     wp_send_json($variables);

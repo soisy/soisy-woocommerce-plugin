@@ -46,12 +46,12 @@ class View {
                     'amount' => $loanAmount,
                     'instalments' => $instalmentPeriod,
                 ]);
-            if ($amountResponse && isset($amountResponse->{$this->settings['information_about_loan']})) {
+            if ($amountResponse && isset($amountResponse->{'average'})) {
                 $variables = array(
-                    '{INSTALMENT_AMOUNT}' => $amountResponse->{$this->settings['information_about_loan']}->instalmentAmount / 100,
+                    '{INSTALMENT_AMOUNT}' => $amountResponse->{'average'}->instalmentAmount / 100,
                     '{INSTALMENT_PERIOD}' => $instalmentPeriod,
-                    '{TOTAL_REPAID}' => $amountResponse->{$this->settings['information_about_loan']}->totalRepaid / 100,
-                    '{TAEG}' => $amountResponse->{$this->settings['information_about_loan']}->apr,
+                    '{TOTAL_REPAID}' => $amountResponse->{'average'}->totalRepaid / 100,
+                    '{TAEG}' => $amountResponse->{'average'}->apr,
                 );
 
                 wp_send_json(
