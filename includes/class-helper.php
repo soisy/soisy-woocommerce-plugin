@@ -11,13 +11,11 @@ class Helper
 {
     /**
      * Check if loan available
-     * @param $min_order_total
-     * @param $max_order_total
      * @param $order_total
      * @return bool
      */
-    public static function check_if_method_available_by_amount($min_order_total,$max_order_total,$order_total)
+    public static function check_if_method_available_by_amount($order_total)
     {
-       return ((int)$min_order_total * 100 <= $order_total) || ($order_total <= (int)$max_order_total * 100);
+       return (\Bitbull_Soisy_Client::MIN_AMOUNT * 100 <= $order_total) || ($order_total <= \Bitbull_Soisy_Client::MAX_AMOUNT * 100);
     }
 }

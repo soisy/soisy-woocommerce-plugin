@@ -112,7 +112,7 @@ function woo_payment_gateway()
 
             $order_total = WC_Payment_Gateway::get_order_total();
 
-            if (isset($available_gateways['soisy']) && (($this->settings['min_order_total'] > $order_total) || ($order_total >= $this->settings['max_order_total']))) {
+            if (isset($available_gateways['soisy']) && ((\Bitbull_Soisy_Client::MIN_AMOUNT > $order_total) || ($order_total >= \Bitbull_Soisy_Client::MAX_AMOUNT))) {
                 unset($available_gateways['soisy']);
             }
 

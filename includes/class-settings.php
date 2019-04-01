@@ -17,7 +17,7 @@ class Settings
     {
         $result = [];
 
-        for ($i = 3; $i <= 60; $i++) {
+        for ($i = \Bitbull_Soisy_Client::MIN_INSTALMENTS; $i <= \Bitbull_Soisy_Client::MAX_INSTALMENTS; $i++) {
             $result[$i] = $i;
         }
 
@@ -61,28 +61,6 @@ class Settings
                 'title' => __('API key', 'soisy'),
                 'type' => 'text',
                 'default' => ''
-            ),
-
-            'instalments_period' => array(
-                'title' => __('Instalments', 'woocommerce'),
-                'type' => 'multiselect',
-                'description' => __('Choose from 3 to 60', 'woocommerce'),
-                'default' => '3',
-                'class' => 'wc-enhanced-select',
-                'options' => self::getInstalmentPeriod(),
-                'desc_tip' => true,
-            ),
-
-            'max_order_total' => array(
-                'title' => __('Maximum Order Total', 'soisy'),
-                'type' => 'text',
-                'default' => '1500'
-            ),
-
-            'min_order_total' => array(
-                'title' => __('Minimum Order Total', 'soisy'),
-                'type' => 'text',
-                'default' => '260'
             ),
 
             'loan_quote_placement' => array(
@@ -154,8 +132,7 @@ class Settings
                 'type' => 'select',
                 'class' => array('form-row form-row-wide validate-required'),
                 'label' => __('Instalment','soisy'),
-                'options' => ($settings['instalments_period']) ? array_combine($settings['instalments_period'],
-                    $settings['instalments_period']) : self::getInstalmentPeriod(),
+                'options' => self::getInstalmentPeriod(),
                 'description' => ' '
             ),
             esc_attr($id) . '-address' => array(

@@ -7,6 +7,16 @@
  */
 class Bitbull_Soisy_Client
 {
+    const SANDBOX_SHOP_ID = 'partnershop';
+    const SANDBOX_API_KEY = 'partnerkey';
+
+    const QUOTE_INSTALMENTS_AMOUNT = 6;
+    const MIN_INSTALMENTS = 3;
+    const MAX_INSTALMENTS = 60;
+
+    const MIN_AMOUNT = 250;
+    const MAX_AMOUNT = 30000;
+
     const HTTP_METHOD_GET = 'GET';
     const HTTP_METHOD_POST = 'POST';
 

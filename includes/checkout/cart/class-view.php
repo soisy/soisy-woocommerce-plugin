@@ -39,17 +39,15 @@ class View {
             $this->init_payment_settings();
             $this->_client = new \Bitbull_Soisy_Client($this->settings['shop_id'], $this->settings['api_key'], new Log(),(int)$this->settings['sandbox_mode']);
             $loanAmount = $_POST['price']* 100;
-            $instalmentPeriodFromTable = Helper::get_default_instalment_period_by_amount_from_table($loanAmount);
-            $instalmentPeriod = ($instalmentPeriodFromTable) ? $instalmentPeriodFromTable : Helper::get_instalment_period($this->settings['instalments_period'])  ;
             $amountResponse = $this->_client->getAmount(
                 [
                     'amount' => $loanAmount,
-                    'instalments' => $instalmentPeriod,
+                    'instalments' => \Bitbull_Soisy_Client::QUOTE_INSTALMENTS_AMOUNT,
                 ]);
             if ($amountResponse && isset($amountResponse->{'average'})) {
                 $variables = array(
                     '{INSTALMENT_AMOUNT}' => $amountResponse->{'average'}->instalmentAmount / 100,
-                    '{INSTALMENT_PERIOD}' => $instalmentPeriod,
+                    '{INSTALMENT_PERIOD}' => \Bitbull_Soisy_Client::QUOTE_INSTALMENTS_AMOUNT,
                     '{TOTAL_REPAID}' => $amountResponse->{'average'}->totalRepaid / 100,
                     '{TAEG}' => $amountResponse->{'average'}->apr,
                 );
