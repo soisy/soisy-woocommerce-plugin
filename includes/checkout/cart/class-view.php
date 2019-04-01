@@ -9,6 +9,7 @@ namespace Bitbull_Soisy\Includes\Checkout\Cart;
 
 use Bitbull_Soisy\Includes\Helper;
 use Bitbull_Soisy\Includes\Log;
+use Bitbull_Soisy_Gateway;
 
 class View {
 
@@ -55,7 +56,7 @@ class View {
                 wp_send_json(
                     array(
                         'data' => strtr($this->settings['cart_loan_quote_text'], $variables),
-                        'object' => $this->settings['cart_loan_quote_placement']
+                        'object' => Bitbull_Soisy_Gateway::CART_LOAN_QUOTE_CSS_CLASS
                     )
                 );
             }

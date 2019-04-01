@@ -63,26 +63,12 @@ class Settings
                 'default' => ''
             ),
 
-            'loan_quote_placement' => array(
-                'title' => __('Product page Loan Quote block placement class', 'soisy'),
-                'type' => 'text',
-                'description' => __('Choose a HTML class to append Loan Quote block in product page', 'soisy'),
-                'default' => 'woocommerce-Price-amount'
-            ),
-
             'loan_quote_text' => array(
                 'title' => __('Text for product page loan quote block', 'soisy'),
                 'type' => 'textarea',
                 'description' => __('Provide text for product page loan quote block with placeholders for variables {INSTALMENT_AMOUNT},{INSTALMENT_PERIOD},{TOTAL_REPAID},{TAEG}',
                     'soisy'),
                 'default' => 'You can also pay installments, eg € {INSTALMENT_AMOUNT}, in {INSTALMENT_PERIOD} months, with a total cost of € {TOTAL_REPAID} and TAEG {TAEG}. Just choose "Pay with Soisy" when choosing the payment method'
-            ),
-
-            'cart_loan_quote_placement' => array(
-                'title' => __('Cart page Loan Quote block placement class', 'soisy'),
-                'type' => 'text',
-                'description' => __('Choose a HTML class to append Loan Quote block in cart page', 'soisy'),
-                'default' => 'wc-proceed-to-checkout'
             ),
 
             'cart_loan_quote_text' => array(

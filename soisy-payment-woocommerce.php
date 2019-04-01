@@ -33,8 +33,10 @@ function woo_payment_gateway()
 
     class Bitbull_Soisy_Gateway extends WC_Payment_Gateway
     {
-        const SETTINGS_OPTION_NAME = 'woocommerce_soisy_settings';
+        const LOAN_QUOTE_CSS_CLASS = 'woocommerce-soisy-product-amount';
+        const CART_LOAN_QUOTE_CSS_CLASS = 'woocommerce-soisy-cart-amount';
 
+        const SETTINGS_OPTION_NAME = 'woocommerce_soisy_settings';
         const INSTALMENT_TABLE_OPTION_NAME = self::SETTINGS_OPTION_NAME . '_instalment_table';
 
         /**
