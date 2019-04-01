@@ -98,10 +98,18 @@ class Bitbull_Soisy_Client
      */
     public function __construct($shopId, $apiKey, Bitbull_Soisy_Log_LoggerInterface $logger, $sandboxMode)
     {
-        $this->_shopId = $shopId;
-        $this->_apiKey = $apiKey;
         $this->_logger = $logger;
         $this->_sandboxMode = $sandboxMode;
+
+        if ($sandboxMode) {
+            $this->_shopId = self::SANDBOX_SHOP_ID;
+            $this->_apiKey = self::SANDBOX_API_KEY;
+
+            return;
+        }
+
+        $this->_shopId = $shopId;
+        $this->_apiKey = $apiKey;
     }
 
     /**
