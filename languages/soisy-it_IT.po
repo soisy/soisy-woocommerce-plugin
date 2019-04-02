@@ -54,51 +54,6 @@ msgstr ""
 msgid "API key"
 msgstr ""
 
-#: includes/class-settings.php:134
-#: includes/class-settings.php:149
-msgid "Maximum Order Total"
-msgstr "Totale Ordine Max"
-
-#: includes/class-settings.php:155
-msgid "Minimum Order Total"
-msgstr "Totale ordine minimo"
-
-#: includes/class-settings.php:161
-msgid "Product page Loan Quote block placement class"
-msgstr ""
-
-#: includes/class-settings.php:163
-msgid "Choose a HTML class to append Loan Quote block in product page"
-msgstr "Scegli il class HTML a cui agganciare la frase (pagina prodotto)"
-
-#: includes/class-settings.php:168
-msgid "Text for product page loan quote block"
-msgstr ""
-
-#: includes/class-settings.php:170
-msgid ""
-"Provide text for product page loan quote block with placeholders for "
-"variables {INSTALMENT_AMOUNT},{INSTALMENT_PERIOD},{TOTAL_REPAID},{TAEG}"
-msgstr ""
-
-#: includes/class-settings.php:176
-msgid "Cart page Loan Quote block placement class"
-msgstr ""
-
-#: includes/class-settings.php:178
-msgid "Choose a HTML class to append Loan Quote block in cart page"
-msgstr ""
-
-#: includes/class-settings.php:183
-msgid "Text for cart page loan quote block"
-msgstr ""
-
-#: includes/class-settings.php:185
-msgid ""
-"Provide text for cart page loan quote block with placeholders for variables "
-"{INSTALMENT_AMOUNT},{INSTALMENT_PERIOD},{TOTAL_REPAID},{TAEG}"
-msgstr ""
-
 #: includes/class-settings.php:253
 msgid "Instalment"
 msgstr "Rate"
@@ -137,7 +92,7 @@ msgstr "Accetto le info Soisy"
 
 #: includes/class-settings.php:296
 msgid "Reed more"
-msgstr "Leggi altro…"
+msgstr "Leggi altro"
 
 #: soisy-payment-woocommerce.php:73
 msgid "WooCommerce Payment Gateway for Soisy.it"
@@ -149,11 +104,19 @@ msgstr "al mese"
 
 #: soisy-payment-woocommerce.php:326
 msgid "(Transaction Error) Error processing payment."
-msgstr ""
+msgstr "Si è verificato un errore nel pagamento."
 
 #: soisy-payment-woocommerce.php:344
 msgid "is a required field."
-msgstr ""
+msgstr "è un campo obbligatorio"
 
 msgid "Soisy checkout description"
-msgstr "Soisy, the a P2P lending platform that allows your customers to pay in instalments"
+msgstr "Soisy, la piattaforma di prestiti tra privati che abilita i clienti del tuo e-commerce a pagare a rate."
+
+#: includes/product/class-view.php:61
+msgid "Loan quote text"
+msgstr "Sapevi che puoi pagarlo anche a rate? Es. € {INSTALMENT_AMOUNT} per {INSTALMENT_PERIOD} mesi, con TAEG {TAEG}, per un costo totale di € {TOTAL_REPAID}. Seleziona \"Paga con Soisy\" come metodo di pagamento alla fine dei tuoi acquisti."
+
+#: includes/checkout/cart/class-view.php:58
+msgid "Cart loan quote text"
+msgstr "Sapevi che puoi pagarlo anche a rate? Es. € {INSTALMENT_AMOUNT} per {INSTALMENT_PERIOD} mesi, con TAEG {TAEG}, per un costo totale di € {TOTAL_REPAID}. Seleziona \"Paga con Soisy\" come metodo di pagamento alla fine dei tuoi acquisti."
