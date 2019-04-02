@@ -47,10 +47,10 @@ class View {
                 ]);
             if ($amountResponse && isset($amountResponse->{'median'})) {
                 $variables = array(
-                    '{INSTALMENT_AMOUNT}' => $amountResponse->{'median'}->instalmentAmount / 100,
+                    '{INSTALMENT_AMOUNT}' => Helper::formatNumber($amountResponse->{'median'}->instalmentAmount / 100),
                     '{INSTALMENT_PERIOD}' => \Bitbull_Soisy_Client::QUOTE_INSTALMENTS_AMOUNT,
-                    '{TOTAL_REPAID}' => $amountResponse->{'median'}->totalRepaid / 100,
-                    '{TAEG}' => $amountResponse->{'median'}->apr,
+                    '{TOTAL_REPAID}' => Helper::formatNumber($amountResponse->{'median'}->totalRepaid / 100),
+                    '{TAEG}' => Helper::formatNumber($amountResponse->{'median'}->apr),
                 );
 
                 wp_send_json(
@@ -80,5 +80,4 @@ class View {
             $this->settings = get_option(\Bitbull_Soisy_Gateway::SETTINGS_OPTION_NAME, null);
         }
     }
-
 }

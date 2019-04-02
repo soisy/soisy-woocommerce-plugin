@@ -115,8 +115,8 @@ msgstr "Soisy, la piattaforma di prestiti tra privati che abilita i clienti del 
 
 #: includes/product/class-view.php:61
 msgid "Loan quote text"
-msgstr "Sapevi che puoi pagarlo anche a rate? Es. € {INSTALMENT_AMOUNT} per {INSTALMENT_PERIOD} mesi, con TAEG {TAEG}, per un costo totale di € {TOTAL_REPAID}. Seleziona \"Paga con Soisy\" come metodo di pagamento alla fine dei tuoi acquisti."
+msgstr "Sapevi che puoi pagare questo prodotto a rate? Es. € {INSTALMENT_AMOUNT} per {INSTALMENT_PERIOD} mesi, con TAEG {TAEG}, per un costo totale di € {TOTAL_REPAID}. Seleziona \"Paga con Soisy\" come metodo di pagamento alla fine dei tuoi acquisti."
 
 #: includes/checkout/cart/class-view.php:58
 msgid "Cart loan quote text"
-msgstr "Sapevi che puoi pagarlo anche a rate? Es. € {INSTALMENT_AMOUNT} per {INSTALMENT_PERIOD} mesi, con TAEG {TAEG}, per un costo totale di € {TOTAL_REPAID}. Seleziona \"Paga con Soisy\" come metodo di pagamento alla fine dei tuoi acquisti."
+msgstr "Sapevi che puoi pagare il tuo ordine a rate? Es. € {INSTALMENT_AMOUNT} per {INSTALMENT_PERIOD} mesi, con TAEG {TAEG}, per un costo totale di € {TOTAL_REPAID}. Seleziona \"Paga con Soisy\" come metodo di pagamento alla fine dei tuoi acquisti."

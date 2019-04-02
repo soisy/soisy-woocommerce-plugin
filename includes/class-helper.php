@@ -18,4 +18,9 @@ class Helper
     {
        return (\Bitbull_Soisy_Client::MIN_AMOUNT * 100 <= $order_total) || ($order_total <= \Bitbull_Soisy_Client::MAX_AMOUNT * 100);
     }
+
+    public static function formatNumber(float $number): string
+    {
+        return \number_format($number, 2, ',', '.');
+    }
 }

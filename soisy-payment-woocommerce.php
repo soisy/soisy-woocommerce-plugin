@@ -96,8 +96,11 @@ function woo_payment_gateway()
          */
         public function payment_gateway_disable_country($available_gateways)
         {
-            if (isset($available_gateways['soisy']) && !in_array(WC()->customer->get_billing_country(),
-                    $this->available_country)) {
+            if (empty(WC()->customer) || empty(WC()->customer->get_billing_country())) {
+                return;
+            }
+
+            if (isset($available_gateways['soisy']) && !in_array(WC()->customer->get_billing_country(), $this->available_country)) {
                 unset($available_gateways['soisy']);
             }
 

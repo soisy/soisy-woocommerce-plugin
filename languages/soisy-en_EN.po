@@ -30,8 +30,8 @@ msgstr "Soisy, the a P2P lending platform that allows your customers to pay in i
 
 #: includes/product/class-view.php:61
 msgid "Loan quote text"
-msgstr "You can also pay installments, eg € {INSTALMENT_AMOUNT}, in {INSTALMENT_PERIOD} months, with a total cost of € {TOTAL_REPAID} and TAEG {TAEG}. Just choose \"Pay with Soisy\" when choosing the payment method."
+msgstr "You can also pay instalments, eg € {INSTALMENT_AMOUNT}, in {INSTALMENT_PERIOD} months, with a total cost of € {TOTAL_REPAID} and TAEG {TAEG}. Just choose \"Pay with Soisy\" when choosing the payment method."
 
 #: includes/checkout/cart/class-view.php:58
 msgid "Cart loan quote text"
-msgstr "You can also pay installments, eg € {INSTALMENT_AMOUNT}, in {INSTALMENT_PERIOD} months, with a total cost of € {TOTAL_REPAID} and TAEG {TAEG}. Just choose \"Pay with Soisy\" when choosing the payment method."
+msgstr "You can also pay instalments, eg € {INSTALMENT_AMOUNT}, in {INSTALMENT_PERIOD} months, with a total cost of € {TOTAL_REPAID} and TAEG {TAEG}. Just choose \"Pay with Soisy\" when choosing the payment method."

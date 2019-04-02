@@ -15,6 +15,7 @@ $action = (is_product()) ? 'soisy_product_loan_info_block' : 'soisy_cart_loan_in
 <?php global $product; ?>
 <script>
     jQuery(document).ready(function ($) {
+        var isProductPage = <?php echo (int)is_product(); ?>;
         var data = {
             action: '<?php echo $action ?>',
             price: '<?php echo (is_product()) ? $product->get_price() : WC()->cart->total ?>',
@@ -26,7 +27,13 @@ $action = (is_product()) ? 'soisy_product_loan_info_block' : 'soisy_cart_loan_in
 
             success: function (data) {
                 if (data.object) {
-                    jQuery('.summary .price').after("<p class='" + data.object + "'>" + data.data + "</p>");
+
+                    if (isProductPage) {
+                        jQuery('.summary .price').after("<p class='" + data.object + "'>" + data.data + "</p>");
+                        return;
+                    }
+
+                    jQuery('.cart_totals .shop_table').after("<p class='" + data.object + "'>" + data.data + "</p>");
                 }
             },
             error: function (xhr, textStatus, errorThrown) {
