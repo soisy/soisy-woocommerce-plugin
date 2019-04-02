@@ -2,13 +2,14 @@
 /**
  * Soisy Loan block template.
  *
- * @category Bitbull
- * @package  Bitbull_Soisy
- * @author   Martins Saukums <martins.saukums@bitbull.it>
+ * @category    Bitbull
+ * @package     Bitbull_Soisy
+ * @author      Martins Saukums <martins.saukums@bitbull.it>
  * @version     0.0.5
  */
 if (!defined('ABSPATH')) exit; // Don't allow direct access
-$action = (is_product()) ?  'soisy_product_loan_info_block' : 'soisy_cart_loan_info_block';
+
+$action = (is_product()) ? 'soisy_product_loan_info_block' : 'soisy_cart_loan_info_block';
 ?>
 
 <?php global $product; ?>
@@ -16,7 +17,7 @@ $action = (is_product()) ?  'soisy_product_loan_info_block' : 'soisy_cart_loan_i
     jQuery(document).ready(function ($) {
         var data = {
             action: '<?php echo $action ?>',
-            price: '<?php echo (is_product()) ?  $product->get_price() : WC()->cart->total ?>',
+            price: '<?php echo (is_product()) ? $product->get_price() : WC()->cart->total ?>',
         };
         jQuery.ajax({
             type: "post",
@@ -25,7 +26,7 @@ $action = (is_product()) ?  'soisy_product_loan_info_block' : 'soisy_cart_loan_i
 
             success: function (data) {
                 if (data.object) {
-                    jQuery("<p>" + data.data + "</p>").insertAfter("." + data.object);
+                    jQuery('.summary .price').after("<p class='" + data.object + "'>" + data.data + "</p>");
                 }
             },
             error: function (xhr, textStatus, errorThrown) {

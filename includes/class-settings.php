@@ -61,22 +61,6 @@ class Settings
                 'title' => __('API key', 'soisy'),
                 'type' => 'text',
                 'default' => ''
-            ),
-
-            'loan_quote_text' => array(
-                'title' => __('Text for product page loan quote block', 'soisy'),
-                'type' => 'textarea',
-                'description' => __('Provide text for product page loan quote block with placeholders for variables {INSTALMENT_AMOUNT},{INSTALMENT_PERIOD},{TOTAL_REPAID},{TAEG}',
-                    'soisy'),
-                'default' => 'You can also pay installments, eg € {INSTALMENT_AMOUNT}, in {INSTALMENT_PERIOD} months, with a total cost of € {TOTAL_REPAID} and TAEG {TAEG}. Just choose "Pay with Soisy" when choosing the payment method'
-            ),
-
-            'cart_loan_quote_text' => array(
-                'title' => __('Text for cart page loan quote block', 'soisy'),
-                'type' => 'textarea',
-                'description' => __('Provide text for cart page loan quote block with placeholders for variables {INSTALMENT_AMOUNT},{INSTALMENT_PERIOD},{TOTAL_REPAID},{TAEG}',
-                    'soisy'),
-                'default' => 'You can also pay installments, eg € {INSTALMENT_AMOUNT}, in {INSTALMENT_PERIOD} months, with a total cost of € {TOTAL_REPAID} and TAEG {TAEG}. Just choose "Pay with Soisy" when choosing the payment method'
             )
         );
     }

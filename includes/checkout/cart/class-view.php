@@ -45,17 +45,17 @@ class View {
                     'amount' => $loanAmount,
                     'instalments' => \Bitbull_Soisy_Client::QUOTE_INSTALMENTS_AMOUNT,
                 ]);
-            if ($amountResponse && isset($amountResponse->{'average'})) {
+            if ($amountResponse && isset($amountResponse->{'median'})) {
                 $variables = array(
-                    '{INSTALMENT_AMOUNT}' => $amountResponse->{'average'}->instalmentAmount / 100,
+                    '{INSTALMENT_AMOUNT}' => $amountResponse->{'median'}->instalmentAmount / 100,
                     '{INSTALMENT_PERIOD}' => \Bitbull_Soisy_Client::QUOTE_INSTALMENTS_AMOUNT,
-                    '{TOTAL_REPAID}' => $amountResponse->{'average'}->totalRepaid / 100,
-                    '{TAEG}' => $amountResponse->{'average'}->apr,
+                    '{TOTAL_REPAID}' => $amountResponse->{'median'}->totalRepaid / 100,
+                    '{TAEG}' => $amountResponse->{'median'}->apr,
                 );
 
                 wp_send_json(
                     array(
-                        'data' => strtr($this->settings['cart_loan_quote_text'], $variables),
+                        'data' => strtr(__('Cart loan quote text', 'soisy'), $variables),
                         'object' => Bitbull_Soisy_Gateway::CART_LOAN_QUOTE_CSS_CLASS
                     )
                 );
