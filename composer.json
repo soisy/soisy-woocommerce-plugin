@@ -2,7 +2,7 @@
     "repositories":[
         {"type": "vcs", "url": "git@bitbucket.org:bitbull/soisy-lib-php.git"}
     ],
-    "name": "bitbull/soisy-payment-woocommerce",
+    "name": "bitbull/soisy-woocommerce-plugin",
     "type": "wordpress-plugin",
     "authors": [
         {
