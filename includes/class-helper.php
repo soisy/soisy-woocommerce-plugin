@@ -14,9 +14,9 @@ class Helper
      * @param $order_total
      * @return bool
      */
-    public static function check_if_method_available_by_amount($order_total)
+    public static function isCorrectAmount($order_total)
     {
-       return (\Bitbull_Soisy_Client::MIN_AMOUNT * 100 <= $order_total) || ($order_total <= \Bitbull_Soisy_Client::MAX_AMOUNT * 100);
+        return ($order_total >= \Bitbull_Soisy_Client::MIN_AMOUNT) && ($order_total <= \Bitbull_Soisy_Client::MAX_AMOUNT);
     }
 
     public static function formatNumber(float $number): string
