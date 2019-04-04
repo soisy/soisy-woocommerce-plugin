@@ -1,11 +1,11 @@
 <?php
 /**
- * @category Bitbull
- * @package  Bitbull_Soisy
- * @author   Martins Saukums <martins.saukums@bitbull.it>
+ * @package  Soisy
  */
 
-namespace Bitbull_Soisy\Includes;
+namespace SoisyPlugin\Includes;
+
+use Soisy\Client;
 
 class Settings
 {
@@ -17,7 +17,7 @@ class Settings
     {
         $result = [];
 
-        for ($i = \Bitbull_Soisy_Client::MIN_INSTALMENTS; $i <= \Bitbull_Soisy_Client::MAX_INSTALMENTS; $i++) {
+        for ($i = Client::MIN_INSTALMENTS; $i <= Client::MAX_INSTALMENTS; $i++) {
             $result[$i] = $i;
         }
 

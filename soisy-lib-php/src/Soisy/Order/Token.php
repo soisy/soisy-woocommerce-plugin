@@ -1,10 +1,11 @@
 <?php
+
+namespace Soisy\Order;
+
 /**
- * @category Bitbull
- * @package  Bitbull_Soisy
- * @author   Gennaro Vietri <gennaro.vietri@bitbull.it>
+ * @package  Soisy
  */
-class Bitbull_Soisy_Order_Token
+class Token
 {
     protected $_response = null;
 

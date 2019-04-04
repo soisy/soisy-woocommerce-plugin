@@ -1,20 +1,18 @@
 <?php
 /**
- * @category Bitbull
- * @package  Bitbull_Soisy
- * @author   Martins Saukums <martins.saukums@bitbull.it>
+ * @package  Soisy
  */
 
-namespace Bitbull_Soisy\Includes\Checkout\Cart;
+namespace SoisyPlugin\Includes\Checkout\Cart;
 
-use Bitbull_Soisy\Includes\Helper;
-use Bitbull_Soisy\Includes\Log;
-use Bitbull_Soisy_Gateway;
+use SoisyPlugin\Includes\Helper;
+use SoisyPlugin\Includes\Log;
+use Gateway;
 
 class View {
 
     /**
-     * @var Bitbull_Soisy_Client
+     * @var Soisy_Client
      */
     protected $_client;
 
@@ -38,17 +36,17 @@ class View {
     {
         if (isset($_POST['price'])) {
             $this->init_payment_settings();
-            $this->_client = new \Bitbull_Soisy_Client($this->settings['shop_id'], $this->settings['api_key'], new Log(),(int)$this->settings['sandbox_mode']);
+            $this->_client = new \Client($this->settings['shop_id'], $this->settings['api_key'], new Log(),(int)$this->settings['sandbox_mode']);
             $loanAmount = $_POST['price']* 100;
             $amountResponse = $this->_client->getAmount(
                 [
                     'amount' => $loanAmount,
-                    'instalments' => \Bitbull_Soisy_Client::QUOTE_INSTALMENTS_AMOUNT,
+                    'instalments' => \Client::QUOTE_INSTALMENTS_AMOUNT,
                 ]);
             if ($amountResponse && isset($amountResponse->{'median'})) {
                 $variables = array(
                     '{INSTALMENT_AMOUNT}' => Helper::formatNumber($amountResponse->{'median'}->instalmentAmount / 100),
-                    '{INSTALMENT_PERIOD}' => \Bitbull_Soisy_Client::QUOTE_INSTALMENTS_AMOUNT,
+                    '{INSTALMENT_PERIOD}' => \Client::QUOTE_INSTALMENTS_AMOUNT,
                     '{TOTAL_REPAID}' => Helper::formatNumber($amountResponse->{'median'}->totalRepaid / 100),
                     '{TAEG}' => Helper::formatNumber($amountResponse->{'median'}->apr),
                 );
@@ -56,7 +54,7 @@ class View {
                 wp_send_json(
                     array(
                         'data' => strtr(__('Cart loan quote text', 'soisy'), $variables),
-                        'object' => Bitbull_Soisy_Gateway::CART_LOAN_QUOTE_CSS_CLASS
+                        'object' => Gateway::CART_LOAN_QUOTE_CSS_CLASS
                     )
                 );
             }
@@ -77,7 +75,7 @@ class View {
     protected function init_payment_settings()
     {
         if (!isset($this->settings)) {
-            $this->settings = get_option(\Bitbull_Soisy_Gateway::SETTINGS_OPTION_NAME, null);
+            $this->settings = get_option(Gateway::SETTINGS_OPTION_NAME, null);
         }
     }
 }

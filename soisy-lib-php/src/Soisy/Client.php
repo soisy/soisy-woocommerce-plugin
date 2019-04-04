@@ -1,11 +1,11 @@
 <?php
 
+namespace Soisy;
+
 /**
- * @category Bitbull
- * @package  Bitbull_Soisy
- * @author   Gennaro Vietri <gennaro.vietri@bitbull.it>
+ * @package  Soisy
  */
-class Bitbull_Soisy_Client
+class Client
 {
     const SANDBOX_SHOP_ID = 'partnershop';
     const SANDBOX_API_KEY = 'partnerkey';
@@ -86,17 +86,17 @@ class Bitbull_Soisy_Client
     protected $_response = null;
 
     /**
-     * @var Bitbull_Soisy_Log_LoggerInterface
+     * @var LoggerInterface
      */
     protected $_logger;
 
     /**
-     * @param string $shopId
-     * @param string $apiKey
-     * @param Bitbull_Soisy_Log_LoggerInterface $logger
-     * @param bool $sandboxMode
+     * @param string          $shopId
+     * @param string          $apiKey
+     * @param LoggerInterface $logger
+     * @param bool            $sandboxMode
      */
-    public function __construct($shopId, $apiKey, Bitbull_Soisy_Log_LoggerInterface $logger, $sandboxMode)
+    public function __construct($shopId, $apiKey, LoggerInterface $logger, $sandboxMode)
     {
         $this->_logger = $logger;
         $this->_sandboxMode = $sandboxMode;
@@ -127,13 +127,14 @@ class Bitbull_Soisy_Client
      * Perform a search for suggestions
      *
      * @param array $params
-     * @return Bitbull_Soisy_Order_Token
+     *
+     * @return Token
      */
     public function getToken(array $params)
     {
         $rawResponse = $this->_doRequest($this->_getOrderCreationUrl(), self::HTTP_METHOD_POST, $params);
 
-        $result = new Bitbull_Soisy_Order_Token();
+        $result = new Token();
         $result->setResponse($rawResponse);
 
         return $result;
@@ -174,7 +175,7 @@ class Bitbull_Soisy_Client
      * @param array $params
      * @param int $timeout
      * @return stdClass
-     * @throws Bitbull_Soisy_Exception
+     * @throws Soisy_Exception
      */
     protected function _doRequest($url, $httpMethod = self::HTTP_METHOD_GET, $params = [], $timeout = null)
     {
@@ -216,12 +217,12 @@ class Bitbull_Soisy_Client
         $this->_logger->debug("Raw response: " . print_r($output, true));
 
         if ($this->_isInvalidResponse($output)) {
-            throw new Bitbull_Soisy_Exception('cURL error = ' . $error, $errorNumber);
+            throw new Soisy_Exception('cURL error = ' . $error, $errorNumber);
         }
 
         if (200 != $httpStatusCode) {
             if ($this->_isInvalidErrorResponse($output)) {
-                throw new Bitbull_Soisy_Exception('Empty error response');
+                throw new Soisy_Exception('Empty error response');
             }
             $validationMessages = [];
             switch ($httpStatusCode) {
@@ -234,7 +235,7 @@ class Bitbull_Soisy_Client
                     $message = 'API unavailable, HTTP STATUS CODE = ' . $httpStatusCode;
             }
 
-            $e = new Bitbull_Soisy_Exception($message);
+            $e = new Soisy_Exception($message);
             $e->setValidationMessages($validationMessages);
 
             return $e->getValidationMessages();

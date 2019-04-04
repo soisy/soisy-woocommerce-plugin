@@ -4,4 +4,9 @@ set -e
 
 ./bin/install-wp-tests.sh soisy_test root soisy mysql 4.9
 
-echo -e "\e[32mInstallation completed.\e[0m"
+COLOR_GREEN="\e[32m"
+NO_COLOR="\e[0m"
+
+echo -e "$COLOR_GREEN"
+echo "Installation completed."
+echo -e "$NO_COLOR"

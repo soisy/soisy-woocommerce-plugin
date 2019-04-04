@@ -1,15 +1,11 @@
 <?php
-/**
- * @category Bitbull
- * @package  Bitbull_Soisy
- * @author   Martins Saukums <martins.saukums@bitbull.it>
- */
 
-namespace Bitbull_Soisy\Includes;
+namespace SoisyPlugin\Includes;
 
-//TODO : Need to implement real log to WC file.
+use Soisy\Exception;
+use Soisy\Log\LoggerInterface;
 
-class Log implements \Bitbull_Soisy_Log_LoggerInterface
+class Log implements LoggerInterface
 {
 
     /**
@@ -43,15 +39,15 @@ class Log implements \Bitbull_Soisy_Log_LoggerInterface
      */
     public function log($message, $level = null)
     {
-        $this->log->add( 'woocommerce-gateway-soisy', $message, $level);
+        $this->log->add('woocommerce-gateway-soisy', $message, $level);
     }
 
     /**
      * @param Exception $e
      */
-    public function logException(\Exception $e)
+    public function logException(Exception $e)
     {
-        $this->log->add( 'woocommerce-gateway-soisy', $e);
+        $this->log->add('woocommerce-gateway-soisy', $e);
     }
 
     /**
@@ -59,6 +55,6 @@ class Log implements \Bitbull_Soisy_Log_LoggerInterface
      */
     public function debug($message)
     {
-        $this->log->add( 'woocommerce-gateway-soisy', $message);
+        $this->log->add('woocommerce-gateway-soisy', $message);
     }
 }

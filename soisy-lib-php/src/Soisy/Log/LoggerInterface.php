@@ -1,10 +1,13 @@
 <?php
+
+namespace Soisy\Log;
+
+use Soisy\Exception;
+
 /**
- * @category Bitbull
- * @package  Bitbull_Soisy
- * @author   Gennaro Vietri <gennaro.vietri@bitbull.it>
+ * @package  Soisy
  */
-interface Bitbull_Soisy_Log_LoggerInterface
+interface LoggerInterface
 {
     /**
      * Retrieve Soisy Log File

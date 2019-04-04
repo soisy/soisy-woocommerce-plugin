@@ -1,10 +1,13 @@
 <?php
+
+namespace Soisy;
+
+use Exception as BaseException;
+
 /**
- * @category Bitbull
- * @package  Bitbull_Soisy
- * @author   Gennaro Vietri <gennaro.vietri@bitbull.it>
+ * @package  Soisy
 */
-class Bitbull_Soisy_Exception extends Exception
+class Exception extends BaseException
 {
     /**
      * @var array

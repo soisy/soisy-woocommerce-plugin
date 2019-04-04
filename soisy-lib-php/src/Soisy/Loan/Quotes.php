@@ -1,6 +1,10 @@
 <?php
 
-class Bitbull_Soisy_Loan_Quotes {
+namespace Soisy\Loan;
+
+class Quotes
+{
+
     protected $_response = null;
 
     public function __construct($response = null)
@@ -13,5 +17,10 @@ class Bitbull_Soisy_Loan_Quotes {
     public function setResponse($response)
     {
         $this->_response = $response;
+    }
+
+    public function getResponse()
+    {
+        return $this->_response;
     }
 }

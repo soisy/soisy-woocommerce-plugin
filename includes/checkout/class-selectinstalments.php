@@ -1,14 +1,13 @@
 <?php
 /**
- * @category Bitbull
- * @package  Bitbull_Soisy
- * @author   Martins Saukums <martins.saukums@bitbull.it>
+ * @package  Soisy
  */
 
-namespace Bitbull_Soisy\Includes\Checkout;
+namespace SoisyPlugin\Includes\Checkout;
 
-use Bitbull_Soisy\Includes\Helper;
-use Bitbull_Soisy\Includes\Log;
+use Gateway;
+use SoisyPlugin\Includes\Helper;
+use SoisyPlugin\Includes\Log;
 
 class SelectInstalments {
 
@@ -42,7 +41,7 @@ class SelectInstalments {
             $this->init_payment_settings();
 
             if (Helper::isCorrectAmount($loanAmount)) {
-                $this->_client = new \Bitbull_Soisy_Client($this->settings['shop_id'], $this->settings['api_key'], new Log(),(int)$this->settings['sandbox_mode']);
+                $this->_client = new \Client($this->settings['shop_id'], $this->settings['api_key'], new Log(),(int)$this->settings['sandbox_mode']);
                 $amountResponse = $this->_client->getAmount(
                     [
                         'amount' => $loanAmount,
@@ -72,7 +71,7 @@ class SelectInstalments {
     protected function init_payment_settings()
     {
         if (!isset($this->settings)) {
-            $this->settings = get_option(\Bitbull_Soisy_Gateway::SETTINGS_OPTION_NAME, null);
+            $this->settings = get_option(Gateway::SETTINGS_OPTION_NAME, null);
         }
     }
 }

@@ -19,7 +19,8 @@ if ((!defined('ABSPATH')) && (!in_array('woocommerce/woocommerce.php',
     exit;
 }
 
-use Bitbull_Soisy\Includes;
+use Soisy\Client;
+use SoisyPlugin\Includes;
 
 define('WC_SOISY_PLUGIN_PATH', untrailingslashit(plugin_dir_path(__FILE__)));
 
@@ -31,7 +32,7 @@ function woo_payment_gateway()
         return;
     }
 
-    class Bitbull_Soisy_Gateway extends WC_Payment_Gateway
+    class Gateway extends WC_Payment_Gateway
     {
         const LOAN_QUOTE_CSS_CLASS = 'woocommerce-soisy-product-amount';
         const CART_LOAN_QUOTE_CSS_CLASS = 'woocommerce-soisy-cart-amount';
@@ -50,7 +51,7 @@ function woo_payment_gateway()
         protected $client;
 
         /**
-         * Bitbull_Soisy_Gateway constructor.
+         * Soisy_Gateway constructor.
          */
         public function __construct()
         {
@@ -115,9 +116,9 @@ function woo_payment_gateway()
         public function payment_gateway_disable_by_amount($available_gateways)
         {
 
-            $order_total = WC_Payment_Gateway::get_order_total();
+            $order_total = Gateway::get_order_total();
 
-            if (isset($available_gateways['soisy']) && ((\Bitbull_Soisy_Client::MIN_AMOUNT > $order_total) || ($order_total >= \Bitbull_Soisy_Client::MAX_AMOUNT))) {
+            if (isset($available_gateways['soisy']) && ((Client::MIN_AMOUNT > $order_total) || ($order_total >= Client::MAX_AMOUNT))) {
                 unset($available_gateways['soisy']);
             }
 
@@ -129,7 +130,7 @@ function woo_payment_gateway()
          */
         public function init_form_fields()
         {
-            $this->form_fields = Includes\Settings::adminSettingsForm($this->settings);
+            $this->form_fields = Includes\Settings::adminSettingsForm();
         }
 
         /**
@@ -211,7 +212,7 @@ function woo_payment_gateway()
          **/
         public function process_payment($order_id)
         {
-            $this->client = new \Bitbull_Soisy_Client($this->settings['shop_id'], $this->settings['api_key'],
+            $this->client = new Client($this->settings['shop_id'], $this->settings['api_key'],
                 new Includes\Log(), (int)$this->settings['sandbox_mode']);
 
             $order = new WC_Order($order_id);
@@ -286,7 +287,7 @@ function woo_payment_gateway()
  */
 function woo_add_gateway_class($methods)
 {
-    $methods[] = 'Bitbull_Soisy_Gateway';
+    $methods[] = 'Gateway';
     return $methods;
 }
 
@@ -307,9 +308,9 @@ add_action( 'plugins_loaded', 'my_plugin_load_plugin_textdomain' );
  */
 function init_product_page()
 {
-    new Bitbull_Soisy\Includes\Product\View();
-    new Bitbull_Soisy\Includes\Checkout\Cart\View();
-    new Bitbull_Soisy\Includes\Checkout\SelectInstalments();
+    new \SoisyPlugin\Includes\Product\View();
+    new \SoisyPlugin\Includes\Checkout\Cart\View();
+    new \SoisyPlugin\Includes\Checkout\SelectInstalments();
 }
 
 add_action('plugins_loaded', 'init_product_page');

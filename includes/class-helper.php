@@ -1,11 +1,11 @@
 <?php
 /**
- * @category Bitbull
- * @package  Bitbull_Soisy
- * @author   Martins Saukums <martins.saukums@bitbull.it>
+ * @package  Soisy
  */
 
-namespace Bitbull_Soisy\Includes;
+namespace SoisyPlugin\Includes;
+
+use Soisy\Client;
 
 class Helper
 {
@@ -16,7 +16,7 @@ class Helper
      */
     public static function isCorrectAmount($order_total)
     {
-        return ($order_total >= \Bitbull_Soisy_Client::MIN_AMOUNT) && ($order_total <= \Bitbull_Soisy_Client::MAX_AMOUNT);
+        return ($order_total >= Client::MIN_AMOUNT) && ($order_total <= Client::MAX_AMOUNT);
     }
 
     public static function formatNumber(float $number): string

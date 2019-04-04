@@ -2,10 +2,7 @@
 /**
  * Soisy Loan block template.
  *
- * @category    Bitbull
- * @package     Bitbull_Soisy
- * @author      Martins Saukums <martins.saukums@bitbull.it>
- * @version     0.0.5
+ * @package     Soisy
  */
 if (!defined('ABSPATH')) exit; // Don't allow direct access
 
