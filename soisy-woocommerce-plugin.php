@@ -279,6 +279,11 @@ function woo_payment_gateway()
                 }
             }
         }
+
+        public function admin_enqueue_scripts()
+        {
+
+        }
     }
 }
 
