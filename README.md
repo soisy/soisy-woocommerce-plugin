@@ -16,7 +16,7 @@ $ bash INSTALL.sh
 
 ## Running PHPUnit tests
 
-Tests are stored inside `./tests/` directory. Every test file starts with `test-` prefix.  
+Tests are stored inside `./tests/` directory.  
  
 To run them all just do: 
 ```
