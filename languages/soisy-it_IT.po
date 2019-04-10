@@ -58,41 +58,17 @@ msgstr ""
 msgid "Instalment"
 msgstr "Rate"
 
-#: includes/class-settings.php:261
-msgid "Address"
-msgstr "Indirizzo"
-
-#: includes/class-settings.php:266
-msgid "Civic Number"
-msgstr "Numero civico"
-
-#: includes/class-settings.php:271
-msgid "Postcode / ZIP"
-msgstr "C.A.P."
-
-#: includes/class-settings.php:276
-msgid "City"
-msgstr "Città"
-
-#: includes/class-settings.php:281
-msgid "Province"
-msgstr "Prov"
-
-#: includes/class-settings.php:286
-msgid "Phone"
-msgstr "Telefono"
-
 #: includes/class-settings.php:291
 msgid "Fiscal Code"
 msgstr "Codice Fiscale"
 
 #: includes/class-settings.php:296
-msgid " I Agree submitting the info to Soisy page"
-msgstr "Accetto le info Soisy"
+msgid "I Agree submitting the info to Soisy page"
+msgstr "Confermo di aver letto ed accettato le condizioni di Privacy e Informative Soisy."
 
 #: includes/class-settings.php:296
-msgid "Reed more"
-msgstr "Leggi altro"
+msgid "Read Soisy Privacy"
+msgstr "Leggi Privacy Soisy"
 
 #: soisy-woocommerce-plugin.php:73
 msgid "WooCommerce Payment Gateway for Soisy.it"
