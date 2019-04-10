@@ -103,47 +103,20 @@ class Settings
                 'class' => array('form-row form-row-wide validate-required'),
                 'label' => __('Instalment','soisy'),
                 'options' => self::getInstalmentPeriod(),
-                'description' => ' '
-            ),
-            esc_attr($id) . '-address' => array(
-                'type' => 'text',
-                'class' => array('form-row form-row-wide validate-required'),
-                'label' => __('Address','soisy'),
-            ),
-            esc_attr($id) . '-civic-number' => array(
-                'type' => 'text',
-                'class' => array('form-row form-row-wide validate-required'),
-                'label' => __('Civic Number','soisy'),
-            ),
-            esc_attr($id) . '-postcode' => array(
-                'type' => 'text',
-                'class' => array('form-row form-row-wide validate-required'),
-                'label' => __('Postcode / ZIP','soisy'),
-            ),
-            esc_attr($id) . '-city' => array(
-                'type' => 'text',
-                'class' => array('form-row form-row-wide validate-required'),
-                'label' => __('City','soisy'),
-            ),
-            esc_attr($id) . '-province' => array(
-                'type' => 'state',
-                'class' => array('form-row form-row-wide validate-required'),
-                'label' => __('Province','soisy'),
-            ),
-            esc_attr($id) . '-phone' => array(
-                'type' => 'text',
-                'class' => array('form-row form-row-wide validate-required'),
-                'label' => __('Phone','soisy'),
+                'description' => ' ',
+                'required' => true,
             ),
             esc_attr($id) . '-fiscal-code' => array(
                 'type' => 'text',
                 'class' => array('form-row form-row-wide validate-required'),
                 'label' => __('Fiscal Code','soisy'),
+                'required' => true,
             ),
             esc_attr($id) . '-checkbox' => array(
                 'type' => 'checkbox',
                 'class' => array('form-row form-row-wide validate-required'),
-                'label' => __('I Agree submitting the info to Soisy page','soisy') . '  '  . "<a target='_blank' href='https://www.soisy.it/privacy-policy/'>". __('Read more','soisy') . "</a>",
+                'label' => __('I Agree submitting the info to Soisy page','soisy') . '  '  . "<a target='_blank' href='https://www.soisy.it/privacy-policy/'>". __('Read Soisy Privacy','soisy') . "</a>",
+                'required' => true,
             ),
         ];
     }

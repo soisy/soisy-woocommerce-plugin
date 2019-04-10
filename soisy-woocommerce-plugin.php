@@ -284,6 +284,11 @@ function woo_payment_gateway()
         {
 
         }
+
+        public function checkout_enqueue_scripts()
+        {
+
+        }
     }
 }
 
