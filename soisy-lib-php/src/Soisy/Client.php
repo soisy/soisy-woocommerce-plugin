@@ -95,14 +95,14 @@ class Client
 
     public function getAmount(array $params): \stdClass
     {
-        $rawResponse = $this->_doRequest($this->_getLoanQuoteUrl(), self::HTTP_METHOD_GET, $params);
+        $rawResponse = $this->doRequest($this->getLoanQuoteUrl(), self::HTTP_METHOD_GET, $params);
 
         return $rawResponse;
     }
 
     public function getToken(array $params): Token
     {
-        $rawResponse = $this->_doRequest($this->_getOrderCreationUrl(), self::HTTP_METHOD_POST, $params);
+        $rawResponse = $this->doRequest($this->getOrderCreationUrl(), self::HTTP_METHOD_POST, $params);
 
         $result = new Token();
         $result->setResponse($rawResponse);
@@ -110,22 +110,23 @@ class Client
         return $result;
     }
 
-    protected function _getOrderCreationUrl(): string
+    public function getRedirectUrl(string $token): string
     {
-        return $this->_getApiUrl() . '/' . self::PATH_ORDER_CREATION;
+        $baseUrl = $this->_webappBaseUrlArray[$this->_sandboxMode] ? $this->_webappBaseUrlArray[$this->_sandboxMode] : $this->_webappBaseUrlArray[0];
+        return $baseUrl . '/' . $this->_shopId . '#/loan-request?token=' . $token;
     }
 
-    protected function _getLoanQuoteUrl(): string
+    protected function getOrderCreationUrl(): string
     {
-        return $this->_getApiUrl() . '/' . self::PATH_LOAN_QUOTE;
+        return $this->getApiUrl() . '/' . self::PATH_ORDER_CREATION;
     }
 
-    public function getRedirectUrl($token): string
+    protected function getLoanQuoteUrl(): string
     {
-        return $this->_getRedirectUrl() . '/' . $this->_shopId . '#/loan-request?token=' . $token;
+        return $this->getApiUrl() . '/' . self::PATH_LOAN_QUOTE;
     }
 
-    protected function _doRequest(string $url, string $httpMethod = self::HTTP_METHOD_GET, array $params = [], int $timeout = null): \stdClass
+    protected function doRequest(string $url, string $httpMethod = self::HTTP_METHOD_GET, array $params = [], int $timeout = null): \stdClass
     {
         $ch = curl_init();
 
@@ -208,19 +209,10 @@ class Client
             || !is_object($response);
     }
 
-
-    /**
-     * @return mixed|null
-     */
-    protected function _getRedirectUrl()
-    {
-        return ($this->_webappBaseUrlArray[$this->_sandboxMode]) ? $this->_webappBaseUrlArray[$this->_sandboxMode] : $this->_webappBaseUrlArray[0];
-    }
-
     /**
      * @return mixed
      */
-    protected function _getApiUrl()
+    protected function getApiUrl()
     {
         $url = ($this->_apiBaseUrlArray[$this->_sandboxMode]) ? $this->_apiBaseUrlArray[$this->_sandboxMode] : $this->_apiBaseUrlArray[0];
 
