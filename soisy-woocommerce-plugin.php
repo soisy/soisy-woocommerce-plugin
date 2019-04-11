@@ -177,7 +177,7 @@ function woo_payment_gateway()
             <fieldset id="<?php echo esc_attr($this->id); ?>-soisy-form" class='wc-check-form wc-payment-form'>
                 <?php do_action('woocommerce_echeck_form_start', $this->id); ?>
                 <?php
-                foreach (Includes\Settings::checkoutForm($this->id, $this->settings) as $key => $field) :
+                foreach (Includes\Settings::checkoutForm($this->id) as $key => $field) :
                     woocommerce_form_field($key, $field,
                         Includes\Settings::getCheckoutFormFieldValueByKey($this->id, $key));
                 endforeach; ?>

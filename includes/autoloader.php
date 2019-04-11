@@ -22,13 +22,11 @@ function soisy_payment_autoload($wantedClass)
 
     $filesToLoad = [
         __DIR__ . '/class-helper.php',
-        __DIR__ . '/class-log.php',
         __DIR__ . '/class-settings.php',
         __DIR__ . '/product/class-view.php',
         __DIR__ . '/checkout/cart/class-view.php',
         __DIR__ . '/checkout/class-selectinstalments.php',
         __DIR__ . '/../soisy-lib-php/src/Soisy/Loan/Quotes.php',
-        __DIR__ . '/../soisy-lib-php/src/Soisy/Log/LoggerInterface.php',
         __DIR__ . '/../soisy-lib-php/src/Soisy/Order/Token.php',
         __DIR__ . '/../soisy-lib-php/src/Soisy/Client.php',
         __DIR__ . '/../soisy-lib-php/src/Soisy/Exception.php',

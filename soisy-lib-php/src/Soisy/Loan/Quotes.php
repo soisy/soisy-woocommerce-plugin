@@ -5,6 +5,7 @@ namespace Soisy\Loan;
 class Quotes
 {
 
+    /** @var null|mixed */
     protected $_response = null;
 
     public function __construct($response = null)
@@ -19,6 +20,9 @@ class Quotes
         $this->_response = $response;
     }
 
+    /**
+     * @return mixed
+     */
     public function getResponse()
     {
         return $this->_response;

@@ -7,12 +7,11 @@ namespace SoisyPlugin\Includes\Product;
 
 use Soisy\Client;
 use SoisyPlugin\Includes\Helper;
-use SoisyPlugin\Includes\Log;
-use Gateway;
 use SoisyPlugin\Includes\Settings;
 
 class View
 {
+
     /**
      * @var Client
      */
@@ -20,6 +19,7 @@ class View
 
     /**
      * Soisy Setting values.
+     *
      * @var array
      */
     protected $settings;
@@ -48,12 +48,11 @@ class View
                 (bool)$this->settings['sandbox_mode']
             );
 
-            $loanAmount = $_POST['price'] * 100;
-            $amountResponse = $this->_client->getAmount(
-                [
-                    'amount' => $loanAmount,
-                    'instalments' => Client::QUOTE_INSTALMENTS_AMOUNT,
-                ]);
+            $loanAmount     = $_POST['price'] * 100;
+            $amountResponse = $this->_client->getAmount([
+                'amount'      => $loanAmount,
+                'instalments' => Client::QUOTE_INSTALMENTS_AMOUNT,
+            ]);
             if ($amountResponse && isset($amountResponse->median)) {
                 $variables = array(
                     '{INSTALMENT_AMOUNT}' => Helper::formatNumber($amountResponse->median->instalmentAmount / 100),
@@ -64,7 +63,7 @@ class View
 
                 wp_send_json(
                     array(
-                        'data' => strtr(__('Loan quote text', 'soisy'), $variables),
+                        'data'   => strtr(__('Loan quote text', 'soisy'), $variables),
                         'object' => Settings::LOAN_QUOTE_CSS_CLASS
                     )
                 );

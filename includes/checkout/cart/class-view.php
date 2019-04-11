@@ -7,11 +7,10 @@ namespace SoisyPlugin\Includes\Checkout\Cart;
 
 use Soisy\Client;
 use SoisyPlugin\Includes\Helper;
-use SoisyPlugin\Includes\Log;
-use Gateway;
 use SoisyPlugin\Includes\Settings;
 
-class View {
+class View
+{
 
     /**
      * @var Soisy_Client
@@ -20,6 +19,7 @@ class View {
 
     /**
      * Soisy Setting values.
+     *
      * @var array
      */
     protected $settings;
@@ -28,7 +28,7 @@ class View {
     {
         add_action('wp_ajax_soisy_cart_loan_info_block', array(&$this, 'soisy_cart_loan_info_block'));
         add_action('wp_ajax_nopriv_soisy_cart_loan_info_block', array(&$this, 'soisy_cart_loan_info_block'));
-        add_action( 'woocommerce_before_cart_table',  array(&$this, 'add_soisy_script_to_cart_view'), 50);
+        add_action('woocommerce_before_cart_table', array(&$this, 'add_soisy_script_to_cart_view'), 50);
     }
 
     /**
@@ -44,23 +44,22 @@ class View {
                 (bool)$this->settings['sandbox_mode']
             );
 
-            $loanAmount = $_POST['price']* 100;
-            $amountResponse = $this->_client->getAmount(
-                [
-                    'amount' => $loanAmount,
-                    'instalments' => \Client::QUOTE_INSTALMENTS_AMOUNT,
-                ]);
+            $loanAmount     = $_POST['price'] * 100;
+            $amountResponse = $this->_client->getAmount([
+                'amount'      => $loanAmount,
+                'instalments' => Client::QUOTE_INSTALMENTS_AMOUNT,
+            ]);
             if ($amountResponse && isset($amountResponse->median)) {
                 $variables = array(
                     '{INSTALMENT_AMOUNT}' => Helper::formatNumber($amountResponse->median->instalmentAmount / 100),
-                    '{INSTALMENT_PERIOD}' => \Client::QUOTE_INSTALMENTS_AMOUNT,
-                    '{TOTAL_REPAID}' => Helper::formatNumber($amountResponse->median->totalRepaid / 100),
-                    '{TAEG}' => Helper::formatNumber($amountResponse->median->apr),
+                    '{INSTALMENT_PERIOD}' => Client::QUOTE_INSTALMENTS_AMOUNT,
+                    '{TOTAL_REPAID}'      => Helper::formatNumber($amountResponse->median->totalRepaid / 100),
+                    '{TAEG}'              => Helper::formatNumber($amountResponse->median->apr),
                 );
 
                 wp_send_json(
                     array(
-                        'data' => strtr(__('Cart loan quote text', 'soisy'), $variables),
+                        'data'   => strtr(__('Cart loan quote text', 'soisy'), $variables),
                         'object' => Settings::CART_LOAN_QUOTE_CSS_CLASS
                     )
                 );
