@@ -6,8 +6,10 @@
 namespace SoisyPlugin\Includes\Checkout;
 
 use Gateway;
+use Soisy\Client;
 use SoisyPlugin\Includes\Helper;
 use SoisyPlugin\Includes\Log;
+use SoisyPlugin\Includes\Settings;
 
 class SelectInstalments {
 
@@ -41,20 +43,25 @@ class SelectInstalments {
             $this->init_payment_settings();
 
             if (Helper::isCorrectAmount($loanAmount)) {
-                $this->_client = new \Client($this->settings['shop_id'], $this->settings['api_key'], new Log(),(int)$this->settings['sandbox_mode']);
+                $this->_client = new Client(
+                    $this->settings['shop_id'],
+                    $this->settings['api_key'],
+                    (bool)$this->settings['sandbox_mode']
+                );
+
                 $amountResponse = $this->_client->getAmount(
                     [
                         'amount' => $loanAmount,
                         'instalments' => $instalments,
                     ]);
 
-                if ($amountResponse && isset($amountResponse->{'median'})) {
+                if ($amountResponse && isset($amountResponse->median)) {
 
                     $variables = array(
-                        'instalment_amount' => wc_price($amountResponse->{'median'}->instalmentAmount / 100),
+                        'instalment_amount' => wc_price($amountResponse->median->instalmentAmount / 100),
                         'instalments_period' => wc_price($instalments),
-                        'total_repaid' => wc_price($amountResponse->{'median'}->totalRepaid / 100),
-                        'taeg' => wc_price($amountResponse->{'median'}->apr),
+                        'total_repaid' => wc_price($amountResponse->median->totalRepaid / 100),
+                        'taeg' => wc_price($amountResponse->median->apr),
                     );
 
                     wp_send_json($variables);
@@ -71,7 +78,7 @@ class SelectInstalments {
     protected function init_payment_settings()
     {
         if (!isset($this->settings)) {
-            $this->settings = get_option(Gateway::SETTINGS_OPTION_NAME, null);
+            $this->settings = get_option(Settings::OPTION_NAME, null);
         }
     }
 }

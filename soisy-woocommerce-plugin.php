@@ -34,12 +34,6 @@ function woo_payment_gateway()
 
     class Gateway extends WC_Payment_Gateway
     {
-        const LOAN_QUOTE_CSS_CLASS = 'woocommerce-soisy-product-amount';
-        const CART_LOAN_QUOTE_CSS_CLASS = 'woocommerce-soisy-cart-amount';
-
-        const SETTINGS_OPTION_NAME = 'woocommerce_soisy_settings';
-        const INSTALMENT_TABLE_OPTION_NAME = self::SETTINGS_OPTION_NAME . '_instalment_table';
-
         /**
          * @var array $available_country ;
          */
@@ -212,8 +206,11 @@ function woo_payment_gateway()
          **/
         public function process_payment($order_id)
         {
-            $this->client = new Client($this->settings['shop_id'], $this->settings['api_key'],
-                new Includes\Log(), (int)$this->settings['sandbox_mode']);
+            $this->client = new Client(
+                    $this->settings['shop_id'],
+                    $this->settings['api_key'],
+                    (bool)$this->settings['sandbox_mode']
+            );
 
             $order = new WC_Order($order_id);
 

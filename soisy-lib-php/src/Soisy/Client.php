@@ -2,13 +2,14 @@
 
 namespace Soisy;
 
-use Soisy\Log\LoggerInterface;
+use Soisy\Order\Token;
 
 /**
  * @package  Soisy
  */
 class Client
 {
+
     const SANDBOX_SHOP_ID = 'partnershop';
     const SANDBOX_API_KEY = 'partnerkey';
 
@@ -26,8 +27,6 @@ class Client
     const PATH_LOAN_QUOTE = 'loan-quotes';
 
     /**
-     * Base url for API calls
-     *
      * @var array
      */
     protected $_apiBaseUrlArray = [
@@ -36,8 +35,6 @@ class Client
     ];
 
     /**
-     * Base url for Soisy webapp
-     *
      * @var array
      */
     protected $_webappBaseUrlArray = [
@@ -46,22 +43,16 @@ class Client
     ];
 
     /**
-     * Sandbox mode on/of
-     *
      * @var bool
      */
     protected $_sandboxMode;
 
     /**
-     * API key
-     *
      * @var string
      */
     protected $_apiKey;
 
     /**
-     * Shop ID
-     *
      * @var string
      */
     protected $_shopId;
@@ -83,24 +74,12 @@ class Client
     protected $_timeout = 4000;
 
     /**
-     * @var stdClass
+     * @var \stdClass
      */
     protected $_response = null;
 
-    /**
-     * @var LoggerInterface
-     */
-    protected $_logger;
-
-    /**
-     * @param string          $shopId
-     * @param string          $apiKey
-     * @param LoggerInterface $logger
-     * @param bool            $sandboxMode
-     */
-    public function __construct($shopId, $apiKey, LoggerInterface $logger, $sandboxMode)
+    public function __construct(?string $shopId, ?string $apiKey, bool $sandboxMode)
     {
-        $this->_logger = $logger;
         $this->_sandboxMode = $sandboxMode;
 
         if ($sandboxMode) {
@@ -114,25 +93,14 @@ class Client
         $this->_apiKey = $apiKey;
     }
 
-    /**
-     * @param array $params
-     * @return stdClass
-     */
-    public function getAmount(array $params)
+    public function getAmount(array $params): \stdClass
     {
         $rawResponse = $this->_doRequest($this->_getLoanQuoteUrl(), self::HTTP_METHOD_GET, $params);
 
         return $rawResponse;
     }
 
-    /**
-     * Perform a search for suggestions
-     *
-     * @param array $params
-     *
-     * @return Token
-     */
-    public function getToken(array $params)
+    public function getToken(array $params): Token
     {
         $rawResponse = $this->_doRequest($this->_getOrderCreationUrl(), self::HTTP_METHOD_POST, $params);
 
@@ -142,48 +110,23 @@ class Client
         return $result;
     }
 
-    /**
-     * @return string
-     */
-    protected function _getOrderCreationUrl()
+    protected function _getOrderCreationUrl(): string
     {
         return $this->_getApiUrl() . '/' . self::PATH_ORDER_CREATION;
     }
 
-    /**
-     * @return string
-     */
-    protected function _getLoanQuoteUrl()
+    protected function _getLoanQuoteUrl(): string
     {
         return $this->_getApiUrl() . '/' . self::PATH_LOAN_QUOTE;
     }
 
-    /**
-     * Build and return the redirect url
-     *
-     * @param string $token
-     * @return string
-     */
-    public function getRedirectUrl($token)
+    public function getRedirectUrl($token): string
     {
         return $this->_getRedirectUrl() . '/' . $this->_shopId . '#/loan-request?token=' . $token;
     }
 
-    /**
-     * Build and execute request via CURL.
-     *
-     * @param string $url
-     * @param string $httpMethod
-     * @param array $params
-     * @param int $timeout
-     * @return stdClass
-     * @throws Soisy_Exception
-     */
-    protected function _doRequest($url, $httpMethod = self::HTTP_METHOD_GET, $params = [], $timeout = null)
+    protected function _doRequest(string $url, string $httpMethod = self::HTTP_METHOD_GET, array $params = [], int $timeout = null): \stdClass
     {
-        $this->_logger->debug("Performing API request to url: " . $url . " with method: " . $httpMethod);
-        $this->_logger->debug("Params: " . print_r($params, true));
-
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -206,30 +149,25 @@ class Client
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 
-        $output = json_decode(curl_exec($ch));
+        $output         = json_decode(curl_exec($ch));
         $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $error = curl_error($ch);
-        $errorNumber = curl_errno($ch);
+        $error          = curl_error($ch);
+        $errorNumber    = curl_errno($ch);
 
         curl_close($ch);
 
-        $this->_logger->debug("HTTP Status Code: " . $httpStatusCode);
-        $this->_logger->debug("Curl Error: " . $error);
-        $this->_logger->debug("Curl Error Numbre: " . $errorNumber);
-        $this->_logger->debug("Raw response: " . print_r($output, true));
-
         if ($this->_isInvalidResponse($output)) {
-            throw new Soisy_Exception('cURL error = ' . $error, $errorNumber);
+            throw new Exception('cURL error = ' . $error, $errorNumber);
         }
 
         if (200 != $httpStatusCode) {
             if ($this->_isInvalidErrorResponse($output)) {
-                throw new Soisy_Exception('Empty error response');
+                throw new Exception('Empty error response');
             }
             $validationMessages = [];
             switch ($httpStatusCode) {
                 case 400:
-                    $message = 'Some fields contains errors';
+                    $message            = 'Some fields contains errors';
                     $validationMessages = $this->_parseValidationMessages($output);
                     break;
 
@@ -237,7 +175,7 @@ class Client
                     $message = 'API unavailable, HTTP STATUS CODE = ' . $httpStatusCode;
             }
 
-            $e = new Soisy_Exception($message);
+            $e = new Exception($message);
             $e->setValidationMessages($validationMessages);
 
             return $e->getValidationMessages();
@@ -246,11 +184,7 @@ class Client
         return $output;
     }
 
-    /**
-     * @param string $response
-     * @return array
-     */
-    protected function _parseValidationMessages($response)
+    protected function _parseValidationMessages(string $response): array
     {
         $validationMessages = [];
         foreach ($response->errors as $field => $errors) {
@@ -262,20 +196,13 @@ class Client
         return $validationMessages;
     }
 
-    /**
-     * @param $response
-     * @return bool
-     */
-    protected function _isInvalidErrorResponse($response)
+    protected function _isInvalidErrorResponse($response): bool
     {
         return (!isset($response->errors));
     }
 
-    /**
-     * @param $response
-     * @return bool
-     */
-    protected function _isInvalidResponse($response)
+
+    protected function _isInvalidResponse($response): bool
     {
         return empty($response)
             || !is_object($response);
@@ -283,8 +210,6 @@ class Client
 
 
     /**
-     * Get redirect url
-     *
      * @return mixed|null
      */
     protected function _getRedirectUrl()
@@ -293,8 +218,6 @@ class Client
     }
 
     /**
-     * Get API url
-     *
      * @return mixed
      */
     protected function _getApiUrl()

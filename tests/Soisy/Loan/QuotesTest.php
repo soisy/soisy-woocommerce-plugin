@@ -18,6 +18,17 @@ class QuotesTest extends WP_Ajax_UnitTestCase
      */
     public function ajax_call()
     {
-        $this->_handleAjax('soisy_product_loan_info_block');
+        $this->_setRole( 'administrator' );
+
+        $_POST['_nonce'] = wp_create_nonce('soisy_product_loan_info_block');
+        $_POST['price'] = 655;
+
+        try {
+            $result = $this->_handleAjax('soisy_product_loan_info_block');
+
+            $this->assertEquals('-', $result);
+        } catch (WPAjaxDieStopException $e) {
+            die($e->getMessage());
+        }
     }
 }
