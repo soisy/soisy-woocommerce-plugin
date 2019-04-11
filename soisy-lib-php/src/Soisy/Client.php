@@ -2,6 +2,8 @@
 
 namespace Soisy;
 
+use Soisy\Log\LoggerInterface;
+
 /**
  * @package  Soisy
  */

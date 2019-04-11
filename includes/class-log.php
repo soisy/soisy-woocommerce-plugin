@@ -8,17 +8,14 @@ use Soisy\Log\LoggerInterface;
 class Log implements LoggerInterface
 {
 
-    /**
-     * @var WC_Logger
-     */
     protected $log;
 
     /**
      * Log constructor.
      */
-    public function __construct()
+    public function __construct($logger)
     {
-        $this->log = new \WC_Logger();
+        $this->log = $logger;
     }
 
     /**
