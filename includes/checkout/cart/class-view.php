@@ -26,9 +26,9 @@ class View
 
     public function __construct()
     {
-        add_action('wp_ajax_soisy_cart_loan_info_block', array(&$this, 'soisy_cart_loan_info_block'));
-        add_action('wp_ajax_nopriv_soisy_cart_loan_info_block', array(&$this, 'soisy_cart_loan_info_block'));
-        add_action('woocommerce_before_cart_table', array(&$this, 'add_soisy_script_to_cart_view'), 50);
+        add_action('wp_ajax_soisy_cart_loan_info_block', [&$this, 'soisy_cart_loan_info_block']);
+        add_action('wp_ajax_nopriv_soisy_cart_loan_info_block', [&$this, 'soisy_cart_loan_info_block']);
+        add_action('woocommerce_before_cart_table', [&$this, 'add_soisy_script_to_cart_view'], 50);
     }
 
     /**

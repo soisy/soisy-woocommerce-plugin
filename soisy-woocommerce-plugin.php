@@ -34,10 +34,11 @@ function woo_payment_gateway()
 
     class Gateway extends WC_Payment_Gateway
     {
+
         /**
          * @var array $available_country ;
          */
-        protected $available_country = [ 'IT' ];
+        protected $available_country = ['IT'];
 
         /**
          * @var $client ;
@@ -49,44 +50,45 @@ function woo_payment_gateway()
          */
         public function __construct()
         {
-            $plugin_dir = plugin_dir_url(__FILE__);
-            $this->id = 'soisy';
+            $plugin_dir         = plugin_dir_url(__FILE__);
+            $this->id           = 'soisy';
             $this->method_title = __('Soisy', 'soisy');
-            $this->icon = apply_filters('woocommerce_Soisy_icon', '' . $plugin_dir .'/assets/images/'  . 'logo-soisy-min.png');
+            $this->icon         = apply_filters('woocommerce_Soisy_icon', '' . $plugin_dir . '/assets/images/' . 'logo-soisy-min.png');
 
-            $this->supports = array('soisy_payment_form');
-            $this->has_fields = true;
-            $this->form_fields = array();
+            $this->supports    = ['soisy_payment_form'];
+            $this->has_fields  = true;
+            $this->form_fields = [];
 
             $this->init_form_fields();
             $this->init_settings();
 
-            $this->title = __('Soisy', 'soisy');
-            $this->method_title = __('Soisy', 'soisy');
+            $this->title              = __('Soisy', 'soisy');
+            $this->method_title       = __('Soisy', 'soisy');
             $this->method_description = __('WooCommerce Payment Gateway for Soisy.it', 'soisy');
-            $this->success_message = "Thanks for choosing Soisy";
-            $this->msg['message'] = "";
-            $this->msg['class'] = "";
+            $this->success_message    = "Thanks for choosing Soisy";
+            $this->msg['message']     = "";
+            $this->msg['class']       = "";
 
-            add_filter('woocommerce_available_payment_gateways', array(&$this, 'payment_gateway_disable_country'));
+            add_filter('woocommerce_available_payment_gateways', [&$this, 'payment_gateway_disable_country']);
 
-            add_filter('woocommerce_available_payment_gateways', array(&$this, 'payment_gateway_disable_by_amount'));
+            add_filter('woocommerce_available_payment_gateways', [&$this, 'payment_gateway_disable_by_amount']);
 
             if (version_compare(WOOCOMMERCE_VERSION, '2.0.0', '>=')) {
-                add_action('woocommerce_update_options_payment_gateways_' . $this->id,
-                    array(&$this, 'process_admin_options'));
+                add_action('woocommerce_update_options_payment_gateways_' . $this->id, [&$this, 'process_admin_options']);
             } else {
-                add_action('woocommerce_update_options_payment_gateways', array(&$this, 'process_admin_options'));
+                add_action('woocommerce_update_options_payment_gateways', [&$this, 'process_admin_options']);
             }
 
             // Hooks
-            add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
-            add_action( 'woocommerce_after_checkout_form', array(&$this, 'checkout_enqueue_scripts'));
+            add_action('admin_enqueue_scripts', [$this, 'admin_enqueue_scripts']);
+            add_action('woocommerce_after_checkout_form', [&$this, 'checkout_enqueue_scripts']);
         }
 
         /**
          * Check if payment available in client billing country
+         *
          * @param $available_gateways
+         *
          * @return mixed
          */
         public function payment_gateway_disable_country($available_gateways)
@@ -104,7 +106,9 @@ function woo_payment_gateway()
 
         /**
          * Check if Soisy available min/max available amount
+         *
          * @param $available_gateways
+         *
          * @return mixed
          */
         public function payment_gateway_disable_by_amount($available_gateways)
@@ -167,6 +171,7 @@ function woo_payment_gateway()
 
         /**
          * Outputs fields for entering Soisy information.
+         *
          * @since 2.6.0
          */
         public function form()
@@ -207,9 +212,9 @@ function woo_payment_gateway()
         public function process_payment($order_id)
         {
             $this->client = new Client(
-                    $this->settings['shop_id'],
-                    $this->settings['api_key'],
-                    $this->settings['sandbox_mode']
+                $this->settings['shop_id'],
+                $this->settings['api_key'],
+                $this->settings['sandbox_mode']
             );
 
             $order = new WC_Order($order_id);
@@ -217,16 +222,16 @@ function woo_payment_gateway()
             $amount = WC()->cart->total * 100;
 
             $params = [
-                'email' => $order->get_billing_email(),
-                'amount' => $amount,
-                'lastname' => $order->get_billing_last_name(),
-                'firstname' => $order->get_billing_first_name(),
-                'fiscalCode' => $_POST['soisy-fiscal-code'],
+                'email'       => $order->get_billing_email(),
+                'amount'      => $amount,
+                'lastname'    => $order->get_billing_last_name(),
+                'firstname'   => $order->get_billing_first_name(),
+                'fiscalCode'  => $_POST['soisy-fiscal-code'],
                 'mobilePhone' => $_POST['soisy-phone'],
-                'city' => $_POST['soisy-city'],
-                'address' => $_POST['soisy-address'],
-                'province' => $_POST['soisy-province'],
-                'postalCode' => $_POST['soisy-postcode'],
+                'city'        => $_POST['soisy-city'],
+                'address'     => $_POST['soisy-address'],
+                'province'    => $_POST['soisy-province'],
+                'postalCode'  => $_POST['soisy-postcode'],
                 'civicNumber' => $_POST['soisy-civic-number'],
                 'instalments' => $_POST['soisy-instalment'],
             ];
@@ -244,10 +249,10 @@ function woo_payment_gateway()
                     unset($_SESSION['order_awaiting_payment']);
                 }
 
-                return array(
-                    'result' => 'success',
-                    'redirect' => $this->client->getRedirectUrl(WC()->session->get('soisy_token'))
-                );
+                return [
+                    'result'   => 'success',
+                    'redirect' => $this->client->getRedirectUrl(WC()->session->get('soisy_token')),
+                ];
             } else {
 
                 $order->add_order_note('Payment failed');
@@ -295,6 +300,7 @@ function woo_payment_gateway()
 function woo_add_gateway_class($methods)
 {
     $methods[] = 'Gateway';
+
     return $methods;
 }
 
@@ -303,11 +309,12 @@ add_filter('woocommerce_payment_gateways', 'woo_add_gateway_class');
 add_action('plugins_loaded', 'woo_payment_gateway', 0);
 
 
-function my_plugin_load_plugin_textdomain() {
-    load_plugin_textdomain( 'soisy', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
+function my_plugin_load_plugin_textdomain()
+{
+    load_plugin_textdomain('soisy', false, basename(dirname(__FILE__)) . '/languages/');
 }
-add_action( 'plugins_loaded', 'my_plugin_load_plugin_textdomain' );
 
+add_action('plugins_loaded', 'my_plugin_load_plugin_textdomain');
 
 
 /**

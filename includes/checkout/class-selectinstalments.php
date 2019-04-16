@@ -27,8 +27,8 @@ class SelectInstalments
      */
     public function __construct()
     {
-        add_action('wp_ajax_soisy_instalment_total_info_block', array(&$this, 'soisy_instalment_total_info_block'));
-        add_action('wp_ajax_nopriv_soisy_instalment_total_info_block', array(&$this, 'soisy_instalment_total_info_block'));
+        add_action('wp_ajax_soisy_instalment_total_info_block', [&$this, 'soisy_instalment_total_info_block']);
+        add_action('wp_ajax_nopriv_soisy_instalment_total_info_block', [&$this, 'soisy_instalment_total_info_block']);
     }
 
     /**
@@ -55,12 +55,12 @@ class SelectInstalments
 
                 if ($amountResponse && isset($amountResponse->median)) {
 
-                    $variables = array(
+                    $variables = [
                         'instalment_amount'  => wc_price($amountResponse->median->instalmentAmount / 100),
                         'instalments_period' => wc_price($instalments),
                         'total_repaid'       => wc_price($amountResponse->median->totalRepaid / 100),
                         'taeg'               => wc_price($amountResponse->median->apr),
-                    );
+                    ];
 
                     wp_send_json($variables);
                 }

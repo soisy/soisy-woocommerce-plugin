@@ -40,38 +40,35 @@ class Settings
      */
     static function adminSettingsForm()
     {
-        return array(
-            'enabled' => array(
+        return [
+            'enabled' => [
                 'title'   => __('Enable', 'soisy'),
                 'type'    => 'checkbox',
                 'label'   => __('Enable Soisy payment', 'soisy'),
                 'default' => 'yes'
-            ),
-
-            'sandbox_mode' => array(
+            ],
+            'sandbox_mode' => [
                 'title'    => __('Sandbox mode', 'soisy'),
                 'type'     => 'select',
                 'default'  => 'median',
                 'class'    => 'wc-enhanced-select',
                 'desc_tip' => true,
-                'options'  => array(
+                'options'  => [
                     0 => __('No', 'woocommerce'),
                     1 => __('Yes', 'woocommerce')
-                ),
-            ),
-
-            'shop_id' => array(
+                ],
+            ],
+            'shop_id' => [
                 'title'    => __('Shop ID', 'soisy'),
                 'type'     => 'text',
                 'desc_tip' => true,
-            ),
-
-            'api_key' => array(
+            ],
+            'api_key' => [
                 'title'   => __('API key', 'soisy'),
                 'type'    => 'text',
-                'default' => ''
-            )
-        );
+                'default' => '',
+            ],
+        ];
     }
 
     /**
@@ -110,26 +107,26 @@ class Settings
     {
 
         return [
-            esc_attr($id) . '-instalment'  => array(
+            esc_attr($id) . '-instalment'  => [
                 'type'        => 'select',
-                'class'       => array('form-row form-row-wide validate-required'),
+                'class'       => ['form-row form-row-wide validate-required'],
                 'label'       => __('Instalment', 'soisy'),
                 'options'     => self::getInstalmentPeriod(),
                 'description' => ' ',
                 'required'    => true,
-            ),
-            esc_attr($id) . '-fiscal-code' => array(
+            ],
+            esc_attr($id) . '-fiscal-code' => [
                 'type'     => 'text',
-                'class'    => array('form-row form-row-wide validate-required'),
+                'class'    => ['form-row form-row-wide validate-required'],
                 'label'    => __('Fiscal Code', 'soisy'),
                 'required' => true,
-            ),
-            esc_attr($id) . '-checkbox'    => array(
+            ],
+            esc_attr($id) . '-checkbox'    => [
                 'type'     => 'checkbox',
-                'class'    => array('form-row form-row-wide validate-required'),
+                'class'    => ['form-row form-row-wide validate-required'],
                 'label'    => __('I Agree submitting the info to Soisy page', 'soisy') . '  ' . "<a target='_blank' href='https://www.soisy.it/privacy-policy/'>" . __('Read Soisy Privacy', 'soisy') . "</a>",
                 'required' => true,
-            ),
+            ],
         ];
     }
 }
