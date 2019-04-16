@@ -209,7 +209,7 @@ function woo_payment_gateway()
             $this->client = new Client(
                     $this->settings['shop_id'],
                     $this->settings['api_key'],
-                    (bool)$this->settings['sandbox_mode']
+                    $this->settings['sandbox_mode']
             );
 
             $order = new WC_Order($order_id);
@@ -237,7 +237,7 @@ function woo_payment_gateway()
                 WC()->session->set('soisy_token', $tokenResponse->getToken());
 
                 if ($order->status != 'completed') {
-                    $order->payment_complete();
+                    $order->update_status('on-hold');
                     WC()->cart->empty_cart();
 
                     $order->add_order_note($this->success_message . ' Transaction ID: ');

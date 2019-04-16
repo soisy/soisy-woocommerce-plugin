@@ -78,19 +78,19 @@ class Client
      */
     protected $_response = null;
 
-    public function __construct(?string $shopId, ?string $apiKey, bool $sandboxMode)
+    public function __construct(?string $shopId, ?string $apiKey, $sandboxMode = true)
     {
-        $this->_sandboxMode = $sandboxMode;
-
-        if ($sandboxMode) {
-            $this->_shopId = self::SANDBOX_SHOP_ID;
-            $this->_apiKey = self::SANDBOX_API_KEY;
+        if ($this->isSandboxModeWanted($sandboxMode)) {
+            $this->_sandboxMode = true;
+            $this->_shopId      = self::SANDBOX_SHOP_ID;
+            $this->_apiKey      = self::SANDBOX_API_KEY;
 
             return;
         }
 
-        $this->_shopId = $shopId;
-        $this->_apiKey = $apiKey;
+        $this->_sandboxMode = $sandboxMode;
+        $this->_shopId      = $shopId;
+        $this->_apiKey      = $apiKey;
     }
 
     public function getAmount(array $params): \stdClass
@@ -113,6 +113,7 @@ class Client
     public function getRedirectUrl(string $token): string
     {
         $baseUrl = $this->_webappBaseUrlArray[$this->_sandboxMode] ? $this->_webappBaseUrlArray[$this->_sandboxMode] : $this->_webappBaseUrlArray[0];
+
         return $baseUrl . '/' . $this->_shopId . '#/loan-request?token=' . $token;
     }
 
@@ -217,5 +218,10 @@ class Client
         $url = ($this->_apiBaseUrlArray[$this->_sandboxMode]) ? $this->_apiBaseUrlArray[$this->_sandboxMode] : $this->_apiBaseUrlArray[0];
 
         return $url . '/' . $this->_shopId;
+    }
+
+    private function isSandboxModeWanted($sandbox): bool
+    {
+        return $sandbox === 1 || $sandbox === true || is_null($sandbox);
     }
 }

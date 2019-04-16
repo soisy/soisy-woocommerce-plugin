@@ -10,13 +10,13 @@ spl_autoload_register('soisy_payment_autoload');
 
 /**
  * The namespaces in this plugin map to the paths in the directory structure.
- *
+ *4
  * @param string $wantedClass The fully-qualified name of the class to load.
  */
 function soisy_payment_autoload($wantedClass)
 {
 
-    if(!isSoisyClass($wantedClass)) {
+    if (!isSoisyClass($wantedClass)) {
         return;
     }
 
@@ -40,18 +40,9 @@ function soisy_payment_autoload($wantedClass)
         include_once($filename);
     }
 
-    if (isInterface($wantedClass) && !interface_exists($wantedClass)) {
-        wp_die(sprintf('Interface %s not found', $wantedClass));
-    }
-
-    if (!isInterface($wantedClass) && !class_exists($wantedClass)) {
+    if (!class_exists($wantedClass)) {
         wp_die(sprintf('Class %s not found', $wantedClass));
     }
-}
-
-function isInterface($wantedClass)
-{
-    return stripos($wantedClass, 'interface') !== false;
 }
 
 function isSoisyClass($wantedClass)

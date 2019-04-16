@@ -45,7 +45,7 @@ class SelectInstalments
                 $this->_client = new Client(
                     $this->settings['shop_id'],
                     $this->settings['api_key'],
-                    (bool)$this->settings['sandbox_mode']
+                    $this->settings['sandbox_mode']
                 );
 
                 $amountResponse = $this->_client->getAmount([
