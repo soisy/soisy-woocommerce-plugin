@@ -221,6 +221,6 @@ class Client
 
     private function isSandboxModeWanted($sandbox): bool
     {
-        return $sandbox === 1 || $sandbox === true || is_null($sandbox);
+        return $sandbox === "1" || $sandbox === 1 || $sandbox === true || is_null($sandbox);
     }
 }
