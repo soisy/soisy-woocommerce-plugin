@@ -32,7 +32,7 @@ function woo_payment_gateway()
         return;
     }
 
-    class Gateway extends WC_Payment_Gateway
+    class SoisyGateway extends WC_Payment_Gateway
     {
 
         /**
@@ -114,7 +114,7 @@ function woo_payment_gateway()
         public function payment_gateway_disable_by_amount($available_gateways)
         {
 
-            $order_total = Gateway::get_order_total();
+            $order_total = SoisyGateway::get_order_total();
 
             if (isset($available_gateways['soisy']) && ((Client::MIN_AMOUNT > $order_total) || ($order_total >= Client::MAX_AMOUNT))) {
                 unset($available_gateways['soisy']);
@@ -222,24 +222,24 @@ function woo_payment_gateway()
             $amount = WC()->cart->total * 100;
 
             $params = [
-                'email'       => $order->get_billing_email(),
-                'amount'      => $amount,
-                'lastname'    => $order->get_billing_last_name(),
                 'firstname'   => $order->get_billing_first_name(),
-                'fiscalCode'  => $_POST['soisy-fiscal-code'],
+                'lastname'    => $order->get_billing_last_name(),
+                'email'       => $order->get_billing_email(),
+                'city'        => $_POST['billing_city'],
+                'address'     => $_POST['billing_address_1'],
+                'civicNumber' => $_POST['billing_address_2'],
+                'postalCode'  => $_POST['billing_postcode'],
+                'province'    => $_POST['billing_state'],
                 'mobilePhone' => $_POST['soisy-phone'],
-                'city'        => $_POST['soisy-city'],
-                'address'     => $_POST['soisy-address'],
-                'province'    => $_POST['soisy-province'],
-                'postalCode'  => $_POST['soisy-postcode'],
-                'civicNumber' => $_POST['soisy-civic-number'],
+                'amount'      => $amount,
                 'instalments' => $_POST['soisy-instalment'],
+                'fiscalCode'  => $_POST['soisy-fiscal-code'],
             ];
 
-            $tokenResponse = $this->client->getToken($params);
+            $token = $this->client->getToken($params);
 
-            if ($tokenResponse->getToken()) {
-                WC()->session->set('soisy_token', $tokenResponse->getToken());
+            if ($token) {
+                WC()->session->set('soisy_token', $token);
 
                 if ($order->status != 'completed') {
                     $order->update_status('on-hold');
@@ -299,7 +299,7 @@ function woo_payment_gateway()
  */
 function woo_add_gateway_class($methods)
 {
-    $methods[] = 'Gateway';
+    $methods[] = 'SoisyGateway';
 
     return $methods;
 }

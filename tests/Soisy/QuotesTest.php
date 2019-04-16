@@ -1,8 +1,6 @@
 <?php
 
 
-use Soisy\Client;
-use SoisyPlugin\Includes\Helper;
 use SoisyPlugin\Includes\Settings;
 
 class QuotesTest extends WP_Ajax_UnitTestCase
@@ -18,7 +16,7 @@ class QuotesTest extends WP_Ajax_UnitTestCase
      */
     public function response_is_stored()
     {
-        $response = new \Soisy\Loan\Quotes('RESPONSE TEST');
+        $response = new Soisy\Quotes('RESPONSE TEST');
         $this->assertEquals('RESPONSE TEST', $response->getResponse());
     }
 

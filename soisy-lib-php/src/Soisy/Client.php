@@ -2,8 +2,6 @@
 
 namespace Soisy;
 
-use Soisy\Order\Token;
-
 /**
  * @package  Soisy
  */
@@ -30,16 +28,16 @@ class Client
      * @var array
      */
     protected $_apiBaseUrlArray = [
-        1 => 'http://api.sandbox.soisy.it/api/shops',
-        0 => 'https://api.soisy.it/api/shops'
+        'sandbox' => 'http://api.sandbox.soisy.it/api/shops',
+        'prod'    => 'https://api.soisy.it/api/shops'
     ];
 
     /**
      * @var array
      */
     protected $_webappBaseUrlArray = [
-        1 => 'http://shop.sandbox.soisy.it',
-        0 => 'https://shop.soisy.it'
+        'sandbox' => 'http://shop.sandbox.soisy.it',
+        'prod'    => 'https://shop.soisy.it'
     ];
 
     /**
@@ -88,7 +86,7 @@ class Client
             return;
         }
 
-        $this->_sandboxMode = $sandboxMode;
+        $this->_sandboxMode = false;
         $this->_shopId      = $shopId;
         $this->_apiKey      = $apiKey;
     }
@@ -100,19 +98,20 @@ class Client
         return $rawResponse;
     }
 
-    public function getToken(array $params): Token
+    public function getToken(array $params): ?string
     {
-        $rawResponse = $this->doRequest($this->getOrderCreationUrl(), self::HTTP_METHOD_POST, $params);
+        $response = $this->doRequest($this->getOrderCreationUrl(), self::HTTP_METHOD_POST, $params);
 
-        $result = new Token();
-        $result->setResponse($rawResponse);
+        if (isset($response->token)) {
+            return $response->token;
+        }
 
-        return $result;
+        return null;
     }
 
     public function getRedirectUrl(string $token): string
     {
-        $baseUrl = $this->_webappBaseUrlArray[$this->_sandboxMode] ? $this->_webappBaseUrlArray[$this->_sandboxMode] : $this->_webappBaseUrlArray[0];
+        $baseUrl = $this->_sandboxMode ? $this->_webappBaseUrlArray['sandbox'] : $this->_webappBaseUrlArray['prod'];
 
         return $baseUrl . '/' . $this->_shopId . '#/loan-request?token=' . $token;
     }
@@ -215,7 +214,7 @@ class Client
      */
     protected function getApiUrl()
     {
-        $url = ($this->_apiBaseUrlArray[$this->_sandboxMode]) ? $this->_apiBaseUrlArray[$this->_sandboxMode] : $this->_apiBaseUrlArray[0];
+        $url = $this->_sandboxMode ? $this->_apiBaseUrlArray['sandbox'] : $this->_apiBaseUrlArray['prod'];
 
         return $url . '/' . $this->_shopId;
     }

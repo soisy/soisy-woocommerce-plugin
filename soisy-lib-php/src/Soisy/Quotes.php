@@ -1,6 +1,6 @@
 <?php
 
-namespace Soisy\Loan;
+namespace Soisy;
 
 class Quotes
 {
