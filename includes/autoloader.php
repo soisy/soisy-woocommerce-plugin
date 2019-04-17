@@ -26,7 +26,6 @@ function soisy_payment_autoload($wantedClass)
         __DIR__ . '/product/class-view.php',
         __DIR__ . '/checkout/cart/class-view.php',
         __DIR__ . '/checkout/class-selectinstalments.php',
-        __DIR__ . '/../soisy-lib-php/src/Soisy/Quotes.php',
         __DIR__ . '/../soisy-lib-php/src/Soisy/Client.php',
     ];
 

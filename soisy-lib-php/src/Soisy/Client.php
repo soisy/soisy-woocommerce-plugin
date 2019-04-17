@@ -18,16 +18,13 @@ class Client
     const MIN_AMOUNT = 250;
     const MAX_AMOUNT = 30000;
 
-    const HTTP_METHOD_GET = 'GET';
-    const HTTP_METHOD_POST = 'POST';
-
     const PATH_ORDER_CREATION = 'orders';
     const PATH_LOAN_QUOTE = 'loan-quotes';
 
     /**
      * @var array
      */
-    private $_apiBaseUrlArray = [
+    private $apiBaseUrl = [
         'sandbox' => 'http://api.sandbox.soisy.it/api/shops',
         'prod'    => 'https://api.soisy.it/api/shops'
     ];
@@ -35,7 +32,7 @@ class Client
     /**
      * @var array
      */
-    private $_webappBaseUrlArray = [
+    private $webappBaseUrl = [
         'sandbox' => 'http://shop.sandbox.soisy.it',
         'prod'    => 'https://shop.soisy.it'
     ];
@@ -43,17 +40,17 @@ class Client
     /**
      * @var bool
      */
-    private $_sandboxMode;
+    private $isSandboxMode;
 
     /**
      * @var string
      */
-    private $_apiKey;
+    private $apiKey;
 
     /**
      * @var string
      */
-    private $_shopId;
+    private $shopId;
 
     /**
      * Timeout for API connection wait
@@ -61,7 +58,7 @@ class Client
      *
      * @var int
      */
-    private $_connectTimeout = 4000;
+    private $connectTimeout = 4000;
 
     /**
      * Timeout for API response wait
@@ -69,33 +66,33 @@ class Client
      *
      * @var int
      */
-    private $_timeout = 4000;
+    private $timeout = 4000;
 
     public function __construct(?string $shopId, ?string $apiKey, $sandboxMode = true)
     {
         if ($this->isSandboxModeWanted($sandboxMode)) {
-            $this->_sandboxMode = true;
-            $this->_shopId      = self::SANDBOX_SHOP_ID;
-            $this->_apiKey      = self::SANDBOX_API_KEY;
+            $this->isSandboxMode = true;
+            $this->shopId        = self::SANDBOX_SHOP_ID;
+            $this->apiKey        = self::SANDBOX_API_KEY;
 
             return;
         }
 
-        $this->_sandboxMode = false;
-        $this->_shopId      = $shopId;
-        $this->_apiKey      = $apiKey;
+        $this->isSandboxMode = false;
+        $this->shopId        = $shopId;
+        $this->apiKey        = $apiKey;
     }
 
     public function getAmount(array $params): \stdClass
     {
-        $rawResponse = $this->doRequest($this->getLoanQuoteUrl(), self::HTTP_METHOD_GET, $params);
+        $rawResponse = $this->doRequest($this->getLoanQuoteUrl(), 'GET', $params);
 
         return $rawResponse;
     }
 
     public function getToken(array $params): ?string
     {
-        $response = $this->doRequest($this->getOrderCreationUrl(), self::HTTP_METHOD_POST, $params);
+        $response = $this->doRequest($this->getOrderCreationUrl(), 'POST', $params);
 
         if (isset($response->token)) {
             return $response->token;
@@ -106,16 +103,16 @@ class Client
 
     public function getRedirectUrl(string $token): string
     {
-        $baseUrl = $this->_sandboxMode ? $this->_webappBaseUrlArray['sandbox'] : $this->_webappBaseUrlArray['prod'];
+        $baseUrl = $this->isSandboxMode ? $this->webappBaseUrl['sandbox'] : $this->webappBaseUrl['prod'];
 
-        return $baseUrl . '/' . $this->_shopId . '#/loan-request?token=' . $token;
+        return $baseUrl . '/' . $this->shopId . '#/loan-request?token=' . $token;
     }
 
     public function getApiUrl(): string
     {
-        $url = $this->_sandboxMode ? $this->_apiBaseUrlArray['sandbox'] : $this->_apiBaseUrlArray['prod'];
+        $url = $this->isSandboxMode ? $this->apiBaseUrl['sandbox'] : $this->apiBaseUrl['prod'];
 
-        return $url . '/' . $this->_shopId;
+        return $url . '/' . $this->shopId;
     }
 
     private function getOrderCreationUrl(): string
@@ -128,25 +125,25 @@ class Client
         return $this->getApiUrl() . '/' . self::PATH_LOAN_QUOTE;
     }
 
-    private function doRequest(string $url, string $httpMethod = self::HTTP_METHOD_GET, array $params = [], int $timeout = null): \stdClass
+    private function doRequest(string $url, string $httpMethod = 'GET', array $params = [], int $timeout = null): \stdClass
     {
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'X-Auth-Token: ' . $this->_apiKey,
+            'X-Auth-Token: ' . $this->apiKey,
         ]);
 
-        if ($httpMethod == self::HTTP_METHOD_POST) {
+        if ($httpMethod == 'POST') {
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-        } elseif ($httpMethod == self::HTTP_METHOD_GET && isset($params)) {
+        } elseif ($httpMethod == 'GET' && isset($params)) {
             $url = $url . '?' . http_build_query($params);
         }
 
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, $this->_connectTimeout);
-        curl_setopt($ch, CURLOPT_TIMEOUT_MS, !is_null($timeout) ? $timeout : $this->_timeout);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, $this->connectTimeout);
+        curl_setopt($ch, CURLOPT_TIMEOUT_MS, !is_null($timeout) ? $timeout : $this->timeout);
 
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
