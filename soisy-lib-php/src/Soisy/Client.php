@@ -71,11 +71,6 @@ class Client
      */
     private $_timeout = 4000;
 
-    /**
-     * @var \stdClass
-     */
-    private $_response = null;
-
     public function __construct(?string $shopId, ?string $apiKey, $sandboxMode = true)
     {
         if ($this->isSandboxModeWanted($sandboxMode)) {
@@ -168,7 +163,7 @@ class Client
         }
 
         if ($httpStatusCode !== 200) {
-            throw new \DomainException($this->getErrorString((array)$output->errors));
+            throw new \DomainException($this->convertErrorsToString((array)$output->errors));
         }
 
         return $output;
@@ -179,7 +174,7 @@ class Client
         return $sandbox === "1" || $sandbox === 1 || $sandbox === true || is_null($sandbox);
     }
 
-    private function getErrorString(array $errors): string
+    private function convertErrorsToString(array $errors): string
     {
         $errorMessage = '';
 
