@@ -28,7 +28,6 @@ function soisy_payment_autoload($wantedClass)
         __DIR__ . '/checkout/class-selectinstalments.php',
         __DIR__ . '/../soisy-lib-php/src/Soisy/Quotes.php',
         __DIR__ . '/../soisy-lib-php/src/Soisy/Client.php',
-        __DIR__ . '/../soisy-lib-php/src/Soisy/Exception.php',
     ];
 
     foreach ($filesToLoad as $filename) {
