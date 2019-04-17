@@ -59,7 +59,7 @@ class ClientTest extends WP_UnitTestCase
      */
     public function get_token_without_errors()
     {
-        $token = $this->sandboxClient->getToken([
+        $token = $this->sandboxClient->requestToken([
             'amount'      => 123456,
             'instalments' => 9,
         ]);
@@ -73,7 +73,7 @@ class ClientTest extends WP_UnitTestCase
      */
     public function get_token_throws_domain_exception()
     {
-        $this->sandboxClient->getToken([
+        $this->sandboxClient->requestToken([
             'amount'      => 100000,
             'instalments' => 1,
         ]);
@@ -86,7 +86,7 @@ class ClientTest extends WP_UnitTestCase
     public function error_messages(array $params, string $expectedErrorMessage)
     {
         try {
-            $this->sandboxClient->getToken($params);
+            $this->sandboxClient->requestToken($params);
         } catch (\DomainException $e) {
             $this->assertEquals($expectedErrorMessage, trim($e->getMessage()));
         }
@@ -97,7 +97,7 @@ class ClientTest extends WP_UnitTestCase
      */
     public function get_amount()
     {
-        $response = $this->getArrayFromResponse($this->sandboxClient->getAmount([
+        $response = $this->convertResponseToArray($this->sandboxClient->getSimulation([
             'amount'      => 35678,
             'instalments' => 3,
         ]));
@@ -135,7 +135,7 @@ class ClientTest extends WP_UnitTestCase
         ];
     }
 
-    private function getArrayFromResponse(\stdClass $response): array
+    private function convertResponseToArray(\stdClass $response): array
     {
         return json_decode(json_encode($response), true);
     }

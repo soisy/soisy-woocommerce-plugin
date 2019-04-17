@@ -15,7 +15,7 @@ class SelectInstalments
     /**
      * @var
      */
-    protected $_client;
+    protected $soisyClient;
 
     /**
      * @var
@@ -42,24 +42,24 @@ class SelectInstalments
             $this->init_payment_settings();
 
             if (Helper::isCorrectAmount($loanAmount)) {
-                $this->_client = new Client(
+                $this->soisyClient = new Client(
                     $this->settings['shop_id'],
                     $this->settings['api_key'],
                     $this->settings['sandbox_mode']
                 );
 
-                $amountResponse = $this->_client->getAmount([
+                $simulationResponse = $this->soisyClient->getSimulation([
                     'amount'      => $loanAmount,
                     'instalments' => $instalments,
                 ]);
 
-                if ($amountResponse && isset($amountResponse->median)) {
+                if ($simulationResponse && isset($simulationResponse->median)) {
 
                     $variables = [
-                        'instalment_amount'  => wc_price($amountResponse->median->instalmentAmount / 100),
+                        'instalment_amount'  => wc_price($simulationResponse->median->instalmentAmount / 100),
                         'instalments_period' => wc_price($instalments),
-                        'total_repaid'       => wc_price($amountResponse->median->totalRepaid / 100),
-                        'taeg'               => wc_price($amountResponse->median->apr),
+                        'total_repaid'       => wc_price($simulationResponse->median->totalRepaid / 100),
+                        'taeg'               => wc_price($simulationResponse->median->apr),
                     ];
 
                     wp_send_json($variables);

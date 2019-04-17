@@ -96,3 +96,11 @@ msgstr "Sapevi che puoi pagare questo prodotto a rate? Es. € {INSTALMENT_AMOUN
 #: includes/checkout/cart/class-view.php:58
 msgid "Cart loan quote text"
 msgstr "Sapevi che puoi pagare il tuo ordine a rate? Es. € {INSTALMENT_AMOUNT} per {INSTALMENT_PERIOD} mesi, con TAEG {TAEG}, per un costo totale di € {TOTAL_REPAID}. Seleziona \"Paga con Soisy\" come metodo di pagamento alla fine dei tuoi acquisti."
+
+#: soisy-woocommerce-plugin.php:261
+msgid "Validation error"
+msgstr "Errore di validazione"
+
+#: soisy-woocommerce-plugin.php:268
+msgid "HTTP request error"
+msgstr "Errore richiesta HTTP"

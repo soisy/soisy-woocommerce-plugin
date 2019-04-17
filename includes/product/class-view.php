@@ -15,7 +15,7 @@ class View
     /**
      * @var Client
      */
-    protected $_client;
+    protected $soisyClient;
 
     /**
      * Soisy Setting values.
@@ -42,23 +42,23 @@ class View
         if (isset($_POST['price'])) {
             $this->init_payment_settings();
 
-            $this->_client = new Client(
+            $this->soisyClient = new Client(
                 $this->settings['shop_id'],
                 $this->settings['api_key'],
                 $this->settings['sandbox_mode']
             );
 
             $loanAmount     = $_POST['price'] * 100;
-            $amountResponse = $this->_client->getAmount([
+            $simulationResponse = $this->soisyClient->getSimulation([
                 'amount'      => $loanAmount,
                 'instalments' => Client::QUOTE_INSTALMENTS_AMOUNT,
             ]);
-            if ($amountResponse && isset($amountResponse->median)) {
+            if ($simulationResponse && isset($simulationResponse->median)) {
                 $variables = [
-                    '{INSTALMENT_AMOUNT}' => Helper::formatNumber($amountResponse->median->instalmentAmount / 100),
+                    '{INSTALMENT_AMOUNT}' => Helper::formatNumber($simulationResponse->median->instalmentAmount / 100),
                     '{INSTALMENT_PERIOD}' => Client::QUOTE_INSTALMENTS_AMOUNT,
-                    '{TOTAL_REPAID}'      => Helper::formatNumber($amountResponse->median->totalRepaid / 100),
-                    '{TAEG}'              => Helper::formatNumber($amountResponse->median->apr),
+                    '{TOTAL_REPAID}'      => Helper::formatNumber($simulationResponse->median->totalRepaid / 100),
+                    '{TAEG}'              => Helper::formatNumber($simulationResponse->median->apr),
                 ];
 
                 wp_send_json([

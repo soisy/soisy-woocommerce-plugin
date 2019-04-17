@@ -21,51 +21,25 @@ class Client
     const PATH_ORDER_CREATION = 'orders';
     const PATH_LOAN_QUOTE = 'loan-quotes';
 
-    /**
-     * @var array
-     */
     private $apiBaseUrl = [
         'sandbox' => 'http://api.sandbox.soisy.it/api/shops',
         'prod'    => 'https://api.soisy.it/api/shops'
     ];
 
-    /**
-     * @var array
-     */
     private $webappBaseUrl = [
         'sandbox' => 'http://shop.sandbox.soisy.it',
         'prod'    => 'https://shop.soisy.it'
     ];
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $isSandboxMode;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $apiKey;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $shopId;
 
-    /**
-     * Timeout for API connection wait
-     * in milliseconds
-     *
-     * @var int
-     */
-    private $connectTimeout = 4000;
-
-    /**
-     * Timeout for API response wait
-     * in milliseconds
-     *
-     * @var int
-     */
     private $timeout = 4000;
 
     public function __construct(?string $shopId, ?string $apiKey, $sandboxMode = true)
@@ -83,14 +57,14 @@ class Client
         $this->apiKey        = $apiKey;
     }
 
-    public function getAmount(array $params): \stdClass
+    public function getSimulation(array $params): \stdClass
     {
         $rawResponse = $this->doRequest($this->getLoanQuoteUrl(), 'GET', $params);
 
         return $rawResponse;
     }
 
-    public function getToken(array $params): ?string
+    public function requestToken(array $params): ?string
     {
         $response = $this->doRequest($this->getOrderCreationUrl(), 'POST', $params);
 
@@ -142,7 +116,7 @@ class Client
 
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, $this->connectTimeout);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, $this->timeout);
         curl_setopt($ch, CURLOPT_TIMEOUT_MS, !is_null($timeout) ? $timeout : $this->timeout);
 
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

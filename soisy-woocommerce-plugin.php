@@ -230,18 +230,22 @@ function woo_payment_gateway()
                 'civicNumber' => $_POST['billing_address_2'],
                 'postalCode'  => $_POST['billing_postcode'],
                 'province'    => $_POST['billing_state'],
-                'mobilePhone' => $_POST['soisy-phone'],
+                'mobilePhone' => $_POST['billing_phone'],
                 'amount'      => $amount,
                 'instalments' => $_POST['soisy-instalment'],
                 'fiscalCode'  => $_POST['soisy-fiscal-code'],
             ];
 
-            $token = $this->client->getToken($params);
+            try {
+                $token = $this->client->requestToken($params);
 
-            if ($token) {
+                if (is_null($token)) {
+                    throw new \Error('Token unavailable. Request failed.');
+                }
+
                 WC()->session->set('soisy_token', $token);
 
-                if ($order->status != 'completed') {
+                if ($order->status !== 'completed') {
                     $order->update_status('on-hold');
                     WC()->cart->empty_cart();
 
@@ -253,12 +257,20 @@ function woo_payment_gateway()
                     'result'   => 'success',
                     'redirect' => $this->client->getRedirectUrl(WC()->session->get('soisy_token')),
                 ];
-            } else {
+            } catch (\DomainException $e) {
+                $errorMessage = sprintf("%s: %s", __('Validation error', 'soisy'), $e->getMessage());
 
-                $order->add_order_note('Payment failed');
+                $order->add_order_note($errorMessage);
                 $order->update_status('failed');
 
-                wc_add_notice(__('(Transaction Error) Error processing payment.', 'soisy'));
+                wc_add_notice($errorMessage);
+            } catch (\Error $e) {
+                $errorMessage = sprintf("%s: %s", __('HTTP request error', 'soisy'), $e->getMessage());
+
+                $order->add_order_note($errorMessage);
+                $order->update_status('failed');
+
+                wc_add_notice($errorMessage);
             }
         }
 
