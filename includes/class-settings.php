@@ -50,12 +50,12 @@ class Settings
             'sandbox_mode' => [
                 'title'    => __('Sandbox mode', 'soisy'),
                 'type'     => 'select',
-                'default'  => 'median',
+                'default'  => 1,
                 'class'    => 'wc-enhanced-select',
                 'desc_tip' => true,
                 'options'  => [
+                    1 => __('Yes', 'woocommerce'),
                     0 => __('No', 'woocommerce'),
-                    1 => __('Yes', 'woocommerce')
                 ],
             ],
             'shop_id' => [
