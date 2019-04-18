@@ -1,6 +1,6 @@
-# Soisy woocommerce plugin
+# Soisy WooCommerce plugin
 
-It's strongly advised to use the WP-CLI and PHPUnit inside the [soisy/soisy-docker-72](https://github.com/soisy/soisy-docker-php72) repo.
+It's strongly advised to use the WP-CLI and PHPUnit inside the [soisy/soisy-woocommerce-docker](https://github.com/soisy/soisy-woocommerce-docker) repo.
 
 
 ## Installation
