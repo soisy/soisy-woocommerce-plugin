@@ -98,7 +98,7 @@ class ClientTest extends WP_Ajax_UnitTestCase
      */
     public function get_amount()
     {
-        $response = $this->convertResponseToArray($this->sandboxClient->getSimulation([
+        $response = $this->convertResponseToArray($this->sandboxClient->getLoanSimulation([
             'amount'      => 35678,
             'instalments' => 3,
         ]));

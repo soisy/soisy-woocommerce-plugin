@@ -13,7 +13,7 @@ class SelectInstalments
 {
 
     /**
-     * @var
+     * @var Client
      */
     protected $soisyClient;
 
@@ -48,18 +48,18 @@ class SelectInstalments
                     $this->settings['sandbox_mode']
                 );
 
-                $simulationResponse = $this->soisyClient->getSimulation([
+                $loanSimulation = $this->soisyClient->getLoanSimulation([
                     'amount'      => $loanAmount,
                     'instalments' => $instalments,
                 ]);
 
-                if ($simulationResponse && isset($simulationResponse->median)) {
+                if ($loanSimulation && isset($loanSimulation->median)) {
 
                     $variables = [
-                        'instalment_amount'  => wc_price($simulationResponse->median->instalmentAmount / 100),
+                        'instalment_amount'  => wc_price($loanSimulation->median->instalmentAmount / 100),
                         'instalments_period' => wc_price($instalments),
-                        'total_repaid'       => wc_price($simulationResponse->median->totalRepaid / 100),
-                        'taeg'               => wc_price($simulationResponse->median->apr),
+                        'total_repaid'       => wc_price($loanSimulation->median->totalRepaid / 100),
+                        'taeg'               => wc_price($loanSimulation->median->apr),
                     ];
 
                     wp_send_json($variables);

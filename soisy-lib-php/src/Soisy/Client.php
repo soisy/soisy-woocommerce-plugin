@@ -57,7 +57,7 @@ class Client
         $this->apiKey        = $apiKey;
     }
 
-    public function getSimulation(array $params): \stdClass
+    public function getLoanSimulation(array $params): \stdClass
     {
         $rawResponse = $this->doRequest($this->getLoanQuoteUrl(), 'GET', $params);
 

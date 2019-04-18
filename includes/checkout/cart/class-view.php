@@ -13,13 +13,11 @@ class View
 {
 
     /**
-     * @var Soisy_Client
+     * @var Client
      */
     protected $soisyClient;
 
     /**
-     * Soisy Setting values.
-     *
      * @var array
      */
     protected $settings;
@@ -45,16 +43,16 @@ class View
             );
 
             $loanAmount     = $_POST['price'] * 100;
-            $simulationResponse = $this->soisyClient->getSimulation([
+            $loanSimulation = $this->soisyClient->getLoanSimulation([
                 'amount'      => $loanAmount,
                 'instalments' => Client::QUOTE_INSTALMENTS_AMOUNT,
             ]);
-            if ($simulationResponse && isset($simulationResponse->median)) {
+            if ($loanSimulation && isset($loanSimulation->median)) {
                 $variables = [
-                    '{INSTALMENT_AMOUNT}' => Helper::formatNumber($simulationResponse->median->instalmentAmount / 100),
+                    '{INSTALMENT_AMOUNT}' => Helper::formatNumber($loanSimulation->median->instalmentAmount / 100),
                     '{INSTALMENT_PERIOD}' => Client::QUOTE_INSTALMENTS_AMOUNT,
-                    '{TOTAL_REPAID}'      => Helper::formatNumber($simulationResponse->median->totalRepaid / 100),
-                    '{TAEG}'              => Helper::formatNumber($simulationResponse->median->apr),
+                    '{TOTAL_REPAID}'      => Helper::formatNumber($loanSimulation->median->totalRepaid / 100),
+                    '{TAEG}'              => Helper::formatNumber($loanSimulation->median->apr),
                 ];
 
                 wp_send_json([
