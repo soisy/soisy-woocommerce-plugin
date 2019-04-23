@@ -34,6 +34,9 @@ msgstr "Abilita Pagamento Soisy"
 msgid "Soisy"
 msgstr ""
 
+msgid "Pay in instalments with Soisy"
+msgstr "Paga a rate con Soisy"
+
 #: includes/class-settings.php:88
 msgid "Sandbox mode"
 msgstr "Modalità Sandbox"
@@ -71,8 +74,8 @@ msgid "Read Soisy Privacy"
 msgstr "Leggi Privacy Soisy"
 
 #: soisy-woocommerce-plugin.php:73
-msgid "WooCommerce Payment Gateway for Soisy.it"
-msgstr ""
+msgid "Allow your customers to pay in instalments with Soisy, the P2P lending payment method"
+msgstr "Abilita i tuoi clienti a pagare a rate con Soisy, la piattaforma di prestiti tra privati."
 
 #: soisy-woocommerce-plugin.php:136
 msgid "per month"
@@ -87,7 +90,7 @@ msgid "is a required field."
 msgstr "è un campo obbligatorio"
 
 msgid "Soisy checkout description"
-msgstr "Soisy, la piattaforma di prestiti tra privati che abilita i clienti del tuo e-commerce a pagare a rate."
+msgstr "Soisy, la piattaforma di prestiti tra privati che ti permette di acquistare i tuoi prodotti a rate."
 
 #: includes/product/class-view.php:61
 msgid "Loan quote text"

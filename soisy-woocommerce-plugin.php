@@ -36,9 +36,9 @@ function woo_payment_gateway()
     {
 
         /**
-         * @var array $available_country ;
+         * @var array $availableCountries ;
          */
-        protected $available_country = ['IT'];
+        protected $availableCountries = ['IT'];
 
         /**
          * @var $client ;
@@ -62,14 +62,14 @@ function woo_payment_gateway()
             $this->init_form_fields();
             $this->init_settings();
 
-            $this->title              = __('Soisy', 'soisy');
+            $this->title              = __('Pay in instalments with Soisy', 'soisy');
             $this->method_title       = __('Soisy', 'soisy');
-            $this->method_description = __('WooCommerce Payment Gateway for Soisy.it', 'soisy');
+            $this->method_description = __('Allow your customers to pay in instalments with Soisy, the P2P lending payment method', 'soisy');
             $this->success_message    = "Thanks for choosing Soisy";
             $this->msg['message']     = "";
             $this->msg['class']       = "";
 
-            add_filter('woocommerce_available_payment_gateways', [&$this, 'payment_gateway_disable_country']);
+            add_filter('woocommerce_available_payment_gateways', [&$this, 'payment_gateway_disable_countries']);
 
             add_filter('woocommerce_available_payment_gateways', [&$this, 'payment_gateway_disable_by_amount']);
 
@@ -91,13 +91,13 @@ function woo_payment_gateway()
          *
          * @return mixed
          */
-        public function payment_gateway_disable_country($available_gateways)
+        public function payment_gateway_disable_countries($available_gateways)
         {
             if (empty(WC()->customer) || empty(WC()->customer->get_billing_country())) {
                 return;
             }
 
-            if (isset($available_gateways['soisy']) && !in_array(WC()->customer->get_billing_country(), $this->available_country)) {
+            if (isset($available_gateways['soisy']) && !in_array(WC()->customer->get_billing_country(), $this->availableCountries)) {
                 unset($available_gateways['soisy']);
             }
 
@@ -249,7 +249,7 @@ function woo_payment_gateway()
                     $order->update_status('on-hold');
                     WC()->cart->empty_cart();
 
-                    $order->add_order_note($this->success_message . ' Transaction ID: ');
+                    $order->add_order_note($this->success_message);
                     unset($_SESSION['order_awaiting_payment']);
                 }
 
