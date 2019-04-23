@@ -4,7 +4,7 @@
 
 Please download the [latest version (2.0.0)](https://github.com/soisy/soisy-woocommerce-plugin/archive/2.0.0.zip) of this plugin. Any previous version is no longer supported.
 
-## Installation
+### Installation
 Download the [latest version](https://github.com/soisy/soisy-woocommerce-plugin/releases) of this plugin and unzip its content inside your `./wp-content/plugins` directory.  
 Enable the plugin by going to _WP Admin Panel_ > _WooCommerce_ > _Settings_ > _Payments_ > _Soisy_.
 
