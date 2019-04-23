@@ -1,17 +1,13 @@
 {
-    "repositories":[
-        {"type": "vcs", "url": "git@bitbucket.org:bitbull/soisy-lib-php.git"}
-    ],
-    "name": "bitbull/soisy-payment-woocommerce",
+    "name": "soisy/soisy-woocommerce-plugin",
     "type": "wordpress-plugin",
     "authors": [
         {
-            "name": "Mārtiņš Saukums",
-            "email": "martins@saukums.lv"
+            "name": "Soisy",
+            "email": "dev@soisy.it"
         }
     ],
     "require": {
-        "php": ">=5.3.2",
-        "bitbull/soisy-lib-php": "dev-master"
+        "php": ">=7.2",
     }
 }
