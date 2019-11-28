@@ -22,12 +22,12 @@ class Client
     const PATH_LOAN_QUOTE = 'loan-quotes';
 
     private $apiBaseUrl = [
-        'sandbox' => 'http://api.sandbox.soisy.it/api/shops',
+        'sandbox' => 'https://api.sandbox.soisy.it/api/shops',
         'prod'    => 'https://api.soisy.it/api/shops'
     ];
 
     private $webappBaseUrl = [
-        'sandbox' => 'http://shop.sandbox.soisy.it',
+        'sandbox' => 'https://shop.sandbox.soisy.it',
         'prod'    => 'https://shop.soisy.it'
     ];
 
