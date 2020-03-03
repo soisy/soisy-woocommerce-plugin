@@ -42,23 +42,25 @@ class View
                 $this->settings['sandbox_mode']
             );
 
-            $loanAmount     = $_POST['price'] * 100;
-            $loanSimulation = $this->soisyClient->getLoanSimulation([
-                'amount'      => $loanAmount,
-                'instalments' => Client::QUOTE_INSTALMENTS_AMOUNT,
-            ]);
-            if ($loanSimulation && isset($loanSimulation->median)) {
-                $variables = [
-                    '{INSTALMENT_AMOUNT}' => Helper::formatNumber($loanSimulation->median->instalmentAmount / 100),
-                    '{INSTALMENT_PERIOD}' => Client::QUOTE_INSTALMENTS_AMOUNT,
-                    '{TOTAL_REPAID}'      => Helper::formatNumber($loanSimulation->median->totalRepaid / 100),
-                    '{TAEG}'              => Helper::formatNumber($loanSimulation->median->apr),
-                ];
-
-                wp_send_json([
-                    'data'   => strtr(__('Cart loan quote text', 'soisy'), $variables),
-                    'object' => Settings::CART_LOAN_QUOTE_CSS_CLASS
+            if (Helper::isCorrectAmount($_POST['price'])) {
+                $loanAmount     = $_POST['price'] * 100;
+                $loanSimulation = $this->soisyClient->getLoanSimulation([
+                    'amount'      => $loanAmount,
+                    'instalments' => Client::QUOTE_INSTALMENTS_AMOUNT,
                 ]);
+                if ($loanSimulation && isset($loanSimulation->median)) {
+                    $variables = [
+                        '{INSTALMENT_AMOUNT}' => Helper::formatNumber($loanSimulation->median->instalmentAmount / 100),
+                        '{INSTALMENT_PERIOD}' => Client::QUOTE_INSTALMENTS_AMOUNT,
+                        '{TOTAL_REPAID}'      => Helper::formatNumber($loanSimulation->median->totalRepaid / 100),
+                        '{TAEG}'              => Helper::formatNumber($loanSimulation->median->apr),
+                    ];
+
+                    wp_send_json([
+                        'data'   => strtr(__('Cart loan quote text', 'soisy'), $variables),
+                        'object' => Settings::CART_LOAN_QUOTE_CSS_CLASS
+                    ]);
+                }
             }
         }
     }
