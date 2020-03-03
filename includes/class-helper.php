@@ -23,4 +23,17 @@ class Helper
     {
         return \number_format($number, 2, ',', '.');
     }
+
+    public static function isSoisyGatewayPaymentActive(): bool
+    {
+        $gateways = WC()->payment_gateways->payment_gateways();
+
+        foreach ($gateways as $gateway) {
+            if ($gateway->id == 'soisy') {
+                return $gateway->enabled === 'yes';
+            }
+        }
+
+        return false;
+    }
 }

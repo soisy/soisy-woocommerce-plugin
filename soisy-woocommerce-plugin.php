@@ -3,7 +3,7 @@
  * Plugin Name: Soisy Payment Gateway
  * Plugin URI: https://doc.soisy.it/it/Plugin/WooCommerce.html
  * Description: Soisy, the a P2P lending platform that allows your customers to pay in instalments.
- * Version: 2.0.1
+ * Version: 2.2.0
  * Author: Soisy
  * Author URI: https://www.soisy.it
  * Text Domain: soisy
@@ -52,7 +52,6 @@ function woo_payment_gateway()
         {
             $plugin_dir         = plugin_dir_url(__FILE__);
             $this->id           = 'soisy';
-            $this->method_title = __('Soisy', 'soisy');
             $this->icon         = apply_filters('woocommerce_Soisy_icon', '' . $plugin_dir . '/assets/images/' . 'logo-soisy-min.png');
 
             $this->supports    = ['soisy_payment_form'];
@@ -94,7 +93,7 @@ function woo_payment_gateway()
         public function payment_gateway_disable_countries($available_gateways)
         {
             if (empty(WC()->customer) || empty(WC()->customer->get_billing_country())) {
-                return;
+                return $available_gateways;
             }
 
             if (isset($available_gateways['soisy']) && !in_array(WC()->customer->get_billing_country(), $this->availableCountries)) {
@@ -116,7 +115,7 @@ function woo_payment_gateway()
 
             $order_total = SoisyGateway::get_order_total();
 
-            if (isset($available_gateways['soisy']) && ((Client::MIN_AMOUNT > $order_total) || ($order_total >= Client::MAX_AMOUNT))) {
+            if (isset($available_gateways['soisy']) && ($order_total < Client::MIN_AMOUNT || $order_total > Client::MAX_AMOUNT)) {
                 unset($available_gateways['soisy']);
             }
 
@@ -332,11 +331,15 @@ add_action('plugins_loaded', 'my_plugin_load_plugin_textdomain');
 /**
  * Adds soisy loan info on product page
  */
-function init_product_page()
+function init_soisy_pages_functionalities()
 {
+    if (!Includes\Helper::isSoisyGatewayPaymentActive()) {
+        return;
+    }
+
     new \SoisyPlugin\Includes\Product\View();
     new \SoisyPlugin\Includes\Checkout\Cart\View();
     new \SoisyPlugin\Includes\Checkout\SelectInstalments();
 }
 
-add_action('plugins_loaded', 'init_product_page');
+add_action('plugins_loaded', 'init_soisy_pages_functionalities');

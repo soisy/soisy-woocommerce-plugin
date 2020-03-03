@@ -37,11 +37,12 @@ class SelectInstalments
     public function soisy_instalment_total_info_block()
     {
         if (isset($_POST['instalments'])) {
-            $loanAmount  = WC()->cart->total * 100;
-            $instalments = $_POST['instalments'];
             $this->init_payment_settings();
 
-            if (Helper::isCorrectAmount($loanAmount)) {
+            if (Helper::isCorrectAmount(WC()->cart->total)) {
+                $loanAmount  = WC()->cart->total * 100;
+                $instalments = $_POST['instalments'];
+
                 $this->soisyClient = new Client(
                     $this->settings['shop_id'],
                     $this->settings['api_key'],

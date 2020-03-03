@@ -14,7 +14,6 @@ class Settings
     const CART_LOAN_QUOTE_CSS_CLASS = 'woocommerce-soisy-cart-amount';
 
     const OPTION_NAME = 'woocommerce_soisy_settings';
-    const INSTALMENT_TABLE_OPTION_NAME = self::OPTION_NAME . '_instalment_table';
 
     /**
      * Instalment per options.
