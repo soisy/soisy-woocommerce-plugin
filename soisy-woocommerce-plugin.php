@@ -333,13 +333,11 @@ add_action('plugins_loaded', 'my_plugin_load_plugin_textdomain');
  */
 function init_soisy_pages_functionalities()
 {
-    if (!Includes\Helper::isSoisyGatewayPaymentActive()) {
-        return;
+    if (Includes\Helper::isSoisyGatewayPaymentActive()) {
+        new \SoisyPlugin\Includes\Product\View();
+        new \SoisyPlugin\Includes\Checkout\Cart\View();
+        new \SoisyPlugin\Includes\Checkout\SelectInstalments();
     }
-
-    new \SoisyPlugin\Includes\Product\View();
-    new \SoisyPlugin\Includes\Checkout\Cart\View();
-    new \SoisyPlugin\Includes\Checkout\SelectInstalments();
 }
 
 add_action('plugins_loaded', 'init_soisy_pages_functionalities');
