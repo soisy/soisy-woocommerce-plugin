@@ -26,7 +26,7 @@ class Helper
 
     public static function isSoisyGatewayPaymentActive(): bool
     {
-        $gateways = WC()->payment_gateways->payment_gateways();
+        $gateways = (new \WC_Payment_Gateways())->payment_gateways();
 
         foreach ($gateways as $gateway) {
             if ($gateway->id == 'soisy') {

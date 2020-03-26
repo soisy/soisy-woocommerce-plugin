@@ -3,7 +3,7 @@
  * Plugin Name: Soisy Payment Gateway
  * Plugin URI: https://doc.soisy.it/it/Plugin/WooCommerce.html
  * Description: Soisy, the a P2P lending platform that allows your customers to pay in instalments.
- * Version: 2.2.0
+ * Version: 2.3.0
  * Author: Soisy
  * Author URI: https://www.soisy.it
  * Text Domain: soisy
