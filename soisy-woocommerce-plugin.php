@@ -317,15 +317,15 @@ function woo_add_gateway_class($methods)
 
 add_filter('woocommerce_payment_gateways', 'woo_add_gateway_class');
 
-add_action('plugins_loaded', 'woo_payment_gateway', 0);
+add_action('wp_loaded', 'woo_payment_gateway', 0);
 
 
-function my_plugin_load_plugin_textdomain()
+function load_soisy_translations()
 {
     load_plugin_textdomain('soisy', false, basename(dirname(__FILE__)) . '/languages/');
 }
 
-add_action('plugins_loaded', 'my_plugin_load_plugin_textdomain');
+add_action('wp_loaded', 'load_soisy_translations');
 
 
 /**
@@ -340,4 +340,4 @@ function init_soisy_pages_functionalities()
     }
 }
 
-add_action('plugins_loaded', 'init_soisy_pages_functionalities');
+add_action('wp_loaded', 'init_soisy_pages_functionalities');
