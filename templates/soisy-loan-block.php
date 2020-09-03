@@ -12,7 +12,7 @@ $action = (is_product()) ? 'soisy_product_loan_info_block' : 'soisy_cart_loan_in
 <?php global $product; ?>
 <script>
     <?php
-        $priceToCheck = is_product() ? $product->get_price() : WC()->cart->total;
+        $priceToCheck = is_product() ? ($product->is_on_sale() ? $product->get_sale_price() : $product->get_regular_price()) : WC()->cart->total;
 
         if (\SoisyPlugin\Includes\Helper::isCorrectAmount($priceToCheck)):
     ?>
@@ -62,7 +62,7 @@ $action = (is_product()) ? 'soisy_product_loan_info_block' : 'soisy_cart_loan_in
     jQuery(document).ready(function ($) {
         updateSoisyInstalmentsQuote({
             action: '<?php echo $action ?>',
-            price: '<?php echo (is_product()) ? $product->get_price() : WC()->cart->total ?>',
+            price: '<?php echo (is_product()) ? ($product->is_on_sale() ? $product->get_sale_price() : $product->get_regular_price()) : WC()->cart->total ?>',
         });
     });
 
