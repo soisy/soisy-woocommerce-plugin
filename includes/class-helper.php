@@ -26,11 +26,11 @@ class Helper
 
     public static function isSoisyGatewayPaymentActive(): bool
     {
-        $gateways = (new \WC_Payment_Gateways())->payment_gateways();
+        $gateways = apply_filters( 'woocommerce_payment_gateways', []);
 
         foreach ($gateways as $gateway) {
-            if ($gateway->id == 'soisy') {
-                return $gateway->enabled === 'yes';
+            if ($gateway == 'SoisyGateway') {
+                return (new $gateway())->enabled === 'yes';
             }
         }
 
