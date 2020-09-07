@@ -15,22 +15,6 @@ class Settings
 
     const OPTION_NAME = 'woocommerce_soisy_settings';
 
-    /**
-     * Instalment per options.
-     *
-     * @return array
-     */
-    static function getInstalmentPeriod()
-    {
-        $result = [];
-
-        for ($i = Client::MIN_INSTALMENTS; $i <= Client::MAX_INSTALMENTS; $i++) {
-            $result[$i] = $i;
-        }
-
-        return $result;
-    }
-
 
     /**
      * Return admin settings form for Soisy
@@ -81,14 +65,7 @@ class Settings
     static function getCheckoutFormFieldValueByKey($id, $key)
     {
         $values = [
-            esc_attr($id) . '-instalment'   => '',
-            esc_attr($id) . '-address'      => esc_attr(WC()->customer->get_billing_address_1()),
-            esc_attr($id) . '-civic-number' => esc_attr(WC()->customer->get_billing_address_2()),
-            esc_attr($id) . '-postcode'     => esc_attr(WC()->customer->get_billing_postcode()),
-            esc_attr($id) . '-city'         => esc_attr(WC()->customer->get_billing_city()),
-            esc_attr($id) . '-province'     => esc_attr(WC()->customer->get_billing_state()),
             esc_attr($id) . '-phone'        => esc_attr(WC()->customer->get_billing_phone()),
-            esc_attr($id) . '-fiscal-code'  => '',
             esc_attr($id) . '-checkbox'     => '',
         ];
 
@@ -106,20 +83,6 @@ class Settings
     {
 
         return [
-            esc_attr($id) . '-instalment'  => [
-                'type'        => 'select',
-                'class'       => ['form-row form-row-wide validate-required'],
-                'label'       => __('Instalment', 'soisy'),
-                'options'     => self::getInstalmentPeriod(),
-                'description' => ' ',
-                'required'    => true,
-            ],
-            esc_attr($id) . '-fiscal-code' => [
-                'type'     => 'text',
-                'class'    => ['form-row form-row-wide validate-required'],
-                'label'    => __('Fiscal Code', 'soisy'),
-                'required' => true,
-            ],
             esc_attr($id) . '-checkbox'    => [
                 'type'     => 'checkbox',
                 'class'    => ['form-row form-row-wide validate-required'],

@@ -11,12 +11,10 @@ class Client
     const SANDBOX_SHOP_ID = 'partnershop';
     const SANDBOX_API_KEY = 'partnerkey';
 
-    const QUOTE_INSTALMENTS_AMOUNT = 6;
-    const MIN_INSTALMENTS = 3;
-    const MAX_INSTALMENTS = 60;
+    const QUOTE_INSTALMENTS_AMOUNT = 10;
 
-    const MIN_AMOUNT = 250;
-    const MAX_AMOUNT = 30000;
+    const MIN_AMOUNT = 50;
+    const MAX_AMOUNT = 15000;
 
     const PATH_ORDER_CREATION = 'orders';
     const PATH_LOAN_QUOTE = 'loan-quotes';
