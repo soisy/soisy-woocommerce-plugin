@@ -52,7 +52,7 @@ function woo_payment_gateway()
         {
             $plugin_dir         = plugin_dir_url(__FILE__);
             $this->id           = 'soisy';
-            $this->icon         = apply_filters('woocommerce_Soisy_icon', '' . $plugin_dir . '/assets/images/' . 'logo-soisy-min.png');
+            $this->icon         = apply_filters('woocommerce_Soisy_icon', $plugin_dir . '/assets/images/logo-soisy-min.png');
 
             $this->supports    = ['soisy_payment_form'];
             $this->has_fields  = true;
@@ -68,8 +68,8 @@ function woo_payment_gateway()
             $this->msg['message']     = "";
             $this->msg['class']       = "";
 
+            add_filter('woocommerce_gateway_title', [&$this, 'enrich_title_with_widget']);
             add_filter('woocommerce_available_payment_gateways', [&$this, 'payment_gateway_disable_countries']);
-
             add_filter('woocommerce_available_payment_gateways', [&$this, 'payment_gateway_disable_by_amount']);
 
             if (version_compare(WOOCOMMERCE_VERSION, '2.0.0', '>=')) {
@@ -78,18 +78,41 @@ function woo_payment_gateway()
                 add_action('woocommerce_update_options_payment_gateways', [&$this, 'process_admin_options']);
             }
 
-            // Hooks
-            add_action('admin_enqueue_scripts', [$this, 'admin_enqueue_scripts']);
-            add_action('woocommerce_after_checkout_form', [&$this, 'checkout_enqueue_scripts']);
+            add_action('woocommerce_after_checkout_form', [&$this, 'add_soisy_widget_js']);
+            add_action('woocommerce_single_product_summary', [&$this, 'add_soisy_widget_js']);
+            add_action('woocommerce_proceed_to_checkout', [&$this, 'add_soisy_widget_js']);
+
+            add_filter('script_loader_tag', [&$this, 'make_script_async'], 10, 3);
         }
 
-        /**
-         * Check if payment available in client billing country
-         *
-         * @param $available_gateways
-         *
-         * @return mixed
-         */
+        public function add_soisy_widget_js()
+        {
+            wp_enqueue_script('soisy-loan-quote-widget', 'https://cdn.soisy.it/loan-quote-widget.js', [], null, true);
+        }
+
+        function make_script_async( $tag, $handle, $src )
+        {
+            if ( 'soisy-loan-quote-widget' != $handle ) {
+                return $tag;
+            }
+
+            return str_replace( '<script', '<script async defer', $tag );
+        }
+
+
+        public function enrich_title_with_widget($title)
+        {
+            if (!stripos($title, 'soisy')) {
+                return $title;
+            }
+
+            ob_start();
+            load_template(WC_SOISY_PLUGIN_PATH . '/templates/soisy-loan-quote.php');
+            $soisyLoanQuoteWidget = ob_get_clean();
+
+            return $title . '<br>' . $soisyLoanQuoteWidget;
+        }
+
         public function payment_gateway_disable_countries($available_gateways)
         {
             if (empty(WC()->customer) || empty(WC()->customer->get_billing_country())) {
@@ -103,13 +126,6 @@ function woo_payment_gateway()
             return $available_gateways;
         }
 
-        /**
-         * Check if Soisy available min/max available amount
-         *
-         * @param $available_gateways
-         *
-         * @return mixed
-         */
         public function payment_gateway_disable_by_amount($available_gateways)
         {
 
@@ -273,12 +289,8 @@ function woo_payment_gateway()
             }
         }
 
-        /**
-         * Validate payment fields
-         */
         public function validate_fields()
         {
-            //Fix for validating checkbox
             if (!isset($_POST['soisy-checkbox'])) {
                 $_POST['soisy-checkbox'] = '';
             }
@@ -291,16 +303,6 @@ function woo_payment_gateway()
                     }
                 }
             }
-        }
-
-        public function admin_enqueue_scripts()
-        {
-
-        }
-
-        public function checkout_enqueue_scripts()
-        {
-
         }
     }
 }
@@ -335,7 +337,6 @@ function init_soisy_pages_functionalities()
     if (Includes\Helper::isSoisyGatewayPaymentActive()) {
         new \SoisyPlugin\Includes\Product\View();
         new \SoisyPlugin\Includes\Checkout\Cart\View();
-        new \SoisyPlugin\Includes\Checkout\SelectInstalments();
     }
 }
 
