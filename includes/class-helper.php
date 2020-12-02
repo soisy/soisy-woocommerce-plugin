@@ -9,12 +9,7 @@ use Soisy\Client;
 
 class Helper
 {
-    /**
-     * Check if loan available
-     * @param $order_total
-     * @return bool
-     */
-    public static function isCorrectAmount($order_total)
+    public static function isCorrectAmount($order_total): bool
     {
         return ($order_total >= Client::MIN_AMOUNT) && ($order_total <= Client::MAX_AMOUNT);
     }

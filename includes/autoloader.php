@@ -23,8 +23,6 @@ function soisy_payment_autoload($wantedClass)
     $filesToLoad = [
         __DIR__ . '/class-helper.php',
         __DIR__ . '/class-settings.php',
-        __DIR__ . '/product/class-view.php',
-        __DIR__ . '/checkout/cart/class-view.php',
         __DIR__ . '/../soisy-lib-php/src/Soisy/Client.php',
     ];
 

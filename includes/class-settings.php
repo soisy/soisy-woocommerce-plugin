@@ -5,8 +5,6 @@
 
 namespace SoisyPlugin\Includes;
 
-use Soisy\Client;
-
 class Settings
 {
 
@@ -54,14 +52,6 @@ class Settings
         ];
     }
 
-    /**
-     * Get values for soisy fields from billing adrress
-     *
-     * @param $id
-     * @param $key
-     *
-     * @return mixed|null
-     */
     static function getCheckoutFormFieldValueByKey($id, $key)
     {
         $values = [
@@ -72,13 +62,6 @@ class Settings
         return (array_key_exists($key, $values)) ? $values[$key] : null;
     }
 
-    /**
-     * Return checkout form fields for soisy payment
-     *
-     * @param $id
-     *
-     * @return array
-     */
     static function checkoutForm($id)
     {
 

@@ -26,33 +26,19 @@ define('WC_SOISY_PLUGIN_PATH', untrailingslashit(plugin_dir_path(__FILE__)));
 
 require_once(trailingslashit(dirname(__FILE__)) . '/includes/autoloader.php');
 
-function woo_payment_gateway()
+function init_soisy()
 {
-    if (!class_exists('WC_Payment_Gateway')) {
-        return;
-    }
-
     class SoisyGateway extends WC_Payment_Gateway
     {
-
-        /**
-         * @var array $availableCountries ;
-         */
+        /** @var array $availableCountries */
         protected $availableCountries = ['IT'];
 
-        /**
-         * @var $client ;
-         */
+        /** @var Client $client */
         protected $client;
 
-        /**
-         * Soisy_Gateway constructor.
-         */
         public function __construct()
         {
-            $plugin_dir         = plugin_dir_url(__FILE__);
             $this->id           = 'soisy';
-            $this->icon         = apply_filters('woocommerce_Soisy_icon', $plugin_dir . '/assets/images/logo-soisy-min.png');
 
             $this->supports    = ['soisy_payment_form'];
             $this->has_fields  = true;
@@ -68,24 +54,38 @@ function woo_payment_gateway()
             $this->msg['message']     = "";
             $this->msg['class']       = "";
 
-            add_filter('woocommerce_gateway_title', [&$this, 'enrich_title_with_widget']);
-            add_filter('woocommerce_available_payment_gateways', [&$this, 'payment_gateway_disable_countries']);
-            add_filter('woocommerce_available_payment_gateways', [&$this, 'payment_gateway_disable_by_amount']);
-
             if (version_compare(WOOCOMMERCE_VERSION, '2.0.0', '>=')) {
                 add_action('woocommerce_update_options_payment_gateways_' . $this->id, [&$this, 'process_admin_options']);
             } else {
                 add_action('woocommerce_update_options_payment_gateways', [&$this, 'process_admin_options']);
             }
 
-            add_action('woocommerce_after_checkout_form', [&$this, 'add_soisy_widget_js']);
-            add_action('woocommerce_single_product_summary', [&$this, 'add_soisy_widget_js']);
-            add_action('woocommerce_proceed_to_checkout', [&$this, 'add_soisy_widget_js']);
+            add_filter('woocommerce_available_payment_gateways', [&$this, 'payment_gateway_disable_countries']);
+            add_filter('woocommerce_available_payment_gateways', [&$this, 'payment_gateway_disable_by_amount']);
+
+            $this->soisyWidgetInit();
+        }
+
+        public function soisyWidgetInit()
+        {
+            add_action('woocommerce_single_product_summary', [&$this, 'add_soisy_loan_quote_widget_js']);
+            add_action('woocommerce_single_product_summary', [&$this, 'add_soisy_loan_quote_widget_tag'], 10);
+
+            add_action('woocommerce_proceed_to_checkout', [&$this, 'add_soisy_loan_quote_widget_js']);
+            add_action('woocommerce_proceed_to_checkout', [&$this, 'add_soisy_loan_quote_widget_tag']);
+
+            add_action('woocommerce_after_checkout_form', [&$this, 'add_soisy_loan_quote_widget_js']);
+            add_filter('woocommerce_gateway_title', [&$this, 'enrich_title_with_widget']);
 
             add_filter('script_loader_tag', [&$this, 'make_script_async'], 10, 3);
         }
 
-        public function add_soisy_widget_js()
+        public function add_soisy_loan_quote_widget_tag()
+        {
+            load_template( __DIR__ . '/templates/soisy-loan-quote.php');
+        }
+
+        public function add_soisy_loan_quote_widget_js()
         {
             wp_enqueue_script('soisy-loan-quote-widget', 'https://cdn.soisy.it/loan-quote-widget.js', [], null, true);
         }
@@ -98,7 +98,6 @@ function woo_payment_gateway()
 
             return str_replace( '<script', '<script async defer', $tag );
         }
-
 
         public function enrich_title_with_widget($title)
         {
@@ -138,17 +137,11 @@ function woo_payment_gateway()
             return $available_gateways;
         }
 
-        /**
-         * Admin setting fields
-         */
         public function init_form_fields()
         {
             $this->form_fields = Includes\Settings::adminSettingsForm();
         }
 
-        /**
-         * Admin options
-         */
         public function admin_options()
         {
             $this->instance_options();
@@ -159,9 +152,6 @@ function woo_payment_gateway()
             return get_option($this->get_option_key() . '_instalment_table', null);
         }
 
-        /**
-         * Set up Soisy checkout fields
-         */
         public function payment_fields()
         {
             if ($this->supports('soisy_payment_form') && is_checkout()) {
@@ -169,9 +159,6 @@ function woo_payment_gateway()
             }
         }
 
-        /**
-         * admin_options function.
-         */
         public function instance_options()
         {
             ?>
@@ -183,12 +170,6 @@ function woo_payment_gateway()
             <?php
         }
 
-
-        /**
-         * Outputs fields for entering Soisy information.
-         *
-         * @since 2.6.0
-         */
         public function form()
         {
             wp_enqueue_script('woocommerce_checkout_instalment_select');
@@ -207,11 +188,6 @@ function woo_payment_gateway()
             <?php
         }
 
-        /**
-         * Helper function to display error for different version of Woocommerce
-         *
-         * @param $message
-         */
         public function displayErrorMessage($message)
         {
             if ($this->getWoocommerceVersionNumber() >= 2.1) {
@@ -221,9 +197,6 @@ function woo_payment_gateway()
             return WC()->add_error(__($message, 'soisy'));
         }
 
-        /**
-         * Process the payment and return the result
-         **/
         public function process_payment($order_id)
         {
             $this->client = new Client(
@@ -307,37 +280,26 @@ function woo_payment_gateway()
     }
 }
 
-/**
- * Add Gateway class to all payment gateway methods
- */
-function woo_add_gateway_class($methods)
+function add_soisy_gateway($methods)
 {
     $methods[] = 'SoisyGateway';
 
     return $methods;
 }
 
-add_action('plugins_loaded', 'woo_payment_gateway', 0);
-
-add_filter('woocommerce_payment_gateways', 'woo_add_gateway_class');
-
 function load_soisy_translations()
 {
     load_plugin_textdomain('soisy', false, basename(dirname(__FILE__)) . '/languages/');
 }
 
-add_action('plugins_loaded', 'load_soisy_translations');
-
-
-/**
- * Adds soisy loan info on product page
- */
-function init_soisy_pages_functionalities()
+function init_soisy_widget_for_cart_and_product_page()
 {
-    if (Includes\Helper::isSoisyGatewayPaymentActive()) {
-        new \SoisyPlugin\Includes\Product\View();
-        new \SoisyPlugin\Includes\Checkout\Cart\View();
+    if (is_product() || is_cart()) {
+        new SoisyGateway();
     }
 }
 
-add_action('plugins_loaded', 'init_soisy_pages_functionalities');
+add_filter('woocommerce_payment_gateways', 'add_soisy_gateway');
+add_action('plugins_loaded', 'load_soisy_translations');
+add_action('plugins_loaded', 'init_soisy');
+add_action('the_post', 'init_soisy_widget_for_cart_and_product_page');
