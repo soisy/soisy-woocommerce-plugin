@@ -82,7 +82,7 @@ function init_soisy()
 
         public function add_soisy_loan_quote_widget_tag()
         {
-            load_template( __DIR__ . '/templates/soisy-loan-quote.php');
+            require( __DIR__ . '/templates/soisy-loan-quote.php');
         }
 
         public function add_soisy_loan_quote_widget_js()
@@ -106,7 +106,7 @@ function init_soisy()
             }
 
             ob_start();
-            load_template(WC_SOISY_PLUGIN_PATH . '/templates/soisy-loan-quote.php');
+            require(WC_SOISY_PLUGIN_PATH . '/templates/soisy-loan-quote.php');
             $soisyLoanQuoteWidget = ob_get_clean();
 
             return $title . '<br>' . $soisyLoanQuoteWidget;
@@ -276,6 +276,11 @@ function init_soisy()
                     }
                 }
             }
+        }
+
+        private function getShopId(): string
+        {
+            return $this->settings['sandbox_mode'] ? 'soisytests' : $this->settings['shop_id'];
         }
     }
 }

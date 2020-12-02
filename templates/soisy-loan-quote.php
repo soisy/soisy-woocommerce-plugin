@@ -14,9 +14,9 @@ if (\SoisyPlugin\Includes\Helper::isCorrectAmount($priceToCheck)):
 
 ?>
 <soisy-loan-quote
-        shop-id="soisytests"
+        shop-id="<?=$this->getShopId(); ?>"
         amount="<?=$priceToCheck; ?>"
-        instalments="10"></soisy-loan-quote>
+        instalments="<?=\Soisy\Client::QUOTE_INSTALMENTS_AMOUNT; ?>"></soisy-loan-quote>
 <?php
 
 endif;
