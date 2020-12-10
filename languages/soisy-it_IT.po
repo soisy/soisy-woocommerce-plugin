@@ -90,7 +90,7 @@ msgid "is a required field."
 msgstr "è un campo obbligatorio"
 
 msgid "Soisy checkout description"
-msgstr "Soisy, la piattaforma di prestiti tra privati che ti permette di acquistare i tuoi prodotti a rate."
+msgstr "Soisy, la piattaforma di prestiti tra privati che ti permette di acquistare i tuoi prodotti a rate. Verrai reindirizzato su Soisy e potrai selezionare il numero di rate che preferisci, scegliendo di pagare l'importo mensile più si adatta a te."
 
 #: includes/product/class-view.php:61
 msgid "Loan quote text"

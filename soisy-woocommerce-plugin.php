@@ -3,7 +3,7 @@
  * Plugin Name: Soisy Payment Gateway
  * Plugin URI: https://doc.soisy.it/it/Plugin/WooCommerce.html
  * Description: Soisy, the a P2P lending platform that allows your customers to pay in instalments.
- * Version: 4.0.0
+ * Version: 4.1.0
  * Author: Soisy
  * Author URI: https://www.soisy.it
  * Text Domain: soisy
@@ -39,6 +39,7 @@ function init_soisy()
         public function __construct()
         {
             $this->id           = 'soisy';
+            $this->icon         = apply_filters('woocommerce_Soisy_icon',  plugin_dir_url(__FILE__) . '/assets/images/logo-soisy-min.png');
 
             $this->supports    = ['soisy_payment_form'];
             $this->has_fields  = true;
@@ -74,15 +75,12 @@ function init_soisy()
             add_action('woocommerce_proceed_to_checkout', [&$this, 'add_soisy_loan_quote_widget_js']);
             add_action('woocommerce_proceed_to_checkout', [&$this, 'add_soisy_loan_quote_widget_tag']);
 
-            add_action('woocommerce_after_checkout_form', [&$this, 'add_soisy_loan_quote_widget_js']);
-            add_filter('woocommerce_gateway_title', [&$this, 'enrich_title_with_widget']);
-
             add_filter('script_loader_tag', [&$this, 'make_script_async'], 10, 3);
         }
 
         public function add_soisy_loan_quote_widget_tag()
         {
-            require( __DIR__ . '/templates/soisy-loan-quote.php');
+            require_once( __DIR__ . '/templates/soisy-loan-quote.php');
         }
 
         public function add_soisy_loan_quote_widget_js()
@@ -97,19 +95,6 @@ function init_soisy()
             }
 
             return str_replace( '<script', '<script async defer', $tag );
-        }
-
-        public function enrich_title_with_widget($title)
-        {
-            if (!stripos($title, 'soisy')) {
-                return $title;
-            }
-
-            ob_start();
-            require(WC_SOISY_PLUGIN_PATH . '/templates/soisy-loan-quote.php');
-            $soisyLoanQuoteWidget = ob_get_clean();
-
-            return $title . '<br>' . $soisyLoanQuoteWidget;
         }
 
         public function payment_gateway_disable_countries($available_gateways)
@@ -175,6 +160,12 @@ function init_soisy()
             wp_enqueue_script('woocommerce_checkout_instalment_select');
             ?>
             <p><?php echo __('Soisy checkout description', 'soisy'); ?></p>
+            <div>
+                <?php
+                    $this->add_soisy_loan_quote_widget_js();
+                    $this->add_soisy_loan_quote_widget_tag();
+                ?>
+            </div>
             <fieldset id="<?php echo esc_attr($this->id); ?>-soisy-form" class='wc-check-form wc-payment-form'>
                 <?php do_action('woocommerce_echeck_form_start', $this->id); ?>
                 <?php
