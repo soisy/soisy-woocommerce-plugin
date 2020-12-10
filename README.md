@@ -2,7 +2,7 @@
 
 ## For WooCommerce administrators/users
 
-Please download the [latest version (4.0.0)](https://github.com/soisy/soisy-woocommerce-plugin/archive/4.0.0.zip) of this plugin. Any previous version is no longer supported.
+Please download the [latest version](https://github.com/soisy/soisy-woocommerce-plugin/releases/latest) of this plugin. Any previous version is no longer supported.
 
 ### Installation
 Download the [latest version](https://github.com/soisy/soisy-woocommerce-plugin/releases) of this plugin and unzip its content inside your `./wp-content/plugins` directory.  
