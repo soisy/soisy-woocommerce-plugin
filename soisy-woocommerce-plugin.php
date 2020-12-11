@@ -161,8 +161,8 @@ function init_soisy()
             ?>
             <p><?php echo __('Soisy checkout description', 'soisy'); ?></p>
             <div>
+                <script async defer src="https://cdn.soisy.it/loan-quote-widget.js"></script>
                 <?php
-                    $this->add_soisy_loan_quote_widget_js();
                     $this->add_soisy_loan_quote_widget_tag();
                 ?>
             </div>
