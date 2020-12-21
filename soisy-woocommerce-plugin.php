@@ -3,7 +3,7 @@
  * Plugin Name: Soisy Payment Gateway
  * Plugin URI: https://doc.soisy.it/it/Plugin/WooCommerce.html
  * Description: Soisy, the a P2P lending platform that allows your customers to pay in instalments.
- * Version: 4.1.0
+ * Version: 4.2.0
  * Author: Soisy
  * Author URI: https://www.soisy.it
  * Text Domain: soisy
@@ -64,28 +64,28 @@ function init_soisy()
             add_filter('woocommerce_available_payment_gateways', [&$this, 'payment_gateway_disable_countries']);
             add_filter('woocommerce_available_payment_gateways', [&$this, 'payment_gateway_disable_by_amount']);
 
-            $this->soisyWidgetInit();
+            add_filter('woocommerce_get_price_html', [&$this, 'add_soisy_product_page']);
+            add_action('woocommerce_proceed_to_checkout', [&$this, 'add_soisy_cart_page']);
         }
 
-        public function soisyWidgetInit()
+        public function add_soisy_product_page($price)
         {
-            add_action('woocommerce_single_product_summary', [&$this, 'add_soisy_loan_quote_widget_js']);
-            add_action('woocommerce_single_product_summary', [&$this, 'add_soisy_loan_quote_widget_tag'], 10);
+            ob_start();
 
-            add_action('woocommerce_proceed_to_checkout', [&$this, 'add_soisy_loan_quote_widget_js']);
-            add_action('woocommerce_proceed_to_checkout', [&$this, 'add_soisy_loan_quote_widget_tag']);
-
-            add_filter('script_loader_tag', [&$this, 'make_script_async'], 10, 3);
-        }
-
-        public function add_soisy_loan_quote_widget_tag()
-        {
+            echo '<script async defer src="https://cdn.soisy.it/loan-quote-widget.js"></script>';
             require_once( __DIR__ . '/templates/soisy-loan-quote.php');
+
+            $widget = ob_get_clean();
+
+            return $price . $widget;
         }
 
-        public function add_soisy_loan_quote_widget_js()
+        public function add_soisy_cart_page()
         {
             wp_enqueue_script('soisy-loan-quote-widget', 'https://cdn.soisy.it/loan-quote-widget.js', [], null, true);
+            require_once( __DIR__ . '/templates/soisy-loan-quote.php');
+
+            add_filter('script_loader_tag', [&$this, 'make_script_async'], 10, 3);
         }
 
         function make_script_async( $tag, $handle, $src )
@@ -163,7 +163,7 @@ function init_soisy()
             <div>
                 <script async defer src="https://cdn.soisy.it/loan-quote-widget.js"></script>
                 <?php
-                    $this->add_soisy_loan_quote_widget_tag();
+                    require_once( __DIR__ . '/templates/soisy-loan-quote.php');
                 ?>
             </div>
             <fieldset id="<?php echo esc_attr($this->id); ?>-soisy-form" class='wc-check-form wc-payment-form'>
