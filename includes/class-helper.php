@@ -3,15 +3,15 @@
  * @package  Soisy
  */
 
-namespace SoisyPlugin\Includes;
+namespace Soisy\Includes;
 
-use Soisy\Client;
+use Soisy\SoisyClient;
 
 class Helper
 {
     public static function isCorrectAmount($order_total): bool
     {
-        return ($order_total >= Client::MIN_AMOUNT) && ($order_total <= Client::MAX_AMOUNT);
+        return ($order_total >= SoisyClient::MIN_AMOUNT) && ($order_total <= SoisyClient::MAX_AMOUNT);
     }
 
     public static function formatNumber(float $number): string

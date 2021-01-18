@@ -3,7 +3,7 @@
  * @package  Soisy
  */
 
-namespace SoisyPlugin\Includes;
+namespace Soisy\Includes;
 
 class Settings
 {

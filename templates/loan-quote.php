@@ -6,6 +6,8 @@
  */
 if (!defined('ABSPATH')) exit;
 
+use Soisy\SoisyClient;
+
 global $product;
 
 if (is_product()) {
@@ -29,14 +31,14 @@ if (is_product()) {
     $priceToCheck = WC()->cart->total;
 }
 
-if (\SoisyPlugin\Includes\Helper::isCorrectAmount($priceToCheck)):
+if (\Soisy\Includes\Helper::isCorrectAmount($priceToCheck)):
 
 ?>
     <br>
     <soisy-loan-quote
         shop-id="<?=$this->getShopId(); ?>"
         amount="<?=$priceToCheck; ?>"
-        instalments="<?=\Soisy\Client::QUOTE_INSTALMENTS_AMOUNT; ?>"></soisy-loan-quote>
+        instalments="<?=SoisyClient::QUOTE_INSTALMENTS_AMOUNT; ?>"></soisy-loan-quote>
     <br>
     <br>
 <?php

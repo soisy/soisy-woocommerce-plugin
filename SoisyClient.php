@@ -5,7 +5,7 @@ namespace Soisy;
 /**
  * @package  Soisy
  */
-class Client
+class SoisyClient
 {
 
     const SANDBOX_SHOP_ID = 'partnershop';

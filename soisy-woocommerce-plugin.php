@@ -19,8 +19,8 @@ if ((!defined('ABSPATH')) && (!in_array('woocommerce/woocommerce.php',
     exit;
 }
 
-use Soisy\Client;
-use SoisyPlugin\Includes;
+use Soisy\SoisyClient;
+use Soisy\Includes;
 
 define('WC_SOISY_PLUGIN_PATH', untrailingslashit(plugin_dir_path(__FILE__)));
 
@@ -33,7 +33,7 @@ function init_soisy()
         /** @var array $availableCountries */
         protected $availableCountries = ['IT'];
 
-        /** @var Client $client */
+        /** @var SoisyClient $client */
         protected $client;
 
         public function __construct()
@@ -73,7 +73,7 @@ function init_soisy()
             ob_start();
 
             echo '<script async defer src="https://cdn.soisy.it/loan-quote-widget.js"></script>';
-            require_once( __DIR__ . '/templates/soisy-loan-quote.php');
+            require_once(__DIR__ . '/templates/loan-quote.php');
 
             $widget = ob_get_clean();
 
@@ -83,7 +83,7 @@ function init_soisy()
         public function add_soisy_cart_page()
         {
             wp_enqueue_script('soisy-loan-quote-widget', 'https://cdn.soisy.it/loan-quote-widget.js', [], null, true);
-            require_once( __DIR__ . '/templates/soisy-loan-quote.php');
+            require_once(__DIR__ . '/templates/loan-quote.php');
 
             add_filter('script_loader_tag', [&$this, 'make_script_async'], 10, 3);
         }
@@ -115,7 +115,7 @@ function init_soisy()
 
             $order_total = SoisyGateway::get_order_total();
 
-            if (isset($available_gateways['soisy']) && ($order_total < Client::MIN_AMOUNT || $order_total > Client::MAX_AMOUNT)) {
+            if (isset($available_gateways['soisy']) && ($order_total < SoisyClient::MIN_AMOUNT || $order_total > SoisyClient::MAX_AMOUNT)) {
                 unset($available_gateways['soisy']);
             }
 
@@ -163,7 +163,7 @@ function init_soisy()
             <div>
                 <script async defer src="https://cdn.soisy.it/loan-quote-widget.js"></script>
                 <?php
-                    require_once( __DIR__ . '/templates/soisy-loan-quote.php');
+                    require_once(__DIR__ . '/templates/loan-quote.php');
                 ?>
             </div>
             <fieldset id="<?php echo esc_attr($this->id); ?>-soisy-form" class='wc-check-form wc-payment-form'>
@@ -190,7 +190,7 @@ function init_soisy()
 
         public function process_payment($order_id)
         {
-            $this->client = new Client(
+            $this->client = new SoisyClient(
                 $this->settings['shop_id'],
                 $this->settings['api_key'],
                 $this->settings['sandbox_mode']
