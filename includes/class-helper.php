@@ -14,21 +14,8 @@ class Helper
         return ($order_total >= SoisyClient::MIN_AMOUNT) && ($order_total <= SoisyClient::MAX_AMOUNT);
     }
 
-    public static function formatNumber(float $number): string
+    public static function priceToRawNumber(string $price): float
     {
-        return \number_format($number, 2, ',', '.');
-    }
-
-    public static function isSoisyGatewayPaymentActive(): bool
-    {
-        $gateways = apply_filters( 'woocommerce_payment_gateways', []);
-
-        foreach ($gateways as $gateway) {
-            if ($gateway == 'SoisyGateway') {
-                return (new $gateway())->enabled === 'yes';
-            }
-        }
-
-        return false;
+        return intval(preg_replace('/[^\d]+/', '', $price)) / 100;
     }
 }

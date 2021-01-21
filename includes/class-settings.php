@@ -26,28 +26,29 @@ class Settings
                 'title'   => __('Enable', 'soisy'),
                 'type'    => 'checkbox',
                 'label'   => __('Enable Soisy payment', 'soisy'),
-                'default' => 'yes'
+                'default' => 'yes',
             ],
             'sandbox_mode' => [
                 'title'    => __('Sandbox mode', 'soisy'),
                 'type'     => 'select',
                 'default'  => 1,
                 'class'    => 'wc-enhanced-select',
-                'desc_tip' => true,
                 'options'  => [
                     1 => __('Yes', 'woocommerce'),
                     0 => __('No', 'woocommerce'),
                 ],
+                'description' => __('Soisy sandbox param description'),
             ],
             'shop_id' => [
                 'title'    => __('Shop ID', 'soisy'),
                 'type'     => 'text',
-                'desc_tip' => true,
+                'description' => __('Soisy shopId param description'),
             ],
             'api_key' => [
                 'title'   => __('API key', 'soisy'),
                 'type'    => 'text',
                 'default' => '',
+                'description' => __('Soisy apiKey param description'),
             ],
         ];
     }

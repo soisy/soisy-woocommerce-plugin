@@ -7,6 +7,7 @@ namespace Soisy;
  */
 class SoisyClient
 {
+    const LOAN_QUOTE_CDN_JS = 'https://cdn.soisy.it/loan-quote-widget.js';
 
     const SANDBOX_SHOP_ID = 'partnershop';
     const SANDBOX_API_KEY = 'partnerkey';

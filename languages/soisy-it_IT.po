@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
-"X-Poedit-WPHeader: soisy-woocommerce-plugin.php\n"
+"X-Poedit-WPHeader: soisy.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -27,7 +27,7 @@ msgstr "Abilita"
 msgid "Enable Soisy payment"
 msgstr "Abilita Pagamento Soisy"
 
-#: includes/class-settings.php:83 soisy-woocommerce-plugin.php:56 soisy-woocommerce-plugin.php:72
+#: includes/class-settings.php:83 soisy.php:56 soisy.php:72
 msgid "Soisy"
 msgstr ""
 
@@ -70,19 +70,19 @@ msgstr "Confermo di aver letto ed accettato le condizioni di Privacy e Informati
 msgid "Read Soisy Privacy"
 msgstr "Leggi Privacy Soisy"
 
-#: soisy-woocommerce-plugin.php:73
+#: soisy.php:73
 msgid "Allow your customers to pay in instalments with Soisy, the P2P lending payment method"
 msgstr "Abilita i tuoi clienti a pagare a rate con Soisy, la piattaforma di prestiti tra privati."
 
-#: soisy-woocommerce-plugin.php:136
+#: soisy.php:136
 msgid "per month"
 msgstr "al mese"
 
-#: soisy-woocommerce-plugin.php:326
+#: soisy.php:326
 msgid "(Transaction Error) Error processing payment."
 msgstr "Si è verificato un errore nel pagamento."
 
-#: soisy-woocommerce-plugin.php:344
+#: soisy.php:344
 msgid "is a required field."
 msgstr "è un campo obbligatorio"
 
@@ -99,10 +99,19 @@ msgstr "Sapevi che puoi pagare questo prodotto a rate? Es. € {INSTALMENT_AMOUN
 msgid "Cart loan quote text"
 msgstr "Sapevi che puoi pagare il tuo ordine a rate? Es. € {INSTALMENT_AMOUNT} per {INSTALMENT_PERIOD} mesi, con TAEG {TAEG}, per un costo totale di € {TOTAL_REPAID}. Seleziona \"Paga con Soisy\" come metodo di pagamento alla fine dei tuoi acquisti."
 
-#: soisy-woocommerce-plugin.php:261
+#: soisy.php:261
 msgid "Validation error"
 msgstr "Errore di validazione"
 
-#: soisy-woocommerce-plugin.php:268
+#: soisy.php:268
 msgid "HTTP request error"
 msgstr "Errore richiesta HTTP"
+
+msgid "Soisy sandbox param description"
+msgstr "Finchè la modalità sandbox è attiva puoi fare tutti i test che desideri. Quando è attiva, i parametri shopId ed apiKey riportati sotto vengono ignorati. Quando sei pronto per andare live disattivala e imposta le tue credenziali di produzione che hai ricevuto da Soisy."
+
+msgid "Soisy shopId param description"
+msgstr "Il tuo shopId di produzione. Se la modalità sandbox è attiva questo parametro viene ignorato."
+
+msgid "Soisy apiKey param description"
+msgstr "La tua apiKey di produzione. Se la modalità sandbox è attiva questo parametro viene ignorato."

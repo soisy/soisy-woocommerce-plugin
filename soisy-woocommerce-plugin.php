@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: Soisy Payment Gateway
+ * Plugin Name: Soisy Pagamento Rateale
  * Plugin URI: https://doc.soisy.it/it/Plugin/WooCommerce.html
- * Description: Soisy, the a P2P lending platform that allows your customers to pay in instalments.
- * Version: 4.2.0
+ * Description: Soisy, la piattaforma di prestiti p2p che offre ai tuoi clienti il pagamento a rate
+ * Version: 5.0.0
  * Author: Soisy
  * Author URI: https://www.soisy.it
  * Text Domain: soisy
@@ -19,6 +19,7 @@ if ((!defined('ABSPATH')) && (!in_array('woocommerce/woocommerce.php',
     exit;
 }
 
+use Soisy\Includes\Helper;
 use Soisy\SoisyClient;
 use Soisy\Includes;
 
@@ -66,26 +67,34 @@ function init_soisy()
 
             add_filter('woocommerce_get_price_html', [&$this, 'add_soisy_product_page']);
             add_action('woocommerce_proceed_to_checkout', [&$this, 'add_soisy_cart_page']);
+
+            wp_enqueue_script('soisy-loan-quote-widget', SoisyClient::LOAN_QUOTE_CDN_JS, [], null, true);
+            add_filter('script_loader_tag', [&$this, 'make_script_async'], 10, 3);
+
+            add_filter( 'woocommerce_can_reduce_order_stock', [&$this, 'soisy_do_not_reduce_stock'], 10, 2 );
+        }
+
+        public function soisy_do_not_reduce_stock( $reduce_stock, $order )
+        {
+            if ( $order->has_status( 'on-hold' ) && $order->get_payment_method() == $this->id ) {
+                $reduce_stock = false;
+            }
+
+            return $reduce_stock;
         }
 
         public function add_soisy_product_page($price)
         {
-            ob_start();
+            if (is_product()) {
+                return $price . $this->showLoanQuoteWidgetForProduct($price);
+            }
 
-            echo '<script async defer src="https://cdn.soisy.it/loan-quote-widget.js"></script>';
-            require_once(__DIR__ . '/templates/loan-quote.php');
-
-            $widget = ob_get_clean();
-
-            return $price . $widget;
+            return $price;
         }
 
         public function add_soisy_cart_page()
         {
-            wp_enqueue_script('soisy-loan-quote-widget', 'https://cdn.soisy.it/loan-quote-widget.js', [], null, true);
-            require_once(__DIR__ . '/templates/loan-quote.php');
-
-            add_filter('script_loader_tag', [&$this, 'make_script_async'], 10, 3);
+            echo $this->showLoanQuoteWidgetForCart();
         }
 
         function make_script_async( $tag, $handle, $src )
@@ -94,7 +103,11 @@ function init_soisy()
                 return $tag;
             }
 
-            return str_replace( '<script', '<script async defer', $tag );
+            return str_replace(
+                "src='".SoisyClient::LOAN_QUOTE_CDN_JS."'>",
+                "src='".SoisyClient::LOAN_QUOTE_CDN_JS."' async defer>",
+                $tag
+            );
         }
 
         public function payment_gateway_disable_countries($available_gateways)
@@ -112,7 +125,6 @@ function init_soisy()
 
         public function payment_gateway_disable_by_amount($available_gateways)
         {
-
             $order_total = SoisyGateway::get_order_total();
 
             if (isset($available_gateways['soisy']) && ($order_total < SoisyClient::MIN_AMOUNT || $order_total > SoisyClient::MAX_AMOUNT)) {
@@ -269,9 +281,60 @@ function init_soisy()
             }
         }
 
-        private function getShopId(): string
+        public function getShopIdForLoanQuote(): string
         {
             return $this->settings['sandbox_mode'] ? 'soisytests' : $this->settings['shop_id'];
+        }
+
+        public function showLoanQuoteWidgetForProduct($price = null): string
+        {
+            global $product;
+
+            if (!is_null($price)) {
+                return $this->renderLoanQuoteWidget(Helper::priceToRawNumber($price));
+            }
+
+            switch ($product->get_type()) {
+                default:
+                case 'simple':
+                    $price = $product->is_on_sale() ? $product->get_sale_price() : $product->get_regular_price();
+                    break;
+
+                case 'grouped':
+                    $price = $product->is_on_sale() ? $product->get_sale_price() : $product->get_price();
+                    break;
+
+                case 'variable':
+                    $price = $product->is_on_sale() ? $product->get_variation_sale_price() : $product->get_variation_regular_price();
+                    break;
+            }
+
+            return $this->renderLoanQuoteWidget($price);
+        }
+
+        public function showLoanQuoteWidgetForCart(): string
+        {
+            return $this->renderLoanQuoteWidget(WC()->cart->total);
+        }
+
+        public function renderLoanQuoteWidget($price): string
+        {
+            if (!Helper::isCorrectAmount($price)) {
+                return '';
+            }
+
+            ob_start();
+            ?>
+            <br>
+            <soisy-loan-quote
+                    shop-id="<?=$this->getShopIdForLoanQuote(); ?>"
+                    amount="<?=$price; ?>"
+                    instalments="<?=SoisyClient::QUOTE_INSTALMENTS_AMOUNT; ?>"></soisy-loan-quote>
+            <br>
+            <br>
+            <?php
+
+            return ob_get_clean();
         }
     }
 }
@@ -295,7 +358,19 @@ function init_soisy_widget_for_cart_and_product_page()
     }
 }
 
+function add_soisy_action_links($links)
+{
+    $link = get_admin_url(null, 'admin.php') . '?' . http_build_query([
+        'page' => 'wc-settings',
+        'tab' => 'checkout',
+        'section' => 'soisy',
+    ]);
+
+    return array_merge(["<a href='$link'>Settings</a>"], $links);
+}
+
 add_filter('woocommerce_payment_gateways', 'add_soisy_gateway');
 add_action('plugins_loaded', 'load_soisy_translations');
 add_action('plugins_loaded', 'init_soisy');
 add_action('the_post', 'init_soisy_widget_for_cart_and_product_page');
+add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'add_soisy_action_links');

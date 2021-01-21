@@ -35,3 +35,12 @@ msgstr "You can also pay instalments, eg € {INSTALMENT_AMOUNT}, in {INSTALMENT
 #: includes/checkout/cart/class-view.php:58
 msgid "Cart loan quote text"
 msgstr "You can also pay instalments, eg € {INSTALMENT_AMOUNT}, in {INSTALMENT_PERIOD} months, with a total cost of € {TOTAL_REPAID} and TAEG {TAEG}. Just choose \"Pay with Soisy\" when choosing the payment method."
+
+msgid "Soisy sandbox param description"
+msgstr "Until sandbox mode is active you can do all your tests safely. When this is active the shopId and apiKey parameters below are ignored.. Once you're ready to go live deactivate the sandbox mode and use below your production credentials that you've received from Soisy."
+
+msgid "Soisy shopId param description"
+msgstr "Your production shopId. This is ignored when sandbox mode is active."
+
+msgid "Soisy apiKey param description"
+msgstr "Your production apiKey. This is ignored when sandbox mode is active."
