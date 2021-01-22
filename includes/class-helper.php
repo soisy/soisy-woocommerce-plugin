@@ -22,12 +22,15 @@ class Helper
         $price = preg_replace('/[^\d,\.]+/', '', $price);
 
         if (self::hasDecimals($price)) {
-            $char = self::getDecimalPointChar($price);
-
-            return floatval(implode('.', explode($char, $price)));
+            return self::getFloatValue($price);
         }
 
-        return intval($price);
+        return floatval($price);
+    }
+
+    public static function getFloatValue(string $price): float
+    {
+        return intval(preg_replace('/[^\d]/', '', $price)) / 100;
     }
 
     public static function cleanPriceByChar(string $character, string $price): string
@@ -47,7 +50,7 @@ class Helper
 
         if (!empty($char)) {
             $priceParts = explode($char, $price);
-            if (!empty($priceParts[1]) && intval($priceParts[1]) >= 0) {
+            if (isset($priceParts[1]) && $priceParts[1] !== '' && intval($priceParts[1]) >= 0) {
                 return true;
             }
         }
@@ -65,14 +68,14 @@ class Helper
         }
 
         if ($dotPos === false && $commaPos !== false) {
-            return $commaPos;
+            return ',';
         }
 
         if ($dotPos !== false && $commaPos === false) {
-            return $dotPos;
+            return '.';
         }
 
-        return $dotPos < $commaPos ? $commaPos : $dotPos;
+        return $dotPos < $commaPos ? ',' : '.';
     }
 
     public static function isSoisyLoanQuoteCalculatedAlready(string $price): bool

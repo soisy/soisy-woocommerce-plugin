@@ -283,7 +283,7 @@ function init_soisy()
             return $this->settings['sandbox_mode'] ? 'soisytests' : $this->settings['shop_id'];
         }
 
-        public function showLoanQuoteWidgetForProduct($price = null): string
+        public function showLoanQuoteWidgetForProduct($price): string
         {
             if (Helper::isSoisyLoanQuoteCalculatedAlready($price)) {
                 return '';
@@ -312,7 +312,6 @@ function init_soisy()
                     shop-id="<?=$this->getShopIdForLoanQuote(); ?>"
                     amount="<?=$price; ?>"
                     instalments="<?=SoisyClient::QUOTE_INSTALMENTS_AMOUNT; ?>"></soisy-loan-quote>
-            <br>
             <br>
             <?php
 
