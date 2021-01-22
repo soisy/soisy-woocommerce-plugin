@@ -37,6 +37,8 @@ function init_soisy()
         /** @var SoisyClient $client */
         protected $client;
 
+        private $cartCalled = false;
+
         public function __construct()
         {
             $this->id           = 'soisy';
@@ -94,6 +96,14 @@ function init_soisy()
 
         public function add_soisy_cart_page()
         {
+            // Sorry if you're the following condition, this but WooCommerce sucks so bad...
+
+            if (!empty($_SESSION['soisy-loan-quote-widget-called'])) {
+                return;
+            }
+
+            $_SESSION['soisy-loan-quote-widget-called'] = true;
+
             echo $this->showLoanQuoteWidgetForCartAndCheckout();
         }
 
