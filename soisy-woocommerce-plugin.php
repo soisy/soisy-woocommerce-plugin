@@ -94,7 +94,7 @@ function init_soisy()
 
         public function add_soisy_cart_page()
         {
-            echo $this->showLoanQuoteWidgetForCart();
+            echo $this->showLoanQuoteWidgetForCartAndCheckout();
         }
 
         function make_script_async( $tag, $handle, $src )
@@ -173,10 +173,7 @@ function init_soisy()
             ?>
             <p><?php echo __('Soisy checkout description', 'soisy'); ?></p>
             <div>
-                <script async defer src="https://cdn.soisy.it/loan-quote-widget.js"></script>
-                <?php
-                    require_once(__DIR__ . '/templates/loan-quote.php');
-                ?>
+                <?=$this->showLoanQuoteWidgetForCartAndCheckout(); ?>
             </div>
             <fieldset id="<?php echo esc_attr($this->id); ?>-soisy-form" class='wc-check-form wc-payment-form'>
                 <?php do_action('woocommerce_echeck_form_start', $this->id); ?>
@@ -288,31 +285,16 @@ function init_soisy()
 
         public function showLoanQuoteWidgetForProduct($price = null): string
         {
-            global $product;
-
-            if (!is_null($price)) {
-                return $this->renderLoanQuoteWidget(Helper::priceToRawNumber($price));
+            if (Helper::isSoisyLoanQuoteCalculatedAlready($price)) {
+                return '';
             }
 
-            switch ($product->get_type()) {
-                default:
-                case 'simple':
-                    $price = $product->is_on_sale() ? $product->get_sale_price() : $product->get_regular_price();
-                    break;
-
-                case 'grouped':
-                    $price = $product->is_on_sale() ? $product->get_sale_price() : $product->get_price();
-                    break;
-
-                case 'variable':
-                    $price = $product->is_on_sale() ? $product->get_variation_sale_price() : $product->get_variation_regular_price();
-                    break;
-            }
+            $price = Helper::htmlPriceToNumber($price);
 
             return $this->renderLoanQuoteWidget($price);
         }
 
-        public function showLoanQuoteWidgetForCart(): string
+        public function showLoanQuoteWidgetForCartAndCheckout(): string
         {
             return $this->renderLoanQuoteWidget(WC()->cart->total);
         }
@@ -353,7 +335,7 @@ function load_soisy_translations()
 
 function init_soisy_widget_for_cart_and_product_page()
 {
-    if (is_product() || is_cart()) {
+    if (is_product() || is_cart() || is_checkout()) {
         new SoisyGateway();
     }
 }
