@@ -25,7 +25,7 @@ class Helper
             return self::getFloatValue($price);
         }
 
-        return floatval($price);
+        return floatval(preg_replace('/[^\d]/', '', $price));
     }
 
     public static function getFloatValue(string $price): float
