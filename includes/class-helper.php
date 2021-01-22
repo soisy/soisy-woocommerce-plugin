@@ -60,19 +60,32 @@ class Helper
 
     public static function getDecimalPointChar(string $price): string
     {
+        if ($price[strlen($price)-1] === '.' || $price[strlen($price)-1] === ',') {
+            $price = substr($price, 0, strlen($price)-1);
+        }
+
         $dotPos = strpos($price, '.');
         $commaPos = strpos($price, ',');
+        $decimalSeparatorPos = strlen($price) - 3;
 
         if ($dotPos === false && $commaPos === false) {
             return '';
         }
 
         if ($dotPos === false && $commaPos !== false) {
-            return ',';
+            if ($commaPos === $decimalSeparatorPos) {
+                return ',';
+            }
+
+            return '';
         }
 
         if ($dotPos !== false && $commaPos === false) {
-            return '.';
+            if ($dotPos === $decimalSeparatorPos) {
+                return '.';
+            }
+
+            return '';
         }
 
         return $dotPos < $commaPos ? ',' : '.';
