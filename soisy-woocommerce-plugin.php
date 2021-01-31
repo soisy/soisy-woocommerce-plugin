@@ -3,7 +3,7 @@
  * Plugin Name: Soisy Pagamento Rateale
  * Plugin URI: https://doc.soisy.it/it/Plugin/WooCommerce.html
  * Description: Soisy, la piattaforma di prestiti p2p che offre ai tuoi clienti il pagamento a rate
- * Version: 5.0.0
+ * Version: 5.1.0
  * Author: Soisy
  * Author URI: https://www.soisy.it
  * Text Domain: soisy
@@ -36,8 +36,6 @@ function init_soisy()
 
         /** @var SoisyClient $client */
         protected $client;
-
-        private $cartCalled = false;
 
         public function __construct()
         {
@@ -220,28 +218,26 @@ function init_soisy()
             $amount = WC()->cart->total * 100;
 
             $params = [
-                'firstname'   => $order->get_billing_first_name(),
-                'lastname'    => $order->get_billing_last_name(),
-                'email'       => $order->get_billing_email(),
-                'city'        => $_POST['billing_city'],
-                'address'     => $_POST['billing_address_1'],
-                'civicNumber' => $_POST['billing_address_2'],
-                'postalCode'  => $_POST['billing_postcode'],
-                'province'    => $_POST['billing_state'],
-                'mobilePhone' => $_POST['billing_phone'],
+                'firstname'   => sanitize_text_field($order->get_billing_first_name()),
+                'lastname'    => sanitize_text_field($order->get_billing_last_name()),
+                'email'       => sanitize_email($order->get_billing_email()),
+                'city'        => sanitize_text_field($_POST['billing_city']),
+                'address'     => sanitize_text_field($_POST['billing_address_1']),
+                'civicNumber' => sanitize_text_field($_POST['billing_address_2']),
+                'postalCode'  => sanitize_text_field($_POST['billing_postcode']),
+                'province'    => sanitize_text_field($_POST['billing_state']),
+                'mobilePhone' => sanitize_text_field($_POST['billing_phone']),
                 'amount'      => $amount,
-                'instalments' => $_POST['soisy-instalment'],
-                'fiscalCode'  => $_POST['soisy-fiscal-code'],
             ];
 
             try {
-                $token = $this->client->requestToken($params);
+                $orderToken = $this->client->createSoisyOrder($params);
 
-                if (is_null($token)) {
-                    throw new \Error('Token unavailable. Request failed.');
+                if (is_null($orderToken)) {
+                    throw new \Error('Order token is null. Request failed.');
                 }
 
-                WC()->session->set('soisy_token', $token);
+                WC()->session->set('soisy_token', $orderToken);
 
                 if ($order->status !== 'completed') {
                     $order->update_status('on-hold');
@@ -339,7 +335,7 @@ function add_soisy_gateway($methods)
 
 function load_soisy_translations()
 {
-    load_plugin_textdomain('soisy', false, basename(dirname(__FILE__)) . '/languages/');
+    load_plugin_textdomain('soisy', false, basename(dirname(__FILE__)) . '/languages');
 }
 
 function init_soisy_widget_for_cart_and_product_page()
@@ -361,7 +357,7 @@ function add_soisy_action_links($links)
 }
 
 add_filter('woocommerce_payment_gateways', 'add_soisy_gateway');
-add_action('plugins_loaded', 'load_soisy_translations');
 add_action('plugins_loaded', 'init_soisy');
+add_action('plugins_loaded', 'load_soisy_translations');
 add_action('the_post', 'init_soisy_widget_for_cart_and_product_page');
 add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'add_soisy_action_links');

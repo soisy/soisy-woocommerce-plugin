@@ -56,14 +56,7 @@ class SoisyClient
         $this->apiKey        = $apiKey;
     }
 
-    public function getLoanSimulation(array $params): \stdClass
-    {
-        $rawResponse = $this->doRequest($this->getLoanQuoteUrl(), 'GET', $params);
-
-        return $rawResponse;
-    }
-
-    public function requestToken(array $params): ?string
+    public function createSoisyOrder(array $params): ?string
     {
         $response = $this->doRequest($this->getOrderCreationUrl(), 'POST', $params);
 
@@ -93,65 +86,30 @@ class SoisyClient
         return $this->getApiUrl() . '/' . self::PATH_ORDER_CREATION;
     }
 
-    private function getLoanQuoteUrl(): string
-    {
-        return $this->getApiUrl() . '/' . self::PATH_LOAN_QUOTE;
-    }
-
     private function doRequest(string $url, string $httpMethod = 'GET', array $params = [], int $timeout = null): \stdClass
     {
-        $ch = curl_init();
+        $headers = [
+            'X-Auth-Token' => $this->apiKey,
+        ];
 
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'X-Auth-Token: ' . $this->apiKey,
-        ]);
+        $timeout = !is_null($timeout) ? $timeout : $this->timeout;
 
-        if ($httpMethod == 'POST') {
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-        } elseif ($httpMethod == 'GET' && isset($params)) {
+        if ($httpMethod == 'GET' && isset($params)) {
             $url = $url . '?' . http_build_query($params);
+            $response = wp_remote_get($url, ['timeout' => $timeout, 'headers' => $headers]);
+        } else {
+            $response = wp_remote_post($url, ['timeout' => $timeout, 'headers' => $headers, 'body' => $params]);
         }
 
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, $this->timeout);
-        curl_setopt($ch, CURLOPT_TIMEOUT_MS, !is_null($timeout) ? $timeout : $this->timeout);
-
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-
-        $output          = json_decode(curl_exec($ch));
-        $httpStatusCode  = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $curlError       = curl_error($ch);
-        $curlErrorNumber = curl_errno($ch);
-
-        curl_close($ch);
-
-        if ($curlErrorNumber !== 0 || $curlError !== '') {
-            throw new \Error($curlError);
+        if (is_wp_error( $response )) {
+            throw new \Error($response->get_error_message());
         }
 
-        if ($httpStatusCode !== 200) {
-            throw new \DomainException($this->convertErrorsToString((array)$output->errors));
-        }
-
-        return $output;
+        return json_decode($response['body']);
     }
 
     private function isSandboxModeWanted($sandbox): bool
     {
         return $sandbox === "1" || $sandbox === 1 || $sandbox === true || is_null($sandbox);
-    }
-
-    private function convertErrorsToString(array $errors): string
-    {
-        $errorMessage = '';
-
-        foreach ($errors as $error) {
-            $errorMessage .= sprintf("%s\n", $error[0]);
-        }
-
-        return $errorMessage;
     }
 }

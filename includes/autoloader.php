@@ -1,21 +1,8 @@
 <?php
-/**
- * Dynamically loads the class attempting to be instantiated elsewhere in the
- * plugin.
- *
- * @package  Soisy
- */
 
-spl_autoload_register('soisy_payment_autoload');
+namespace Soisy\Includes;
 
-/**
- * The namespaces in this plugin map to the paths in the directory structure.
- *4
- * @param string $wantedClass The fully-qualified name of the class to load.
- */
-function soisy_payment_autoload($wantedClass)
-{
-
+spl_autoload_register(function ($wantedClass) {
     if (!isSoisyClass($wantedClass)) {
         return;
     }
@@ -37,7 +24,7 @@ function soisy_payment_autoload($wantedClass)
     if (!class_exists($wantedClass)) {
         wp_die(sprintf('Class %s not found', $wantedClass));
     }
-}
+});
 
 function isSoisyClass($wantedClass)
 {

@@ -37,18 +37,18 @@ class Settings
                     1 => __('Yes', 'woocommerce'),
                     0 => __('No', 'woocommerce'),
                 ],
-                'description' => __('Soisy sandbox param description'),
+                'description' => __('Soisy sandbox param description', 'soisy'),
             ],
             'shop_id' => [
                 'title'    => __('Shop ID', 'soisy'),
                 'type'     => 'text',
-                'description' => __('Soisy shopId param description'),
+                'description' => __('Soisy shopId param description', 'soisy'),
             ],
             'api_key' => [
                 'title'   => __('API key', 'soisy'),
                 'type'    => 'text',
                 'default' => '',
-                'description' => __('Soisy apiKey param description'),
+                'description' => __('Soisy apiKey param description', 'soisy'),
             ],
         ];
     }
