@@ -1,6 +1,4 @@
-=== Plugin Name ===
-
-Soisy Pagamento Rateale
+=== Soisy Pagamento Rateale ===
 Plugin URI: https://doc.soisy.it/it/Plugin/WooCommerce.html
 Tags: soisy, rate, paga a rate, pay in installments
 Author URI: https://www.soisy.it
@@ -17,7 +15,7 @@ Con Soisy permetti ai tuoi clienti di pagare i loro ordini in comode rate.
 == Description ==
 
 Aumenta le conversioni offrendo il pagamento rateale Soisy: semplice, veloce, 100% online.
-Un pagamento “più piccolo” stimola l’acquisto, favorisce le conversioni, aumenta l’importo medio dello scontrino.
+Un pagamento "più piccolo" stimola l'acquisto, favorisce le conversioni, aumenta l'importo medio dello scontrino.
 
 **Come funziona ?**
 

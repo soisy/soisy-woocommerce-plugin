@@ -1,5 +1,12 @@
 #!/bin/bash
 
+rm -rf svn
+mkdir svn
+cd svn
+
+svn checkout --depth immediates https://plugins.svn.wordpress.org/soisy-pagamento-rateale .
+svn update --set-depth infinity .
+
 declare -a trunkDirs=(
   "assets"
   "includes"
@@ -19,25 +26,17 @@ declare -a assetsFiles=(
   "assets/icon-256x256.png"
 )
 
-rm -rf svn
-
-mkdir -p svn/assets
-mkdir -p svn/tags
-mkdir -p svn/trunk
-
 for i in "${trunkDirs[@]}"
 do
-  cp -R "$i" svn/trunk
+  cp -R "../$i" trunk
 done
 
 for i in "${trunkFiles[@]}"
 do
-  cp "$i" svn/trunk
+  cp "../$i" trunk
 done
 
-for i in "${assetFiles[@]}"
+for i in "${assetsFiles[@]}"
 do
-  cp "$i" svn/trunk
+  cp "../$i" assets
 done
-
-cp -rip svn/trunk svn/tags/5.1.0
