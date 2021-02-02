@@ -1,6 +1,6 @@
 === Plugin Name ===
 
-Plugin Name: Soisy Pagamento Rateale
+Soisy Pagamento Rateale
 Plugin URI: https://doc.soisy.it/it/Plugin/WooCommerce.html
 Tags: soisy, rate, paga a rate, pay in installments
 Author URI: https://www.soisy.it
