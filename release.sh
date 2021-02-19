@@ -49,4 +49,6 @@ do
   cp "../$i" assets
 done
 
+sed -ie "s/\${VERSION}/$1/" trunk/readme.txt
+
 cp -rip trunk tags/$1

@@ -5,8 +5,8 @@ Author URI: https://www.soisy.it
 Author: Soisy
 Requires at least: 4.9
 Tested up to: 5.6
-Stable tag: 5.0.0
-Version: 5.0.0
+Stable tag: ${VERSION}
+Version: ${VERSION}
 License: MIT
 License URI: https://spdx.org/licenses/MIT.html
 
