@@ -221,11 +221,6 @@ function init_soisy()
                 'firstname'   => sanitize_text_field($order->get_billing_first_name()),
                 'lastname'    => sanitize_text_field($order->get_billing_last_name()),
                 'email'       => sanitize_email($order->get_billing_email()),
-                'city'        => sanitize_text_field($_POST['billing_city']),
-                'address'     => sanitize_text_field($_POST['billing_address_1']),
-                'civicNumber' => sanitize_text_field($_POST['billing_address_2']),
-                'postalCode'  => sanitize_text_field($_POST['billing_postcode']),
-                'province'    => sanitize_text_field($_POST['billing_state']),
                 'mobilePhone' => sanitize_text_field($_POST['billing_phone']),
                 'amount'      => $amount,
             ];
