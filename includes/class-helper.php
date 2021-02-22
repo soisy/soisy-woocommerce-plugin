@@ -16,6 +16,10 @@ class Helper
 
     public static function htmlPriceToNumber(string $price): float
     {
+        if (stripos($price, '</del>') !== false) {
+            $price = explode('</del>', $price)[1];
+        }
+
         $price = strip_tags($price);
         $price = self::cleanPriceByChar('€', $price);
         $price = self::cleanPriceByChar(' ', $price);

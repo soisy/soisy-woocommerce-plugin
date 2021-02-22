@@ -133,9 +133,9 @@ function init_soisy()
 
         public function payment_gateway_disable_by_amount($available_gateways)
         {
-            $order_total = SoisyGateway::get_order_total();
+            $currentTotal = WC()->cart->get_total();
 
-            if (isset($available_gateways['soisy']) && ($order_total < SoisyClient::MIN_AMOUNT || $order_total > SoisyClient::MAX_AMOUNT)) {
+            if (isset($available_gateways['soisy']) && ($currentTotal < SoisyClient::MIN_AMOUNT || $currentTotal > SoisyClient::MAX_AMOUNT)) {
                 unset($available_gateways['soisy']);
             }
 
@@ -215,7 +215,7 @@ function init_soisy()
 
             $order = new WC_Order($order_id);
 
-            $amount = WC()->cart->total * 100;
+            $amount = WC()->cart->get_cart_contents_total() * 100;
 
             $params = [
                 'firstname'   => sanitize_text_field($order->get_billing_first_name()),
@@ -297,7 +297,7 @@ function init_soisy()
 
         public function showLoanQuoteWidgetForCartAndCheckout(): string
         {
-            return $this->renderLoanQuoteWidget(WC()->cart->total);
+            return $this->renderLoanQuoteWidget(WC()->cart->get_cart_contents_total());
         }
 
         public function renderLoanQuoteWidget($price): string
