@@ -3,7 +3,7 @@
  * Plugin Name: Soisy Pagamento Rateale
  * Plugin URI: https://doc.soisy.it/it/Plugin/WooCommerce.html
  * Description: Soisy, la piattaforma di prestiti p2p che offre ai tuoi clienti il pagamento a rate
- * Version: 5.2.2
+ * Version: ${VERSION}
  * Author: Soisy
  * Author URI: https://www.soisy.it
  * Text Domain: soisy
@@ -215,7 +215,7 @@ function init_soisy()
 
             $order = new WC_Order($order_id);
 
-            $amount = WC()->cart->get_cart_contents_total() * 100;
+            $amount = SoisyGateway::get_order_total() * 100;
 
             $params = [
                 'firstname'   => sanitize_text_field($order->get_billing_first_name()),

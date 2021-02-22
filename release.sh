@@ -50,5 +50,9 @@ do
 done
 
 sed -ie "s/\${VERSION}/$1/" trunk/readme.txt
+sed -ie "s/\${VERSION}/$1/" trunk/soisy-woocommerce-plugin.php
+
+rm trunk/readme.txte
+rm trunk/soisy-woocommerce-plugin.phpe
 
 cp -rip trunk tags/$1
