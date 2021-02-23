@@ -297,7 +297,7 @@ function init_soisy()
 
         public function showLoanQuoteWidgetForCartAndCheckout(): string
         {
-            return $this->renderLoanQuoteWidget(WC()->cart->get_cart_contents_total());
+            return $this->renderLoanQuoteWidget(SoisyGateway::get_order_total());
         }
 
         public function renderLoanQuoteWidget($price): string
