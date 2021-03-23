@@ -85,7 +85,7 @@ function init_soisy()
 
         public function add_soisy_product_page($price)
         {
-            if (is_product()) {
+            if (is_product() && !is_null($price)) {
                 return $price . $this->showLoanQuoteWidgetForProduct($price);
             }
 
@@ -94,7 +94,7 @@ function init_soisy()
 
         public function add_soisy_cart_page()
         {
-            // Sorry if you're the following condition, this but WooCommerce sucks so bad...
+            // Sorry if you're reading the following condition, but WooCommerce sucks so bad...
 
             if (!empty($_SESSION['soisy-loan-quote-widget-called'])) {
                 return;
@@ -133,7 +133,7 @@ function init_soisy()
 
         public function payment_gateway_disable_by_amount($available_gateways)
         {
-            $currentTotal = SoisyGateway::get_order_total();
+            $currentTotal = Helper::htmlPriceToNumber(WC()->cart->get_total());
 
             if (isset($available_gateways['soisy']) && ($currentTotal < SoisyClient::MIN_AMOUNT || $currentTotal > SoisyClient::MAX_AMOUNT)) {
                 unset($available_gateways['soisy']);
@@ -215,7 +215,7 @@ function init_soisy()
 
             $order = new WC_Order($order_id);
 
-            $amount = SoisyGateway::get_order_total() * 100;
+            $amount = $order->get_total() * 100;
 
             $params = [
                 'firstname'   => sanitize_text_field($order->get_billing_first_name()),
@@ -286,22 +286,26 @@ function init_soisy()
 
         public function showLoanQuoteWidgetForProduct($price): string
         {
-            if (Helper::isSoisyLoanQuoteCalculatedAlready($price)) {
+            if (is_null($price)) {
                 return '';
             }
 
-            $price = Helper::htmlPriceToNumber($price);
+            if (Helper::isSoisyLoanQuoteCalculatedAlready($price)) {
+                return '';
+            }
 
             return $this->renderLoanQuoteWidget($price);
         }
 
         public function showLoanQuoteWidgetForCartAndCheckout(): string
         {
-            return $this->renderLoanQuoteWidget(SoisyGateway::get_order_total());
+            return $this->renderLoanQuoteWidget(WC()->cart->get_total());
         }
 
         public function renderLoanQuoteWidget($price): string
         {
+            $price = Helper::htmlPriceToNumber($price);
+
             if (!Helper::isCorrectAmount($price)) {
                 return '';
             }
