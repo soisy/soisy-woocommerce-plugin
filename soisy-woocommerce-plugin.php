@@ -133,6 +133,10 @@ function init_soisy()
 
         public function payment_gateway_disable_by_amount($available_gateways)
         {
+            if (is_null(WC()->cart)) {
+                return;
+            }
+
             $currentTotal = Helper::htmlPriceToNumber(WC()->cart->get_total());
 
             if (isset($available_gateways['soisy']) && ($currentTotal < SoisyClient::MIN_AMOUNT || $currentTotal > SoisyClient::MAX_AMOUNT)) {
