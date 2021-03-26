@@ -134,7 +134,7 @@ function init_soisy()
         public function payment_gateway_disable_by_amount($available_gateways)
         {
             if (is_null(WC()->cart)) {
-                return;
+                return $available_gateways;
             }
 
             $currentTotal = Helper::htmlPriceToNumber(WC()->cart->get_total());
@@ -303,6 +303,10 @@ function init_soisy()
 
         public function showLoanQuoteWidgetForCartAndCheckout(): string
         {
+            if (is_null(WC()->cart)) {
+                return '';
+            }
+
             return $this->renderLoanQuoteWidget(WC()->cart->get_total());
         }
 
