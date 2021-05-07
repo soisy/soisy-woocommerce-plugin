@@ -227,6 +227,7 @@ function init_soisy()
                 'email'       => sanitize_email($order->get_billing_email()),
                 'mobilePhone' => sanitize_text_field($_POST['billing_phone']),
                 'amount'      => $amount,
+                'orderReference' => $order_id,
             ];
 
             try {
