@@ -15,5 +15,5 @@ Wordpress password: `Mudar123`
 
 Just wait a couple of minutes so that the services goes up.
 
-Once inside you have to activate Soisy Plugin manually. The code mounted is the one you find under the `src/` folder of this repo.
-
+Once inside you have to activate Soisy Plugin manually. The code mounted is the one you find under the `src/` folder of this repo.  
+Remember to change the currency to `EUR` in `WooCommerce > Settings`.
