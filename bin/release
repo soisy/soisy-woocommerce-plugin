@@ -8,7 +8,6 @@ die () {
 [ "$#" -eq 1 ] || die "1 argument required, $# provided"
 echo $1 | grep -E -q '^[0-9\.]+$' || die "Semantic version argument required, $1 provided"
 
-cd ..
 rm -rf svn
 mkdir svn
 cd svn
