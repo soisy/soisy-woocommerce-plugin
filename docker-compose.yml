@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  soisy-woocommerce:
+    image: thiagobarradas/woocommerce:3.2.6-wp4.9.1-php7.1
+    volumes:
+      - ./src:/app/wp-content/plugins/soisy-woocommerce-plugin
+    ports:
+      - 80:80

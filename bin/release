@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 die () {
     echo >&2 "$@"
@@ -36,17 +36,17 @@ declare -a assetsFiles=(
 
 for i in "${trunkDirs[@]}"
 do
-  cp -R "../$i" trunk
+  cp -R "../src/$i" trunk
 done
 
 for i in "${trunkFiles[@]}"
 do
-  cp "../$i" trunk
+  cp "../src/$i" trunk
 done
 
 for i in "${assetsFiles[@]}"
 do
-  cp "../$i" assets
+  cp "../src/$i" assets
 done
 
 sed -ie "s/\${VERSION}/$1/" trunk/readme.txt
