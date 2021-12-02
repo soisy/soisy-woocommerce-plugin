@@ -14,7 +14,7 @@ class SoisyClient
 
     const QUOTE_INSTALMENTS_AMOUNT = 10;
 
-    const MIN_AMOUNT = 100;
+    const MIN_AMOUNT = 200;
     const MAX_AMOUNT = 15000;
 
     const PATH_ORDER_CREATION = 'orders';
