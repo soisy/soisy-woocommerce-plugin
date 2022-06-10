@@ -12,7 +12,7 @@ class SoisyClient
     const SANDBOX_SHOP_ID = 'partnershop';
     const SANDBOX_API_KEY = 'partnerkey';
 
-    const QUOTE_INSTALMENTS_AMOUNT = 10;
+    const QUOTE_INSTALMENTS_AMOUNT = 12;
 
     const MIN_AMOUNT = 100;
     const MAX_AMOUNT = 15000;
@@ -55,12 +55,13 @@ class SoisyClient
         $this->shopId        = $shopId;
         $this->apiKey        = $apiKey;
     }
+	
 
     public function createSoisyOrder(array $params): ?string
     {
-        $response = $this->doRequest($this->getOrderCreationUrl(), 'POST', $params);
-
-        if (isset($response->token)) {
+	    $response = $this->doRequest( $this->getOrderCreationUrl(), 'POST', $params );
+	
+	    if (isset($response->token)) {
             return $response->token;
         }
 
@@ -83,6 +84,7 @@ class SoisyClient
 
     private function getOrderCreationUrl(): string
     {
+        //return $this->getApiUrl() . 'SoisyClient.php/' . self::PATH_ORDER_CREATION;
         return $this->getApiUrl() . '/' . self::PATH_ORDER_CREATION;
     }
 

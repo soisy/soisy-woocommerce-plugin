@@ -11,7 +11,9 @@ class Helper
 {
     public static function isCorrectAmount($order_total): bool
     {
-        return ($order_total >= SoisyClient::MIN_AMOUNT) && ($order_total <= SoisyClient::MAX_AMOUNT);
+	    $vars = soisyVars();
+        //return ($order_total >= SoisyClient::MIN_AMOUNT) && ($order_total <= SoisyClient::MAX_AMOUNT);
+	    return ( $order_total >= $vars['min_amount'] ) && ( $order_total <= $vars['max_amount'] );
     }
 
     public static function htmlPriceToNumber(string $price): float

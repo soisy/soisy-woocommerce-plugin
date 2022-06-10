@@ -8,9 +8,9 @@ spl_autoload_register(function ($wantedClass) {
     }
 
     $filesToLoad = [
-        __DIR__ . '/class-helper.php',
-        __DIR__ . '/class-settings.php',
-        __DIR__ . '/../SoisyClient.php',
+	    __DIR__ . '/class-helper.php',
+	    __DIR__ . '/class-settings.php',
+	    __DIR__ . '/../SoisyClient.php',
     ];
 
     foreach ($filesToLoad as $filename) {
