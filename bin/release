@@ -24,6 +24,7 @@ declare -a trunkDirs=(
 declare -a trunkFiles=(
   "SoisyClient.php"
   "soisy-woocommerce-plugin.php"
+  "soisy-listener.php"
   "readme.txt"
 )
 
