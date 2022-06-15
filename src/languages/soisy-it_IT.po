@@ -1,88 +1,142 @@
-#: includes/class-settings.php:63
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2022-06-15 16:20+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.1\n"
+"X-Poedit-KeywordsList: __;_e;_x;_n\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: includes/class-settings.php:26
 msgid "Enable"
 msgstr "Abilita"
 
-#: includes/class-settings.php:65
+#: includes/class-settings.php:28
 msgid "Enable Soisy payment"
 msgstr "Abilita Pagamento Soisy"
 
-#: includes/class-settings.php:83 soisy.php:56 soisy.php:72
-msgid "Soisy"
-msgstr ""
-
-msgid "Pay in instalments with Soisy"
-msgstr "Paga a rate con Soisy"
-
-#: includes/class-settings.php:88
+#: includes/class-settings.php:32
 msgid "Sandbox mode"
 msgstr "Modalità Sandbox"
 
-#: includes/class-settings.php:94 includes/class-settings.php:210
-msgid "No"
-msgstr ""
-
-#: includes/class-settings.php:95 includes/class-settings.php:211
+#: includes/class-settings.php:37
 msgid "Yes"
 msgstr "Sì"
 
-#: includes/class-settings.php:100
+#: includes/class-settings.php:38
+msgid "No"
+msgstr ""
+
+#: includes/class-settings.php:40
+msgid "Soisy sandbox param description"
+msgstr ""
+"Finchè la modalità sandbox è attiva puoi fare tutti i test che desideri. "
+"Quando è attiva, i parametri shopId ed apiKey riportati sotto vengono "
+"ignorati. Quando sei pronto per andare live disattivala e imposta le tue "
+"credenziali di produzione che hai ricevuto da Soisy."
+
+#: includes/class-settings.php:43
 msgid "Shop ID"
 msgstr ""
 
-#: includes/class-settings.php:106
+#: includes/class-settings.php:45
+msgid "Soisy shopId param description"
+msgstr ""
+"Il tuo shopId di produzione. Se la modalità sandbox è attiva questo "
+"parametro viene ignorato."
+
+#: includes/class-settings.php:48
 msgid "API key"
 msgstr ""
 
-#: includes/class-settings.php:253
-msgid "Instalment"
+#: includes/class-settings.php:51
+msgid "Soisy apiKey param description"
+msgstr ""
+"La tua apiKey di produzione. Se la modalità sandbox è attiva questo "
+"parametro viene ignorato."
+
+#: includes/class-settings.php:54
+msgid "Instalments"
 msgstr "Rate"
 
-#: includes/class-settings.php:291
-msgid "Fiscal Code"
-msgstr "Codice Fiscale"
+#: includes/class-settings.php:56
+msgid "Number of Instalments (this applies only to quote widget)"
+msgstr "Numero di rate (valido solo per il widget)"
 
-#: includes/class-settings.php:296
+#: includes/class-settings.php:60
+msgid "Minimum amount"
+msgstr "Importo Minimo"
+
+#: includes/class-settings.php:62
+msgid "Minimum financing amount"
+msgstr "Importo Finanziabile Minimo"
+
+#: includes/class-settings.php:66
+msgid "Maximum amount"
+msgstr "Importo Massimo"
+
+#: includes/class-settings.php:68
+msgid "Maximum financing amount"
+msgstr "Importo Finanziabile Massimo"
+
+#: includes/class-settings.php:91
 msgid "I Agree submitting the info to Soisy page"
-msgstr "Confermo di aver letto ed accettato le condizioni di Privacy e Informative Soisy."
+msgstr ""
+"Confermo di aver letto ed accettato le condizioni di Privacy e Informative "
+"Soisy."
 
-#: includes/class-settings.php:296
+#: includes/class-settings.php:91
 msgid "Read Soisy Privacy"
 msgstr "Leggi Privacy Soisy"
 
-#: soisy.php:73
-msgid "Allow your customers to pay in instalments with Soisy, the P2P lending payment method"
-msgstr "Abilita i tuoi clienti a pagare a rate con Soisy, la piattaforma di prestiti tra privati."
+#: soisy-woocommerce-plugin.php:57
+msgid "Pay in instalments with Soisy"
+msgstr "Paga a rate con Soisy"
 
-#: soisy.php:136
-msgid "per month"
-msgstr "al mese"
+#: soisy-woocommerce-plugin.php:58
+msgid "Soisy"
+msgstr ""
 
-#: soisy.php:326
-msgid "(Transaction Error) Error processing payment."
-msgstr "Si è verificato un errore nel pagamento."
+#: soisy-woocommerce-plugin.php:59
+msgid ""
+"Allow your customers to pay in instalments with Soisy, the P2P lending "
+"payment method"
+msgstr ""
+"Abilita i tuoi clienti a pagare a rate con Soisy, la piattaforma di prestiti "
+"tra privati."
 
-#: soisy.php:344
-msgid "is a required field."
-msgstr "è un campo obbligatorio"
-
+#: soisy-woocommerce-plugin.php:194
 msgid "Soisy checkout description"
 msgstr ""
-"Soisy, la piattaforma di prestiti tra privati che ti permette di acquistare i tuoi prodotti a rate. Verrai reindirizzato su Soisy e potrai selezionare il numero di rate che preferisci, scegliendo di pagare l'importo mensile più si adatta a te. Segue "
-"un esempio:"
+"Soisy, la piattaforma di prestiti tra privati che ti permette di acquistare "
+"i tuoi prodotti a rate. Verrai reindirizzato su Soisy e potrai selezionare "
+"il numero di rate che preferisci, scegliendo di pagare l'importo mensile più "
+"si adatta a te. Segue un esempio:"
 
-#: soisy.php:261
+#: soisy-woocommerce-plugin.php:316
 msgid "Validation error"
 msgstr "Errore di validazione"
 
-#: soisy.php:268
+#: soisy-woocommerce-plugin.php:323
 msgid "HTTP request error"
 msgstr "Errore richiesta HTTP"
 
-msgid "Soisy sandbox param description"
-msgstr "Finchè la modalità sandbox è attiva puoi fare tutti i test che desideri. Quando è attiva, i parametri shopId ed apiKey riportati sotto vengono ignorati. Quando sei pronto per andare live disattivala e imposta le tue credenziali di produzione che hai ricevuto da Soisy."
+#: soisy-woocommerce-plugin.php:342
+msgid "is a required field."
+msgstr "è un campo obbligatorio"
 
-msgid "Soisy shopId param description"
-msgstr "Il tuo shopId di produzione. Se la modalità sandbox è attiva questo parametro viene ignorato."
+#~ msgid "Fiscal Code"
+#~ msgstr "Codice Fiscale"
 
-msgid "Soisy apiKey param description"
-msgstr "La tua apiKey di produzione. Se la modalità sandbox è attiva questo parametro viene ignorato."
+#~ msgid "per month"
+#~ msgstr "al mese"
+
+#~ msgid "(Transaction Error) Error processing payment."
+#~ msgstr "Si è verificato un errore nel pagamento."

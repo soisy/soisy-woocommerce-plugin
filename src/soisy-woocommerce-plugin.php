@@ -48,6 +48,7 @@
 				$this->has_fields  = true;
 				$this->form_fields = [];
 				
+    
 				$this->vars = soisyVars();
     
 				$this->init_form_fields();
@@ -372,7 +373,6 @@
 			}
 			
 			public function renderLoanQuoteWidget($price): string {
-				//do_action( 'qm/debug', 'widget triggered' );
 				if ( is_product() ) {
 					global $product;
 					$price = $product->get_price();
@@ -480,7 +480,7 @@
 				$headers[] = 'Content-Type: text/html; charset=UTF-8';
 				$headers[] = "From: Plugin Soisy <noreply@$domain>";
 				
-				if ( !empty( $subject ) ) {
+				if ( false && !empty( $subject ) ) {
 					foreach ( $recipients as $name => $recipient ) {
 						wp_mail( $recipient, $subject, $body, $headers );
 						
@@ -509,6 +509,16 @@
 	function init_soisy_widget_for_cart_and_product_page()
 	{
 		if (is_product() || is_cart() || is_checkout()) {
+			
+			add_filter( 'soisy_vars', function ( $vars ) {
+				$soisy = get_option( 'woocommerce_soisy_settings' );
+				foreach ( $vars as $setting => $ignore ) {
+					if ( !empty( $soisy[$setting] ) ) {
+						$vars[$setting] = $soisy[$setting];
+					}
+				}
+				return $vars;
+			} );
 			new SoisyGateway();
 		}
 	}
