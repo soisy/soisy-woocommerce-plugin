@@ -4,7 +4,7 @@ Tags: soisy, rate, paga a rate, pay in installments
 Author URI: https://www.soisy.it
 Author: Soisy
 Requires at least: 4.9
-Tested up to: 5.7
+Tested up to: 6.0
 Stable tag: ${VERSION}
 Version: ${VERSION}
 License: MIT
