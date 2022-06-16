@@ -67,6 +67,17 @@ class Settings
 			    'type'        => 'text',
 			    'description' => __( 'Maximum financing amount', 'soisy' ),
 			    'default'     => soisyVars()['max_amount']
+		    ],
+		    'soisy_zero'             => [
+			    'title'       => __( 'Interest Free', 'soisy' ),
+			    'type'        => 'select',
+			    'default'     => soisyVars()['soisy_zero'],
+			    'class'       => 'wc-enhanced-select',
+			    'options'     => [
+				    1 => __( 'Yes', 'woocommerce' ),
+				    0 => __( 'No', 'woocommerce' ),
+			    ],
+			    'description' => __( 'Enable Zero interest rates', 'soisy' ),
 		    ]
 	    ];
     }

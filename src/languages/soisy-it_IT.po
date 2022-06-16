@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2022-06-15 16:20+0200\n"
+"POT-Creation-Date: 2022-06-16 10:23+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -26,11 +26,11 @@ msgstr "Abilita Pagamento Soisy"
 msgid "Sandbox mode"
 msgstr "Modalità Sandbox"
 
-#: includes/class-settings.php:37
+#: includes/class-settings.php:37 includes/class-settings.php:77
 msgid "Yes"
 msgstr "Sì"
 
-#: includes/class-settings.php:38
+#: includes/class-settings.php:38 includes/class-settings.php:78
 msgid "No"
 msgstr ""
 
@@ -86,13 +86,21 @@ msgstr "Importo Massimo"
 msgid "Maximum financing amount"
 msgstr "Importo Finanziabile Massimo"
 
-#: includes/class-settings.php:91
+#: includes/class-settings.php:72
+msgid "Interest Free"
+msgstr "Tasso Zero"
+
+#: includes/class-settings.php:80
+msgid "Enable Zero interest rates"
+msgstr "Abilita il tasso Zero"
+
+#: includes/class-settings.php:102
 msgid "I Agree submitting the info to Soisy page"
 msgstr ""
 "Confermo di aver letto ed accettato le condizioni di Privacy e Informative "
 "Soisy."
 
-#: includes/class-settings.php:91
+#: includes/class-settings.php:102
 msgid "Read Soisy Privacy"
 msgstr "Leggi Privacy Soisy"
 
@@ -120,15 +128,15 @@ msgstr ""
 "il numero di rate che preferisci, scegliendo di pagare l'importo mensile più "
 "si adatta a te. Segue un esempio:"
 
-#: soisy-woocommerce-plugin.php:316
+#: soisy-woocommerce-plugin.php:318
 msgid "Validation error"
 msgstr "Errore di validazione"
 
-#: soisy-woocommerce-plugin.php:323
+#: soisy-woocommerce-plugin.php:325
 msgid "HTTP request error"
 msgstr "Errore richiesta HTTP"
 
-#: soisy-woocommerce-plugin.php:342
+#: soisy-woocommerce-plugin.php:344
 msgid "is a required field."
 msgstr "è un campo obbligatorio"
 
