@@ -377,7 +377,14 @@
 			public function renderLoanQuoteWidget($price): string {
 				if ( is_product() ) {
 					global $product;
-					$price = $product->get_price();
+					$type = $product->get_type();
+					switch ( $type ) {
+                        case 'variable':
+	                        $price = Helper::htmlPriceToNumber( $price );
+                            break;
+                        default:
+	                        $price = $product->get_price();
+					}
 				} else {
 					$price = Helper::htmlPriceToNumber( $price );
 				}
