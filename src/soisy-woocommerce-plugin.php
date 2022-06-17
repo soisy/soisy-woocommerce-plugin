@@ -375,18 +375,25 @@
 			}
 			
 			public function renderLoanQuoteWidget($price): string {
+				$legacy = true;
 				if ( is_product() ) {
 					global $product;
-					$type = $product->get_type();
-					switch ( $type ) {
-                        case 'variable':
-	                        $price = Helper::htmlPriceToNumber( $price );
-                            break;
-                        default:
-	                        $price = $product->get_price();
+					if ( is_object( $product ) ) {
+						$type = $product->get_type();
+						switch ( $type ) {
+							case 'variable':
+								$legacy = true;
+								
+								break;
+							default:
+								$legacy = false;
+								$price = $product->get_price();
+						}
 					}
-				} else {
-					$price = Helper::htmlPriceToNumber( $price );
+				}
+                
+                if( true === $legacy ){
+	                $price = Helper::htmlPriceToNumber( $price );
 				}
 				
 				$res = '';
