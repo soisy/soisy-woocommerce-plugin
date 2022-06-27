@@ -402,7 +402,7 @@
 								break;
 							default:
 								$legacy = false;
-								$price = $product->get_price();
+								$price = $product->get_display_price();
 						}
 					}
 				}
