@@ -249,6 +249,14 @@
 				return apply_filters( 'soisy_zero', $zero, $amount );
 			}
 			
+			public function showWidgetInTaxonomies () {
+				$bool = true;
+				if ( is_archive() ) {
+					$bool = false;
+				}
+				
+				return apply_filters( 'soisy_show_in_taxonomies', $bool );
+			}
 			
 			public function check_soisy ( $page ) {
 				return apply_filters( 'check_soisy_usable', true, $page );
@@ -354,6 +362,9 @@
 			
 			public function showLoanQuoteWidgetForProduct($price): string
 			{
+				if ( false == $this->showWidgetInTaxonomies() ) {
+					return '';
+				}
 				if (is_null($price)) {
 					return '';
 				}
@@ -367,6 +378,10 @@
 			
 			public function showLoanQuoteWidgetForCartAndCheckout(): string
 			{
+				if ( false == $this->showWidgetInTaxonomies() ) {
+					return '';
+				}
+    
 				if (is_null(WC()->cart)) {
 					return '';
 				}
@@ -391,9 +406,9 @@
 						}
 					}
 				}
-                
-                if( true === $legacy ){
-	                $price = Helper::htmlPriceToNumber( $price );
+				
+				if( true === $legacy ){
+					$price = Helper::htmlPriceToNumber( $price );
 				}
 				
 				$res = '';
