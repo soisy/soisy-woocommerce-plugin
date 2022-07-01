@@ -99,7 +99,7 @@ class Settings
             esc_attr($id) . '-checkbox'    => [
 	            'type'     => 'checkbox',
 	            'class'    => ['form-row form-row-wide validate-required'],
-	            'label'    => __( 'I Agree submitting the info to Soisy page', 'soisy' ) . '  class-settings.php' . "<a target='_blank' href='https://www.soisy.it/privacy-policy/'>" . __('Read Soisy Privacy', 'soisy') . "</a>",
+	            'label' => __('I Agree submitting the info to Soisy page', 'soisy') . ' ' . "<a target='_blank' href='https://www.soisy.it/privacy-policy/'>" . __('Read Soisy Privacy', 'soisy') . "</a>",
 	            'required' => true,
             ],
         ];
