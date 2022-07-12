@@ -49,11 +49,10 @@
 				$this->form_fields = [];
 				
     
-				$this->vars = soisyVars();
     
 				$this->init_form_fields();
 				$this->init_settings();
-				
+				$this->vars = soisyVars();
 				$this->title              = __('Pay in instalments with Soisy', 'soisy');
 				$this->method_title       = __('Soisy', 'soisy');
 				$this->method_description = __('Allow your customers to pay in instalments with Soisy, the P2P lending payment method', 'soisy');
