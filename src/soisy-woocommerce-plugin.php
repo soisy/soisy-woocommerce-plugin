@@ -37,8 +37,7 @@
 			/** @var SoisyClient $client */
 			protected $client;
 			
-            private $vars;
-            
+			
 			public function __construct()
 			{
 				$this->id           = 'soisy';
@@ -48,11 +47,10 @@
 				$this->has_fields  = true;
 				$this->form_fields = [];
 				
-    
-    
+				
+				soisyVars();
 				$this->init_form_fields();
 				$this->init_settings();
-				$this->vars = soisyVars();
 				$this->title              = __('Pay in instalments with Soisy', 'soisy');
 				$this->method_title       = __('Soisy', 'soisy');
 				$this->method_description = __('Allow your customers to pay in instalments with Soisy, the P2P lending payment method', 'soisy');
@@ -66,8 +64,8 @@
 					add_action('woocommerce_update_options_payment_gateways', [&$this, 'process_admin_options']);
 				}
 				
-				add_filter('woocommerce_available_payment_gateways', [&$this, 'payment_gateway_disable_countries']);
-				add_filter('woocommerce_available_payment_gateways', [&$this, 'payment_gateway_disable_by_amount']);
+				add_filter('woocommerce_available_payment_gateways', [&$this, 'payment_gateway_disable_countries'], 99);
+				add_filter('woocommerce_available_payment_gateways', [&$this, 'payment_gateway_disable_by_amount'], 99);
 				
 				
 				add_filter('woocommerce_get_price_html', [&$this, 'add_soisy_product_page']);
@@ -137,17 +135,22 @@
 				return $available_gateways;
 			}
 			
-			public function payment_gateway_disable_by_amount($available_gateways)
-			{
-				if (is_null(WC()->cart)) {
-					return $available_gateways;
-				}
+			public function payment_gateway_disable_by_amount($available_gateways) {
 				
-				$currentTotal = Helper::htmlPriceToNumber(WC()->cart->get_total());
-				
-				//if (isset($available_gateways['soisy']) && ($currentTotal < SoisyClient::MIN_AMOUNT || $currentTotal > SoisyClient::MAX_AMOUNT)) {
-				if ( isset( $available_gateways['soisy'] ) && ( $currentTotal < $this->vars['min_amount'] || $currentTotal > $this->vars['max_amount'] ) ) {
-					unset($available_gateways['soisy']);
+				if ( is_object( WC()->cart ) && ! empty( ( WC()->cart->get_total() ) ) ) {
+					$currentTotal = Helper::htmlPriceToNumber( WC()->cart->get_total() );
+					//if (isset($available_gateways['soisy']) && ($currentTotal < SoisyClient::MIN_AMOUNT || $currentTotal > SoisyClient::MAX_AMOUNT)) {
+					if ( isset( $available_gateways['soisy'] ) ) {
+						switch ( true ) {
+							case $currentTotal < $this->settings['min_amount']:
+							case $currentTotal > $this->settings['max_amount']:
+								unset( $available_gateways['soisy'] );
+								add_filter( 'check_soisy_usable', function ( $str ) {
+									return 'invalid';
+								} );
+								break;
+						}
+					}
 				}
 				
 				return $available_gateways;
@@ -188,6 +191,7 @@
 			
 			public function form()
 			{
+				
 				wp_enqueue_script('woocommerce_checkout_instalment_select');
 				?>
                 <p><?php echo __('Soisy checkout description', 'soisy'); ?></p>
@@ -221,8 +225,8 @@
 			}
 			
 			public function instalments ( $amount = 0, $zeroRate = false ) {
-				//return apply_filters( 'soisy_instalments', SoisyClient::QUOTE_INSTALMENTS_AMOUNT, $amount, $zeroRate );
-				return apply_filters( 'soisy_instalments', $this->vars['quote_instalments_amount'], $amount, $zeroRate );
+				return apply_filters( 'soisy_instalments', $this->settings['quote_instalments_amount'], $amount,
+					$zeroRate );
 			}
 			
 			public function forceTaxCalculation () {
@@ -244,7 +248,7 @@
 			public function zeroInterest ($amount = 0) {
 				$soisy = get_option( 'woocommerce_soisy_settings' );
 				$zero = isset( $soisy['soisy_zero'] ) ? $soisy['soisy_zero'] : false;
-    
+				
 				return apply_filters( 'soisy_zero', $zero, $amount );
 			}
 			
@@ -375,17 +379,17 @@
 				return $this->renderLoanQuoteWidget($price);
 			}
 			
-			public function showLoanQuoteWidgetForCartAndCheckout(): string
-			{
+			public function showLoanQuoteWidgetForCartAndCheckout(): string {
+				/*
 				if ( false == $this->showWidgetInTaxonomies() ) {
 					return '';
-				}
-    
-				if (is_null(WC()->cart)) {
-					return '';
+				}*/
+				
+				if ( is_object( WC()->cart ) && ! empty( ( WC()->cart->get_total() ) ) ) {
+					return $this->renderLoanQuoteWidget( WC()->cart->get_total() );
 				}
 				
-				return $this->renderLoanQuoteWidget(WC()->cart->get_total());
+				return '';
 			}
 			
 			public function renderLoanQuoteWidget($price): string {
@@ -419,9 +423,10 @@
 				$page = null;
 				$page = is_product() ? 'product' : $page;
 				$page = is_checkout() ? 'checkout' : $page;
-				$check = $this->check_soisy( $page );
 				$zero = $this->zeroInterest( $price );
 				$instalments = $this->instalments( $price, $zero );
+				$check = $this->check_soisy( $page );
+				do_action( 'qm/debug', $check );
 				if ( $check == 'invalid' ) {
 					$res = sprintf( '<script>document.getElementById("payment_method_soisy").disabled=true; </script>' );
 				}
@@ -583,5 +588,6 @@
 			'max_amount'               => 15000,
 			'soisy_zero'               => false
 		];
+		
 		return apply_filters( 'soisy_vars', $vars );
 	}
