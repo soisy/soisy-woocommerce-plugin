@@ -136,19 +136,17 @@
 			}
 			
 			public function payment_gateway_disable_by_amount($available_gateways) {
-				
 				if ( is_object( WC()->cart ) && ! empty( ( WC()->cart->get_total() ) ) ) {
 					$currentTotal = Helper::htmlPriceToNumber( WC()->cart->get_total() );
 					//if (isset($available_gateways['soisy']) && ($currentTotal < SoisyClient::MIN_AMOUNT || $currentTotal > SoisyClient::MAX_AMOUNT)) {
 					if ( isset( $available_gateways['soisy'] ) ) {
-						switch ( true ) {
-							case $currentTotal < $this->settings['min_amount']:
-							case $currentTotal > $this->settings['max_amount']:
-								unset( $available_gateways['soisy'] );
+						if ( $currentTotal < $this->settings['min_amount'] || $currentTotal > $this->settings['max_amount'] ) {
+                                unset( $available_gateways['soisy'] );
 								add_filter( 'check_soisy_usable', function ( $str ) {
-									return 'invalid';
+									$str = 'invalid';
+									
+									return $str;
 								} );
-								break;
 						}
 					}
 				}
@@ -257,7 +255,7 @@
 				if ( is_archive() ) {
 					$bool = false;
 				}
-				
+    
 				return apply_filters( 'soisy_show_in_taxonomies', $bool );
 			}
 			
@@ -288,7 +286,7 @@
 					'callbackUrl'    => plugin_dir_url( __FILE__ ) . 'soisy-listener.php?action=order_status'
 				];
 				
-				$zero = $this->zeroInterest($amount);
+				$zero = false;//$this->zeroInterest($amount);
 				
 				if ( $this->forceInstalments() ) {
 					$instalments = $this->instalments( $amount/100, $zero );
@@ -368,6 +366,10 @@
 				if ( false == $this->showWidgetInTaxonomies() ) {
 					return '';
 				}
+				global $woocommerce_loop;
+				if ( is_product() && $woocommerce_loop['name'] == 'related' ) {
+					return '';
+				}
 				if (is_null($price)) {
 					return '';
 				}
@@ -426,7 +428,7 @@
 				$zero = $this->zeroInterest( $price );
 				$instalments = $this->instalments( $price, $zero );
 				$check = $this->check_soisy( $page );
-				do_action( 'qm/debug', $check );
+				
 				if ( $check == 'invalid' ) {
 					$res = sprintf( '<script>document.getElementById("payment_method_soisy").disabled=true; </script>' );
 				}
