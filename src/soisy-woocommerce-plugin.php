@@ -136,17 +136,23 @@
 			}
 			
 			public function payment_gateway_disable_by_amount($available_gateways) {
-				if ( is_object( WC()->cart ) && ! empty( ( WC()->cart->get_total() ) ) ) {
-					$currentTotal = Helper::htmlPriceToNumber( WC()->cart->get_total() );
-					//if (isset($available_gateways['soisy']) && ($currentTotal < SoisyClient::MIN_AMOUNT || $currentTotal > SoisyClient::MAX_AMOUNT)) {
-					if ( isset( $available_gateways['soisy'] ) ) {
+				$currentTotal = 0;
+				if ( is_object( WC()->cart ) ) {
+					$cart = WC()->cart;
+					if ( isset( $cart->total ) && !empty( $cart->total ) ) {
+						$currentTotal = $cart->total;
+					}
+					else {
+						$currentTotal = Helper::htmlPriceToNumber( $cart->get_total() );
+					}
+                    if ( isset( $available_gateways['soisy'] ) && !empty($currentTotal) ) {
 						if ( $currentTotal < $this->settings['min_amount'] || $currentTotal > $this->settings['max_amount'] ) {
-                                unset( $available_gateways['soisy'] );
-								add_filter( 'check_soisy_usable', function ( $str ) {
-									$str = 'invalid';
-									
-									return $str;
-								} );
+							unset( $available_gateways['soisy'] );
+							add_filter( 'check_soisy_usable', function ( $str ) {
+								$str = 'invalid';
+								
+								return $str;
+							} );
 						}
 					}
 				}
@@ -382,16 +388,22 @@
 			}
 			
 			public function showLoanQuoteWidgetForCartAndCheckout(): string {
-				/*
-				if ( false == $this->showWidgetInTaxonomies() ) {
+				
+				/*if ( false == $this->showWidgetInTaxonomies() ) {
 					return '';
 				}*/
+				do_action( 'qm/debug', __FUNCTION__ );
 				
 				if ( is_object( WC()->cart ) && ! empty( ( WC()->cart->get_total() ) ) ) {
+					do_action( 'qm/debug', 'rendering_widget' );
+					print( '<!-- soisy rendering widget -->' );
 					return $this->renderLoanQuoteWidget( WC()->cart->get_total() );
+				} else {
+					return '';
 				}
+    
 				
-				return '';
+				
 			}
 			
 			public function renderLoanQuoteWidget($price): string {
