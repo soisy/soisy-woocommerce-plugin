@@ -37,6 +37,7 @@
 			/** @var SoisyClient $client */
 			protected $client;
 			
+			public $log;
 			
 			public function __construct()
 			{
@@ -48,9 +49,19 @@
 				$this->form_fields = [];
 				
 				
-				soisyVars();
+
 				$this->init_form_fields();
 				$this->init_settings();
+				
+				soisyVars();
+                if(!isset($this->settings['min_amount'])){
+					$this->settings['min_amount'] = soisyVars()['min_amount'];
+				}
+				if(!isset($this->settings['max_amount'])){
+					$this->settings['max_amount'] = soisyVars()['max_amount'];
+				}
+    
+				$this->log = boolval( $this->settings['logger'] );
 				$this->title              = __('Pay in instalments with Soisy', 'soisy');
 				$this->method_title       = __('Soisy', 'soisy');
 				$this->method_description = __('Allow your customers to pay in instalments with Soisy, the P2P lending payment method', 'soisy');
@@ -137,6 +148,7 @@
 			
 			public function payment_gateway_disable_by_amount($available_gateways) {
 				$currentTotal = 0;
+				$this->logger( [ 'caller' => __FUNCTION__ ] );
 				if ( is_object( WC()->cart ) ) {
 					$cart = WC()->cart;
 					if ( isset( $cart->total ) && !empty( $cart->total ) ) {
@@ -145,14 +157,24 @@
 					else {
 						$currentTotal = Helper::htmlPriceToNumber( $cart->get_total() );
 					}
+					$this->logger( ['cart_total' => $currentTotal] );
                     if ( isset( $available_gateways['soisy'] ) && !empty($currentTotal) ) {
 						if ( $currentTotal < $this->settings['min_amount'] || $currentTotal > $this->settings['max_amount'] ) {
-							unset( $available_gateways['soisy'] );
+							$this->logger( [
+                                    'unsetting due to:',
+                                    'cart_total' => $currentTotal,
+                                    'min' =>$this->settings['min_amount'],
+                                    'max' =>$this->settings['max_amount']
+                            ] );
+                            unset( $available_gateways['soisy'] );
 							add_filter( 'check_soisy_usable', function ( $str ) {
 								$str = 'invalid';
 								
 								return $str;
 							} );
+						}
+						else {
+							$this->logger( 'soisy is an available gateway' );
 						}
 					}
 				}
@@ -392,12 +414,16 @@
 				/*if ( false == $this->showWidgetInTaxonomies() ) {
 					return '';
 				}*/
-				do_action( 'qm/debug', __FUNCTION__ );
-				
 				if ( is_object( WC()->cart ) && ! empty( ( WC()->cart->get_total() ) ) ) {
-					do_action( 'qm/debug', 'rendering_widget' );
-					print( '<!-- soisy rendering widget -->' );
-					return $this->renderLoanQuoteWidget( WC()->cart->get_total() );
+					$cart = WC()->cart;
+					if ( isset( $cart->total ) && !empty( $cart->total ) ) {
+						$currentTotal = $cart->total;
+					}
+					else {
+						$currentTotal = Helper::htmlPriceToNumber( $cart->get_total() );
+					}
+     
+					return $this->renderLoanQuoteWidget( $currentTotal, true );
 				} else {
 					return '';
 				}
@@ -406,7 +432,7 @@
 				
 			}
 			
-			public function renderLoanQuoteWidget($price): string {
+			public function renderLoanQuoteWidget($price, $isCheckout=false): string {
 				$legacy = true;
 				if ( is_product() ) {
 					global $product;
@@ -422,6 +448,13 @@
 								$price = $product->get_display_price();
 						}
 					}
+				}
+				if ( $isCheckout ) {
+					$this->logger( [
+						'Rendering Widget for checkout',
+						'price' => $price
+					] );
+					$legacy = false;
 				}
 				
 				if( true === $legacy ){
@@ -539,6 +572,51 @@
 				echo json_encode( [ 'request' => 'ok' ] );
 				
 			}
+			
+			
+			private function logger ( $mixMsg, $strAction = 'append' ) {
+				if ( false == $this->log ) {
+					return;
+				}
+				$file = sprintf( '%ssoisy_logger.txt',
+					 wp_get_upload_dir()['path']
+				);
+				
+				switch ( $strAction ) {
+					case 'read':
+						$mode = 'r';
+						break;
+					case 'reset':
+						$mode = 'w';
+						break;
+					default:
+						$mode = 'a';
+						break;
+				}
+				$handle = fopen( $file, $mode );
+				switch ( true ) {
+					case null == $mixMsg:
+						$res = fread( $handle, filesize( $file ) );
+						break;
+					case is_array( $mixMsg ):
+						$row = sprintf( "\n[%s] passed array:\n%s\n%s",
+							date( 'Y-m-d H:i:s' ),
+							print_r( $mixMsg, true ),
+							str_repeat( '#', 15 )
+						);
+						$res = fwrite( $handle, $row );
+						break;
+					default:
+						$row = sprintf( "\n[%s] %s",
+							date( 'Y-m-d H:i:s' )
+							, $mixMsg
+						);
+						$res = fwrite( $handle, $row );
+						break;
+				}
+				
+				return $res;
+			}
 		}
 	}
 	
@@ -600,7 +678,8 @@
 			'quote_instalments_amount' => 12,
 			'min_amount'               => 100,
 			'max_amount'               => 15000,
-			'soisy_zero'               => false
+			'soisy_zero'               => false,
+			'logger'                   => 0
 		];
 		
 		return apply_filters( 'soisy_vars', $vars );

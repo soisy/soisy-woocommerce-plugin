@@ -78,6 +78,17 @@ class Settings
 				    0 => __( 'No', 'woocommerce' ),
 			    ],
 			    'description' => __( 'Enable Zero interest rates', 'soisy' ),
+		    ],
+		    'logger'             => [
+			    'title'       => __( 'Activate debug logger', 'soisy' ),
+			    'type'        => 'select',
+			    'default'     => 0,
+			    'class'       => 'wc-enhanced-select',
+			    'options'     => [
+				    1 => __( 'Yes', 'woocommerce' ),
+				    0 => __( 'No', 'woocommerce' ),
+			    ],
+			    'description' => __( 'Enable The Debug Logger', 'soisy' ),
 		    ]
 	    ];
     }
