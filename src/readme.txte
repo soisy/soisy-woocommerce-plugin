@@ -36,6 +36,6 @@ Per maggiori info e vantaggi per gli e-commerce [visita il nostro sito](https://
 
 == Changelog ==
 
-= 5.6.1 =
+= 5.6.2 =
 * Ora il merchant può scegliere in autonomia se abilitare o meno il tasso zero al momento del checkout
 * Minor fix
