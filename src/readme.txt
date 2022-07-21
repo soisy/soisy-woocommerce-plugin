@@ -4,6 +4,7 @@ Tags: soisy, rate, paga a rate, pay in installments
 Author URI: https://www.soisy.it
 Author: Soisy
 Requires at least: 4.9
+Requires PHP: 7.1
 Tested up to: 6.0
 Stable tag: ${VERSION}
 Version: ${VERSION}
@@ -33,3 +34,8 @@ Per maggiori info e vantaggi per gli e-commerce [visita il nostro sito](https://
 2. Il cliente può selezionare Soisy fra i metodi di pagamento
 3. Il cliente vede una simulazione rateale nel proprio carrello
 
+== Changelog ==
+
+= 5.6.1 =
+* Ora il merchant può scegliere in autonomia se abilitare o meno il tasso zero al momento del checkout
+* Minor fix
