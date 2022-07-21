@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2022-06-16 10:23+0200\n"
+"POT-Creation-Date: 2022-07-21 10:50+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.1\n"
+"X-Generator: Poedit 3.1.1\n"
 "X-Poedit-KeywordsList: __;_e;_x;_n\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -27,10 +27,12 @@ msgid "Sandbox mode"
 msgstr "Modalità Sandbox"
 
 #: includes/class-settings.php:37 includes/class-settings.php:77
+#: includes/class-settings.php:88
 msgid "Yes"
 msgstr "Sì"
 
 #: includes/class-settings.php:38 includes/class-settings.php:78
+#: includes/class-settings.php:89
 msgid "No"
 msgstr ""
 
@@ -44,7 +46,7 @@ msgstr ""
 
 #: includes/class-settings.php:43
 msgid "Shop ID"
-msgstr ""
+msgstr "ID dello Shop"
 
 #: includes/class-settings.php:45
 msgid "Soisy shopId param description"
@@ -54,7 +56,7 @@ msgstr ""
 
 #: includes/class-settings.php:48
 msgid "API key"
-msgstr ""
+msgstr "Chiave API"
 
 #: includes/class-settings.php:51
 msgid "Soisy apiKey param description"
@@ -91,28 +93,40 @@ msgid "Interest Free"
 msgstr "Tasso Zero"
 
 #: includes/class-settings.php:80
-msgid "Enable Zero interest rates"
-msgstr "Abilita il tasso Zero"
+msgid ""
+"Enable Zero interest rates. If enabled, your merchant fees will be updated "
+"accordingly, as per TOS Agreement"
+msgstr ""
+"Abilita Tasso Zero. Abilitando il tasso zero, anche le tue fee cambieranno "
+"come da contratto."
 
-#: includes/class-settings.php:102
+#: includes/class-settings.php:83
+msgid "Activate debug logger"
+msgstr "Attiva i Log"
+
+#: includes/class-settings.php:91
+msgid "Enable The Debug Logger"
+msgstr "Abilita il Log di Debug, utile per la modalità di sviluppo."
+
+#: includes/class-settings.php:113
 msgid "I Agree submitting the info to Soisy page"
 msgstr ""
 "Confermo di aver letto ed accettato le condizioni di Privacy e Informative "
 "Soisy."
 
-#: includes/class-settings.php:102
+#: includes/class-settings.php:113
 msgid "Read Soisy Privacy"
 msgstr "Leggi Privacy Soisy"
 
-#: soisy-woocommerce-plugin.php:57
+#: soisy-woocommerce-plugin.php:65
 msgid "Pay in instalments with Soisy"
 msgstr "Paga a rate con Soisy"
 
-#: soisy-woocommerce-plugin.php:58
+#: soisy-woocommerce-plugin.php:66
 msgid "Soisy"
 msgstr ""
 
-#: soisy-woocommerce-plugin.php:59
+#: soisy-woocommerce-plugin.php:67
 msgid ""
 "Allow your customers to pay in instalments with Soisy, the P2P lending "
 "payment method"
@@ -120,7 +134,7 @@ msgstr ""
 "Abilita i tuoi clienti a pagare a rate con Soisy, la piattaforma di prestiti "
 "tra privati."
 
-#: soisy-woocommerce-plugin.php:194
+#: soisy-woocommerce-plugin.php:223
 msgid "Soisy checkout description"
 msgstr ""
 "Soisy, la piattaforma di prestiti tra privati che ti permette di acquistare "
@@ -128,17 +142,20 @@ msgstr ""
 "il numero di rate che preferisci, scegliendo di pagare l'importo mensile più "
 "si adatta a te. Segue un esempio:"
 
-#: soisy-woocommerce-plugin.php:318
+#: soisy-woocommerce-plugin.php:355
 msgid "Validation error"
 msgstr "Errore di validazione"
 
-#: soisy-woocommerce-plugin.php:325
+#: soisy-woocommerce-plugin.php:362
 msgid "HTTP request error"
 msgstr "Errore richiesta HTTP"
 
-#: soisy-woocommerce-plugin.php:344
+#: soisy-woocommerce-plugin.php:381
 msgid "is a required field."
 msgstr "è un campo obbligatorio"
+
+#~ msgid "Enable Zero interest rates"
+#~ msgstr "Abilita il tasso Zero"
 
 #~ msgid "Fiscal Code"
 #~ msgstr "Codice Fiscale"

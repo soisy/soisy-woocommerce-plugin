@@ -77,7 +77,7 @@ class Settings
 				    1 => __( 'Yes', 'woocommerce' ),
 				    0 => __( 'No', 'woocommerce' ),
 			    ],
-			    'description' => __( 'Enable Zero interest rates', 'soisy' ),
+			    'description' => __( 'Enable Zero interest rates. If enabled, your merchant fees will be updated accordingly, as per TOS Agreement', 'soisy' ),
 		    ],
 		    'logger'             => [
 			    'title'       => __( 'Activate debug logger', 'soisy' ),

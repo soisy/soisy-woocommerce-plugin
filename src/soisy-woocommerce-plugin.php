@@ -314,7 +314,7 @@
 					'callbackUrl'    => plugin_dir_url( __FILE__ ) . 'soisy-listener.php?action=order_status'
 				];
 				
-				$zero = false;//$this->zeroInterest($amount);
+				$zero = $this->zeroInterest($amount);
 				
 				if ( $this->forceInstalments() ) {
 					$instalments = $this->instalments( $amount/100, $zero );
