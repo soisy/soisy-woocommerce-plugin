@@ -39,10 +39,9 @@ msgstr ""
 #: includes/class-settings.php:40
 msgid "Soisy sandbox param description"
 msgstr ""
-"Finchè la modalità sandbox è attiva puoi fare tutti i test che desideri. "
-"Quando è attiva, i parametri shopId ed apiKey riportati sotto vengono "
-"ignorati. Quando sei pronto per andare live disattivala e imposta le tue "
-"credenziali di produzione che hai ricevuto da Soisy."
+"Finchè la modalità sandbox è attiva potrai effettuare "
+"solo ordini di prova. Quando sei pronto per andare live "
+"disattivala e imposta le credenziali ricevute da Soisy."
 
 #: includes/class-settings.php:43
 msgid "Shop ID"
@@ -51,8 +50,7 @@ msgstr "ID dello Shop"
 #: includes/class-settings.php:45
 msgid "Soisy shopId param description"
 msgstr ""
-"Il tuo shopId di produzione. Se la modalità sandbox è attiva questo "
-"parametro viene ignorato."
+"Inserisci lo ShopID di produzione."
 
 #: includes/class-settings.php:48
 msgid "API key"
@@ -61,8 +59,7 @@ msgstr "Chiave API"
 #: includes/class-settings.php:51
 msgid "Soisy apiKey param description"
 msgstr ""
-"La tua apiKey di produzione. Se la modalità sandbox è attiva questo "
-"parametro viene ignorato."
+"Inserisci l'ApiKey di produzione."
 
 #: includes/class-settings.php:54
 msgid "Instalments"
@@ -94,10 +91,10 @@ msgstr "Tasso Zero"
 
 #: includes/class-settings.php:80
 msgid ""
-"Enable Zero interest rates. If enabled, your merchant fees will be updated "
+"If enabled, your merchant fees will be updated "
 "accordingly, as per TOS Agreement"
 msgstr ""
-"Abilita Tasso Zero. Abilitando il tasso zero, anche le tue fee cambieranno "
+"Attenzione! Abilitando il tasso zero anche le tue fee cambieranno "
 "come da contratto."
 
 #: includes/class-settings.php:83
