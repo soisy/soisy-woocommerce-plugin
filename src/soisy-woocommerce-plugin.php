@@ -678,7 +678,7 @@
 			'quote_instalments_amount' => 12,
 			'min_amount'               => 100,
 			'max_amount'               => 15000,
-			'soisy_zero'               => false,
+			'soisy_zero'               => 0,
 			'logger'                   => 0
 		];
 		

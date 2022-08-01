@@ -71,7 +71,7 @@ class Settings
 		    'soisy_zero'             => [
 			    'title'       => __( 'Interest Free', 'soisy' ),
 			    'type'        => 'select',
-			    'default'     => soisyVars()['soisy_zero'],
+			    'default'     => 0,
 			    'class'       => 'wc-enhanced-select',
 			    'options'     => [
 				    1 => __( 'Yes', 'woocommerce' ),
