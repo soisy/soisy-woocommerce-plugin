@@ -47,19 +47,16 @@
 				$this->supports    = ['soisy_payment_form'];
 				$this->has_fields  = true;
 				$this->form_fields = [];
-				
-				
-
-				$this->init_form_fields();
+			
 				$this->init_settings();
-				
-				soisyVars();
-                if(!isset($this->settings['min_amount'])){
-					$this->settings['min_amount'] = soisyVars()['min_amount'];
-				}
-				if(!isset($this->settings['max_amount'])){
-					$this->settings['max_amount'] = soisyVars()['max_amount'];
-				}
+				foreach ( soisyVars() as $setting => $value ) {
+					if ( ! isset( $this->settings[ $setting ] ) ) {
+						$this->settings[ $setting ] = $value;
+					}
+					
+                }
+    
+				$this->init_form_fields();
     
 				$this->log = boolval( $this->settings['logger'] );
 				$this->title              = __('Pay in instalments with Soisy', 'soisy');
@@ -674,6 +671,7 @@
 	
 	
 	function soisyVars () {
+        do_action('qm/debug','soisy vars');
 		$vars = [
 			'quote_instalments_amount' => 12,
 			'min_amount'               => 100,
