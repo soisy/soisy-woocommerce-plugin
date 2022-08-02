@@ -36,8 +36,9 @@ Per maggiori info e vantaggi per gli e-commerce [visita il nostro sito](https://
 
 == Changelog ==
 
-= 5.6.4 =
+= 5.6.5 =
 * Il plugin terrà traccia dei settings precedentemente inseriti dopo ogni aggiornamento.
+* ATTENZIONE! Il plugin disabiliterà in automatico il tasso zero, si prega di abilitarlo nuovamente se necessario.
 * Minor Fix.
 
 = 5.6.3 =

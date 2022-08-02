@@ -53,7 +53,9 @@
 					if ( ! isset( $this->settings[ $setting ] ) ) {
 						$this->settings[ $setting ] = $value;
 					}
-					
+					if ( ! isset( $this->settings['reset_zero'] ) ) {
+						$this->settings['soisy_zero'] = 0;
+					}
                 }
     
 				$this->init_form_fields();
@@ -269,8 +271,8 @@
 			}
 			
 			public function zeroInterest ($amount = 0) {
-				$soisy = get_option( 'woocommerce_soisy_settings' );
-				$zero = isset( $soisy['soisy_zero'] ) ? $soisy['soisy_zero'] : false;
+				//$soisy = get_option( 'woocommerce_soisy_settings' );
+				$zero = isset( $this->settings['soisy_zero'] ) ? $this->settings['soisy_zero'] : false;
 				
 				return apply_filters( 'soisy_zero', $zero, $amount );
 			}
