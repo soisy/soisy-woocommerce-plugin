@@ -56,19 +56,19 @@ class Settings
 			    'description' => __( 'Number of Instalments (this applies only to quote widget)', 'soisy' ),
 			    'default'     => soisyVars()['quote_instalments_amount']
 		    ],
-		    'min_amount' => [
+		    'min_amount'               => [
 			    'title'       => __( 'Minimum amount', 'soisy' ),
 			    'type'        => 'text',
 			    'description' => __( 'Minimum financing amount', 'soisy' ),
 			    'default'     => soisyVars()['min_amount']
 		    ],
-		    'max_amount' => [
+		    'max_amount'               => [
 			    'title'       => __( 'Maximum amount', 'soisy' ),
 			    'type'        => 'text',
 			    'description' => __( 'Maximum financing amount', 'soisy' ),
 			    'default'     => soisyVars()['max_amount']
 		    ],
-		    'soisy_zero'             => [
+		    'soisy_zero'               => [
 			    'title'       => __( 'Interest Free', 'soisy' ),
 			    'type'        => 'select',
 			    'default'     => 0,
@@ -79,7 +79,7 @@ class Settings
 			    ],
 			    'description' => __( 'Enable Zero interest rates. If enabled, your merchant fees will be updated accordingly, as per TOS Agreement', 'soisy' ),
 		    ],
-		    'logger'             => [
+		    'logger'                   => [
 			    'title'       => __( 'Activate debug logger', 'soisy' ),
 			    'type'        => 'select',
 			    'default'     => 0,
@@ -89,6 +89,10 @@ class Settings
 				    0 => __( 'No', 'woocommerce' ),
 			    ],
 			    'description' => __( 'Enable The Debug Logger', 'soisy' ),
+		    ],
+		    'reset_zero'             => [
+			    'type'  => 'hidden',
+			    'default' => 'yes'
 		    ]
 	    ];
     }
