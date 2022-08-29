@@ -57,9 +57,18 @@
 						$this->settings['soisy_zero'] = 0;
 					}
                 }
-    
+				add_filter( 'soisy_vars', function ( $var ) {
+					if ( is_array( $this->settings ) ) {
+						foreach ( $this->settings as $key => $val ) {
+							$var[ $key ] = $val;
+						}
+					}
+					
+					
+					return $var;
+				} );
+				
 				$this->init_form_fields();
-    
 				$this->log = boolval( $this->settings['logger'] );
 				$this->title              = __('Pay in instalments with Soisy', 'soisy');
 				$this->method_title       = __('Soisy', 'soisy');
@@ -287,6 +296,7 @@
 			}
 			
 			public function check_soisy ( $page ) {
+    
 				return apply_filters( 'check_soisy_usable', true, $page );
 			}
 			
@@ -666,14 +676,122 @@
 	add_action('the_post', 'init_soisy_widget_for_cart_and_product_page');
 	add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'add_soisy_action_links');
 	
+	add_action( 'admin_enqueue_scripts', function () {
+		if ( is_object( get_current_screen() ) &&get_current_screen()->base=='woocommerce_page_wc-settings' ) {
+			$admin_vars['haystacks']['allCats'] = soisyAdminCategorySearch();
+			wp_enqueue_script( 'soisy-admin', plugin_dir_url( __FILE__ ) . 'assets/soisy-admin.js', array( 'jquery', 'select2' ), time(), true );
+			
+			wp_localize_script( 'soisy-admin',
+				'adminVars',
+				$admin_vars
+			);
+		}
+	} );
+	
 	add_action( 'soisy_ajax_order_status', function () {
 		$soisy = new SoisyGateway();
 		$soisy->parseRemoteRequest();
 	} );
 	
+	add_filter( 'check_soisy_usable', function ( $result, $page ) {
+		$vars = soisyVars();
+		$forbidden = explode( ',', $vars['excluded_cat'] );
+		switch ( $page ) {
+            case 'product':
+                global $product;
+	            if ( ! empty( array_intersect( $forbidden, $product->get_category_ids() ) ) ) {
+		            $result = 'unavailable';
+	            }
+                break;
+            default:
+	            if ( is_object( WC()->cart ) ) {
+		            $cart = WC()->cart->get_cart();
+		            foreach ( $cart as $cart_item ) {
+			            $product = wc_get_product( $cart_item['product_id'] );
+			            if ( is_object($product) &&
+                             ! empty( array_intersect( $forbidden, $product->get_category_ids()  ) )
+                        ) {
+				            $result = 'unavailable';
+			            }
+		            }
+	            }
+                break;
+		}
+		
+		return $result;
+	}, 10, 2 );
+    
+    function soisyAdminCategorySearch( $res = []) {
+	    $args = array (
+		    'taxonomy'     => [ 'product_cat' ],
+		    'hierarchical' => true,
+		    'order'        => 'ASC',
+		    'orderby'      => 'name',
+		    'fields'       => 'all',
+		    'hide_empty'   => true,
+		    'get'          => 'all',
+	    );
+
+// The Term Query
+	    $term_query = new WP_Term_Query( $args );
+	    $admin_products = [];
+	    $filtered = [];
+	    //do_action('qm/debug', $term_query);
+	    if ( is_array( $term_query->terms ) ) {
+		    foreach ( $term_query->terms as $term ) {
+			    $wholeTerms[ $term->term_id ] = $term->name;
+			    if ( $term->parent == 0 ) {
+				    $orphans[ $term->term_id ] = $term->name;
+				    $legacy[ $term->term_id ]  = [ $term->term_id ];
+			    } else {
+				    $legacy[ $term->term_id ][]                    = $term->parent;
+				    $legacy[ $term->term_id ][]                    = $term->term_id;
+				    $descendant[ $term->parent ][ $term->term_id ] = $term->name;
+			    }
+		    }
+		    foreach ( $legacy as $id => $ar ) {
+			    $label = [];
+			    foreach ( $ar as $item ) {
+				    $label[] = $wholeTerms[ $item ];
+			    }
+			    $labels[ $id ] = $label;
+		    }
+		
+		    foreach ( $term_query->terms as $term ) {
+			    $id = $term->term_id;
+			    if ( $term->parent > 0 ) {
+				    $merge                  = array_unique( array_merge( $labels[ $term->parent ], $labels[ $id ] ) );
+				    $unsort_products[ $id ] = [
+					    'id'   => $id,
+					    'text' => implode( ' / ', $merge )
+				    ];
+			    } else {
+				    $unsort_products[ $id ] = [
+					    'id'   => $id,
+					    'text' => implode( ' / ', $labels[ $id ] )
+				    ];
+			    }
+			    $sort[ $id ] = $unsort_products[ $id ]['text'];
+		    }
+		    asort( $sort );
+		
+		    foreach ( $sort as $id => $void ) {
+			    $admin_products[] = $unsort_products[ $id ];
+			    if ( in_array( $id, $res ) ) {
+				    $filtered[ $id ] = $void;
+			    }
+		    }
+		
+	    }
+	    if ( ! empty( $res ) ) {
+		    return $filtered;
+	    }
+	
+	    return $admin_products;
+    }
 	
 	function soisyVars () {
-        do_action('qm/debug','soisy vars');
+        //do_action('qm/debug','soisy vars');
 		$vars = [
 			'quote_instalments_amount' => 12,
 			'min_amount'               => 100,

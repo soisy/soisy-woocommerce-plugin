@@ -36,6 +36,13 @@ Per maggiori info e vantaggi per gli e-commerce [visita il nostro sito](https://
 
 == Changelog ==
 
+= 5.7.0 =
+* Aggiunta la possibilità di escludere le categorie prodotto dal metodo di pagamento dilazionato. 
+* Minor fix calcolo rata sui prodotti con variabili.
+
+= 5.6.6 =
+* Minor fix tasso 0.
+
 = 5.6.5 =
 * Il plugin terrà traccia dei settings precedentemente inseriti dopo ogni aggiornamento.
 * ATTENZIONE! Il plugin disabiliterà in automatico il tasso zero, si prega di abilitarlo nuovamente se necessario.

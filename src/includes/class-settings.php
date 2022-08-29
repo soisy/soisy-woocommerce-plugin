@@ -90,9 +90,21 @@ class Settings
 			    ],
 			    'description' => __( 'Enable The Debug Logger', 'soisy' ),
 		    ],
+		    'show_exclusions' =>[
+			    'title'       => __( 'Esclusione  categorie', 'soisy' ),
+			    'type'        => 'select',
+			    'default'     => 0,
+			    'class'       => 'select',
+			    'options'     => [],
+			    'description' => __( 'Seleziona le categorie che non potranno essere finanziabili', 'soisy' ),
+		    ],
 		    'reset_zero'             => [
 			    'type'  => 'hidden',
 			    'default' => 'yes'
+		    ],
+		    'excluded_cat'             => [
+			    'type'  => 'hidden',
+			    'default' => ''
 		    ]
 	    ];
     }
