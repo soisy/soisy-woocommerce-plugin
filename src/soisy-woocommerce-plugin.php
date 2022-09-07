@@ -49,6 +49,7 @@
 				$this->form_fields = [];
 			
 				$this->init_settings();
+				
 				foreach ( soisyVars() as $setting => $value ) {
 					if ( ! isset( $this->settings[ $setting ] ) ) {
 						$this->settings[ $setting ] = $value;
@@ -56,14 +57,15 @@
 					if ( ! isset( $this->settings['reset_zero'] ) ) {
 						$this->settings['soisy_zero'] = 0;
 					}
-                }
+				}
+    
 				add_filter( 'soisy_vars', function ( $var ) {
 					if ( is_array( $this->settings ) ) {
 						foreach ( $this->settings as $key => $val ) {
 							$var[ $key ] = $val;
 						}
+						$var['shop_id'] = $this->settings['sandbox_mode'] ? 'soisytests' : $this->settings['shop_id'];
 					}
-					
 					
 					return $var;
 				} );
@@ -94,7 +96,7 @@
 				add_filter('script_loader_tag', [&$this, 'make_script_async'], 10, 3);
 				
 				add_filter( 'woocommerce_can_reduce_order_stock', [&$this, 'soisy_do_not_reduce_stock'], 10, 2 );
-			}
+            }
 			
 			public function soisy_do_not_reduce_stock( $reduce_stock, $order )
 			{
@@ -395,7 +397,14 @@
 			
 			public function getShopIdForLoanQuote(): string
 			{
-				return $this->settings['sandbox_mode'] ? 'soisytests' : $this->settings['shop_id'];
+				$shop_id = $this->settings['sandbox_mode'] ? 'soisytests' : $this->settings['shop_id'];
+				/*add_filter( 'soisy_vars', function ( $vars ) use ($shop_id) {
+					$vars['shop_id'] = $shop_id;
+					
+					return $vars;
+				} );*/
+    
+				return $shop_id;
 			}
 			
 			public function showLoanQuoteWidgetForProduct($price): string
@@ -443,14 +452,15 @@
 			
 			public function renderLoanQuoteWidget($price, $isCheckout=false): string {
 				$legacy = true;
+				$shop_id = $this->getShopIdForLoanQuote();
 				if ( is_product() ) {
 					global $product;
 					if ( is_object( $product ) ) {
 						$type = $product->get_type();
-						switch ( $type ) {
-							case 'variable':
-								$legacy = true;
-								
+						switch ( true ) {
+                            case (!empty($product->get_children())):
+							case $type == 'variable':
+							    return '';
 								break;
 							default:
 								$legacy = false;
@@ -488,7 +498,7 @@
 				}
 				if ( $check == 'valid' ) {
 					$res = sprintf( '<soisy-loan-quote shop-id="%s" amount="%s" instalments="%s" zero-interest-rate="%s"></soisy-loan-quote>',
-						$this->getShopIdForLoanQuote(),
+						$shop_id,
 						$price,
 						$instalments,
 						$zero
@@ -627,7 +637,7 @@
 				return $res;
 			}
 		}
-	}
+    }
 	
 	
 	function add_soisy_gateway($methods)
@@ -644,9 +654,12 @@
 	
 	function init_soisy_widget_for_cart_and_product_page()
 	{
+		if ( is_admin() ) {
+            return;
+		}
 		if (is_product() || is_cart() || is_checkout()) {
 			
-			add_filter( 'soisy_vars', function ( $vars ) {
+			/*add_filter( 'soisy_vars', function ( $vars ) {
 				$soisy = get_option( 'woocommerce_soisy_settings' );
 				foreach ( $vars as $setting => $ignore ) {
 					if ( !empty( $soisy[$setting] ) ) {
@@ -654,8 +667,32 @@
 					}
 				}
 				return $vars;
-			} );
+			} );*/
 			new SoisyGateway();
+			/*add_action( 'wp_print_scripts', function () {*/
+				$g = [
+					'quote_instalments_amount',
+					'min_amount',
+					'max_amount',
+					'soisy_zero',
+                    'shop_id'
+				];
+			
+    
+				foreach ( soisyVars() as $k => $v ) {
+					//foreach ( apply_filters('soisy_vars',[]) as $k => $v ) {
+					if ( in_array( $k, $g ) ) {
+						$vars[$k] = $v;
+					}
+				};
+				
+				wp_enqueue_script( 'soisy-public', plugin_dir_url( __FILE__ ) . 'assets/soisy_public.js', [], time(), true );
+				
+				wp_localize_script( 'soisy-public',
+					'wp',
+					$vars
+				);
+			/*} );*/
 		}
 	}
 	
@@ -674,6 +711,7 @@
 	add_action('plugins_loaded', 'init_soisy');
 	add_action('plugins_loaded', 'load_soisy_translations');
 	add_action('the_post', 'init_soisy_widget_for_cart_and_product_page');
+	//add_action('init', 'init_soisy_widget_for_cart_and_product_page');
 	add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'add_soisy_action_links');
 	
 	add_action( 'admin_enqueue_scripts', function () {
@@ -687,7 +725,7 @@
 			);
 		}
 	} );
-	
+ 
 	add_action( 'soisy_ajax_order_status', function () {
 		$soisy = new SoisyGateway();
 		$soisy->parseRemoteRequest();
@@ -791,7 +829,6 @@
     }
 	
 	function soisyVars () {
-        //do_action('qm/debug','soisy vars');
 		$vars = [
 			'quote_instalments_amount' => 12,
 			'min_amount'               => 100,

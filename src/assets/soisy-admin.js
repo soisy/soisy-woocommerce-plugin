@@ -42,13 +42,16 @@
             data: adminDataCats,
             tags: true
         });
-        const selected = target.val().split(',');
-        $selCats.val(selected);
-        $selCats.trigger('change');
-        $selCats.on('change.select2', function (e) {
-            target.val($(this).val());
-            console.log($(this).val());
-        });
+        if (!!target.val()) {
+
+            const selected = target.val().split(',');
+            $selCats.val(selected);
+            $selCats.trigger('change');
+            $selCats.on('change.select2', function (e) {
+                target.val($(this).val());
+                console.log($(this).val());
+            })
+        };
     }
 
 
