@@ -36,6 +36,9 @@ Per maggiori info e vantaggi per gli e-commerce [visita il nostro sito](https://
 
 == Changelog ==
 
+= 5.7.4 =
+* Minor fix.
+
 = 5.7.0 =
 * Aggiunta la possibilità di escludere le categorie prodotto dal metodo di pagamento dilazionato. 
 * Minor fix calcolo rata sui prodotti con variabili.

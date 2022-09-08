@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', (doc) => {
-    const wp = window.wp;
+    const soisypublic = window.soisypublic;
     const hasVariation = document.querySelector('form.variations_form.cart');
     if (!!hasVariation) {
         const container=document.querySelector('.woocommerce-variation-add-to-cart');
@@ -15,15 +15,15 @@ window.addEventListener('DOMContentLoaded', (doc) => {
         };
         const renderWidget = (container, amount) => {
             const actual = parseFloat(amount);
-            const min = parseFloat(wp.min_amount) > 100 ? parseFloat(wp.min_amount) : 100;
-            const max = parseFloat(wp.max_amount);
+            const min = parseFloat(soisypublic.min_amount) > 100 ? parseFloat(soisypublic.min_amount) : 100;
+            const max = parseFloat(soisypublic.max_amount);
             if (actual >= min && actual <= max) {
                 let el = document.createElement('soisy-loan-quote');
-                el.setAttribute('shop-id', wp.shop_id);
+                el.setAttribute('shop-id', soisypublic.shop_id);
                 el.setAttribute('amount', amount);
-                el.setAttribute('instalments', wp.quote_instalments_amount);
-                if (!!wp.soisy_zero && wp.soisy_zero) {
-                    el.setAttribute('zero-interest-rate', wp.soisy_zero);
+                el.setAttribute('instalments', soisypublic.quote_instalments_amount);
+                if (!!soisypublic.soisy_zero && soisypublic.soisy_zero) {
+                    el.setAttribute('zero-interest-rate', soisypublic.soisy_zero);
                 }
 
                 container.prepend(el);

@@ -689,7 +689,7 @@
 				wp_enqueue_script( 'soisy-public', plugin_dir_url( __FILE__ ) . 'assets/soisy_public.js', [], time(), true );
 				
 				wp_localize_script( 'soisy-public',
-					'wp',
+					'soisypublic',
 					$vars
 				);
 			/*} );*/
