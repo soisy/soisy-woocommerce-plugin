@@ -737,9 +737,11 @@
 		switch ( $page ) {
             case 'product':
                 global $product;
-	            if ( ! empty( array_intersect( $forbidden, $product->get_category_ids() ) ) ) {
-		            $result = 'unavailable';
-	            }
+	            if ( is_object( $product ) ) {
+                    if ( ! empty( array_intersect( $forbidden, $product->get_category_ids() ) ) ) {
+                        $result = 'unavailable';
+                    }
+		    }
                 break;
             default:
 	            if ( is_object( WC()->cart ) ) {

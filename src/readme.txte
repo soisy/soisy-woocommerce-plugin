@@ -36,7 +36,7 @@ Per maggiori info e vantaggi per gli e-commerce [visita il nostro sito](https://
 
 == Changelog ==
 
-= 5.7.4 =
+= 5.7.5 =
 * Minor fix.
 
 = 5.7.0 =
