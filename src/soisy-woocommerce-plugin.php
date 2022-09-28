@@ -534,24 +534,24 @@
 						switch ( $_POST['eventId'] ) {
 							case 'LoanWasApproved':
 								//loan approved, happy merchant
-								$order->add_order_note( '[Soisy] Richiesta di finanziamento in corso' );
+								$order->add_order_note( '[Soisy] Richiesta in corso' );
 								break;
 							case 'RequestCompleted':
 								//request completed, more than happy merchant
-								$order->add_order_note( '[Soisy] Richiesta di finanziamento in attesa di verifica' );
+								$order->add_order_note( '[Soisy] Richiesta in fase di verifica' );
 								break;
 							case 'LoanWasVerified':
 								//waiting for disbursment, we will pay the merchant soon
 								$subject="La pratica Soisy {$id} è stata arrovata.";
-								$body = "<p>Soisy ti informa che lo stato dell'ordine {$id} p variato in: <strong>RICHIESTA APPROVATA</strong></p>";
-								$order->add_order_note( "[Soisy] Richiesta di finanziamento approvata" );
+								$body = "<p>Soisy ti informa che lo stato dell'ordine {$id} p variato in: <strong>Richiesta approvata</strong></p>";
+								$order->add_order_note( "[Soisy] Richiesta approvata" );
 								break;
 							case 'LoanWasDisbursed':
 								//money, money money!
 								$amount = $_POST['amount'] / 100;
 								$subject="La pratica Soisy {$id} è stata pagata.";
-								$body = "<p>Soisy ti informa che lo stato dell'ordine {$id} p variato in: <strong>RICHIESTA PAGATA</strong></p>";
-								$order->add_order_note( "[Soisy] Richiesta di finanziamento pagata" );
+								$body = "<p>Soisy ti informa che lo stato dell'ordine {$id} p variato in: <strong>Richiesta pagata</strong></p>";
+								$order->add_order_note( "[Soisy] Richiesta pagata" );
 								/* add_action( 'woocommerce_order_status_processing', function ( $idOrder ) {
 									 wc_reduce_stock_levels( $idOrder );
 								 } );*/
