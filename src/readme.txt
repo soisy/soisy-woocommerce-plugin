@@ -6,8 +6,8 @@ Author: Soisy
 Requires at least: 4.9
 Requires PHP: 7.1
 Tested up to: 6.1.1
-Stable tag: 6.0.0
-Version: 6.0.0
+Stable tag: ${VERSION}
+Version: ${VERSION}
 License: MIT
 License URI: https://spdx.org/licenses/MIT.html
 

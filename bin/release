@@ -16,25 +16,22 @@ svn checkout --depth immediates https://plugins.svn.wordpress.org/soisy-pagament
 svn update --set-depth infinity .
 
 declare -a trunkDirs=(
-  "assets"
+  "admin"
   "includes"
   "languages"
+  "public"
 )
 
 declare -a trunkFiles=(
-  "SoisyClient.php"
-  "soisy-woocommerce-plugin.php"
+  "index.php"
+  "license.txt"
   "soisy-listener.php"
   ".htaccess"
   "readme.txt"
+  "soisy-pagamento-rateale.php"
+  "uninstall.php"
 )
 
-declare -a assetsFiles=(
-  "assets/screenshot-1.png"
-  "assets/screenshot-2.png"
-  "assets/screenshot-3.png"
-  "assets/icon-256x256.png"
-)
 
 for i in "${trunkDirs[@]}"
 do
@@ -46,15 +43,11 @@ do
   cp "../src/$i" trunk
 done
 
-for i in "${assetsFiles[@]}"
-do
-  cp "../src/$i" assets
-done
 
 sed -ie "s/\${VERSION}/$1/" trunk/readme.txt
-sed -ie "s/\${VERSION}/$1/" trunk/soisy-woocommerce-plugin.php
+sed -ie "s/\${VERSION}/$1/" trunk/soisy-pagamento-rateale.php
 
 rm trunk/readme.txte
-rm trunk/soisy-woocommerce-plugin.phpe
+rm trunk/soisy-pagamento-rateale.phpe
 
 cp -rip trunk tags/$1
