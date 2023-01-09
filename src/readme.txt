@@ -5,9 +5,9 @@ Author URI: https://www.soisy.it
 Author: Soisy
 Requires at least: 4.9
 Requires PHP: 7.1
-Tested up to: 6.0
-Stable tag: ${VERSION}
-Version: ${VERSION}
+Tested up to: 6.1.1
+Stable tag: 6.0.0
+Version: 6.0.0
 License: MIT
 License URI: https://spdx.org/licenses/MIT.html
 
@@ -36,14 +36,11 @@ Per maggiori info e vantaggi per gli e-commerce [visita il nostro sito](https://
 
 == Changelog ==
 
-= 5.7.6 =
-* Controllo automatico compatibilita'.
-
-= 5.7.5 =
+= 5.7.4 =
 * Minor fix.
 
 = 5.7.0 =
-* Aggiunta la possibilità di escludere le categorie prodotto dal metodo di pagamento dilazionato. 
+* Aggiunta la possibilità di escludere le categorie prodotto dal metodo di pagamento dilazionato.
 * Minor fix calcolo rata sui prodotti con variabili.
 
 = 5.6.6 =

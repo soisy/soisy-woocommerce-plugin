@@ -1,0 +1,177 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2022-12-21 13:44+0100\n"
+"PO-Revision-Date: 2022-11-28 11:07+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.2.2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: admin/class-soisy-pagamento-rateale-admin.php:73
+msgid "Single Product Summary"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-admin.php:74
+msgid "Before Add To Cart Form"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-admin.php:75
+msgid "Before Add To Cart Button"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-admin.php:76
+msgid "After Add To Cart Button"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-admin.php:77
+msgid "Legacy Plugin Position"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-admin.php:78
+msgid "Custom Template"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:15
+msgid "Pay in instalments with Soisy"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:16
+msgid "Soisy Pagamento Rateale"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:17
+msgid ""
+"Allow your customers to pay in instalments with Soisy, the P2P lending "
+"payment method"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:18
+msgid "Thanks for choosing Soisy"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:125
+msgid "Validation error"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:132
+msgid "HTTP request error"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:149
+msgid ""
+"<span>You can choose widget position</span><ul><li><strong>Legacy</"
+"strong>: Select this option when other positions don't display properly.</"
+"li><li><strong>Custom</strong>: You can display the widget in your custom "
+"templates using the shortcode <i>[\"soisy-product-widget\"]</i></li></ul>"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:153
+msgid "Enable"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:155
+msgid "Enable Soisy payment"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:159
+msgid "Sandbox mode"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:164
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:205
+msgid "Yes"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:165
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:206
+msgid "No"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:167
+msgid ""
+"If the Sandbox mode is active, no order will be passed to Soisy. Once you "
+"ran your test, fill in your merchant data and disable Sandbox mode."
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:170
+msgid "Shop ID"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:173
+msgid "Your Soisy Shop ID"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:176
+msgid "API key"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:179
+msgid "Your Soisy API key"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:182
+msgid "Instalments"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:184
+msgid "Number of Instalments (this applies only to quote widget)"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:188
+msgid "Minimum amount"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:190
+msgid "Minimum financing amount"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:194
+msgid "Maximum amount"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:196
+msgid "Maximum financing amount"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:200
+msgid "Interest Free"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:208
+msgid ""
+"Enable Zero interest rates. If enabled, your merchant fees will be updated "
+"accordingly, as per TOS Agreement"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:222
+msgid "Exclude categories from Financing"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:227
+msgid "Select categories to be excluded from financing"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:230
+msgid "Widget position"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:290
+msgid "I Agree submitting the info to Soisy page"
+msgstr ""
+
+#: admin/class-soisy-pagamento-rateale-gateway-settings.php:290
+msgid "Read Soisy Privacy"
+msgstr ""
+
+#: public/partials/soisy-pagamento-rateale-public-display.php:22
+msgid "Spread the cost with Soisy"
+msgstr ""
