@@ -1,6 +1,6 @@
 window.addEventListener('DOMContentLoaded', (doc) => {
 	const soisypublic = window.soisyVars;
-	console.log(soisypublic);
+	//console.log(soisypublic);
 	const widgetID = soisypublic.widget_id;
 	const container = document.getElementById(widgetID);
 	let updAmount;
