@@ -30,7 +30,6 @@ jQuery(function ($) {
 
 
 	let adminDataCats = window.adminVars.haystacks.allCats;
-	//console.log(adminDataCats);
 
 	$(document).ready(function () {
 		const $selCats = $('#woocommerce_soisy_show_exclusions');

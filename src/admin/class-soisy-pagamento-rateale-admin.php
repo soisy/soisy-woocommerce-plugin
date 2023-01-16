@@ -181,17 +181,18 @@ class Soisy_Pagamento_Rateale_Admin {
 			$order = wc_get_order();
 			do_action( 'qm/debug', get_post_meta( $order->get_id(), 'soisy_orderToken', true ) );
 		} );*/
-		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/soisy-pagamento-rateale-admin.js', ['jquery', 'select2'], $this->version, true );
-		
 		if ( is_object( get_current_screen() ) && get_current_screen()->base == 'woocommerce_page_wc-settings' ) {
+			wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/soisy-pagamento-rateale-admin.js', ['jquery', 'select2'], $this->version, false );
+			
 			$admin_vars['haystacks']['allCats'] = $this->get_admin_category_list();
 			wp_localize_script( $this->plugin_name,
 				'adminVars',
 				$admin_vars
 			);
+			
+			wp_enqueue_script( $this->plugin_name );
 		}
 		
-		wp_enqueue_script( $this->plugin_name );
 	}
 	
 	/**

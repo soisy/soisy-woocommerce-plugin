@@ -36,6 +36,9 @@ Per maggiori info e vantaggi per gli e-commerce [visita il nostro sito](https://
 
 == Changelog ==
 
+= 6.0.2 =
+* Minor Fix
+
 = 6.0.1 =
 * Simulatore rateale: abbiamo risolto i problemi di calcolo rata all'interno dei prodotti con varianti.
 * Posizione del widget di simulazione: dalle impostazioni potrai decidere in quale punto della scheda prodotto far apparire il widget.
