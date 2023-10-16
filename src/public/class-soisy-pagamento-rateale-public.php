@@ -58,7 +58,7 @@
 		public function instalments ( $amount = 0 ) {
 			
 			$opt  = settings_soisy_pagamento_rateale();
-			
+			//do_action( 'qm/debug', $opt );
 			return apply_filters( 'soisy_instalments', $opt['quote_instalments_amount'], $amount, $this->zeroInterest( $amount ) );
 		}
 		
@@ -95,8 +95,11 @@
 				$hook = empty( $opt['position'] ) ? 'woocommerce_single_product_summary' : $opt['position'];
 				
 				$product = $this->get_product();
-				add_filter( 'init_soisy_w', function ( $args ) use ( $product ) {
-					$amount = $product->get_price();
+				
+				//TODO: save this filter to new versions
+				$amount = apply_filters( 'soisy_amount_filter', $product->get_price(), $product );
+				
+				add_filter( 'init_soisy_w', function ( $args ) use ( $amount ) {
 					$args = wp_parse_args( $args, [
 							'amount'                   => $amount,
 							'soisy_zero'               => $this->zeroInterest( $amount ),
@@ -104,8 +107,11 @@
 						]
 					);
 					
+					//do_action( 'qm/debug', $args );
+					
 					return $args;
 				}, 20 );
+				
 				switch ( $hook ) {
 					case 'legacy':
 						ob_start();
@@ -465,7 +471,7 @@
 		public function parseRemoteRequest () {
 			$post = $_POST;
 			$debug = false;
-			if ( isset( $_GET['debug'] ) && $_GET['debug'] == 1 ) {
+			if ( false && isset( $_GET['debug'] ) && $_GET['debug'] == 1 ) {
 				$post = $_GET;
 				$debug = true;
 			}
@@ -530,7 +536,7 @@
 					}
 				}
 			}
-			if ( $debug ) {
+			if ( false && $debug ) {
 				print_r( $order );
 			}
 			

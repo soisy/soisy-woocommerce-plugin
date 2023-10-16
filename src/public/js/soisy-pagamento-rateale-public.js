@@ -160,4 +160,11 @@ window.addEventListener('DOMContentLoaded', (doc) => {
 
 	}
 
+	// checkout function
+	const payNow = document.querySelector('button[name="woocommerce_checkout_place_order"]');
+	if (!!payNow) {
+		
+	}
+
+
 });

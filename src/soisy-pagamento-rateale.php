@@ -15,7 +15,7 @@
  * Plugin Name:       Soisy Pagamento Rateale
  * Plugin URI:        https://doc.soisy.it/it/Plugin/WooCommerce.html
  * Description:       Soisy, la piattaforma di prestiti p2p che offre ai tuoi clienti il pagamento a rate.
- * Version:           ${VERSION}
+ * Version:           6.0.1
  * Author: Soisy
  * Author URI: https://www.soisy.it
  * License: MIT
@@ -33,7 +33,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'SOISY_PAGAMENTO_RATEALE_VERSION', '${VERSION}' );
+define( 'SOISY_PAGAMENTO_RATEALE_VERSION', '6.0.1' );
 
 /**
  * The code that runs during plugin activation.
