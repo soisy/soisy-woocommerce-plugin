@@ -6,8 +6,8 @@ Author: Soisy
 Requires at least: 4.9
 Requires PHP: 7.1
 Tested up to: 6.1.1
-Stable tag: 6.0.1
-Version: 6.0.1
+Stable tag: 6.0.2
+Version: 6.0.2
 License: MIT
 License URI: https://spdx.org/licenses/MIT.html
 
@@ -35,6 +35,9 @@ Per maggiori info e vantaggi per gli e-commerce [visita il nostro sito](https://
 3. Il cliente vede una simulazione rateale nel proprio carrello
 
 == Changelog ==
+
+= 6.0.2 =
+* Remove debug parameter for secuirty reasons
 
 = 5.7.4 =
 * Minor fix.
