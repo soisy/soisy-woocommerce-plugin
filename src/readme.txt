@@ -6,8 +6,8 @@ Author: Soisy
 Requires at least: 4.9
 Requires PHP: 7.1
 Tested up to: 6.1.1
-Stable tag: ${VERSION}
-Version: ${VERSION}
+Stable tag: 6.0.1
+Version: 6.0.1
 License: MIT
 License URI: https://spdx.org/licenses/MIT.html
 
@@ -35,14 +35,6 @@ Per maggiori info e vantaggi per gli e-commerce [visita il nostro sito](https://
 3. Il cliente vede una simulazione rateale nel proprio carrello
 
 == Changelog ==
-
-= 6.0.2 =
-* Minor Fix
-
-= 6.0.1 =
-* Simulatore rateale: abbiamo risolto i problemi di calcolo rata all'interno dei prodotti con varianti.
-* Posizione del widget di simulazione: dalle impostazioni potrai decidere in quale punto della scheda prodotto far apparire il widget.
-* Risolti i problemi di compatibilità con le nuove versioni WooCommerce/WordPress
 
 = 5.7.4 =
 * Minor fix.

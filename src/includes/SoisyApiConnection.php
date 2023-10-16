@@ -58,7 +58,7 @@ class SoisyApiConnection {
 				'body'    => $params
 			] );
 		}
-		
+        
 		if ( is_wp_error( $response ) ) {
 			throw new \Error( $response->get_error_message() );
 		}
